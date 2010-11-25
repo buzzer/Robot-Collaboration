@@ -1,0 +1,262 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass scrbook
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "Master thesis"
+\pdf_author "Sebastian Rockel"
+\pdf_subject "Multi-robot platform"
+\pdf_keywords "Master,Robotics, multi-agent platform, pioneer, wallfollow, path-planning, gripper, camera"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Subject
+Master Thesis
+\end_layout
+
+\begin_layout Title
+A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
+\end_layout
+
+\begin_layout Subtitle
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+on basis of a multi-agent system
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Sebastian Rockel
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "dedication.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "motivation.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "scenarios.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "mightiness.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+State of the Art
+\end_layout
+
+\begin_layout Section
+Robot Platform
+\end_layout
+
+\begin_layout Section
+Multi-agent Platform
+\end_layout
+
+\begin_layout Section
+Middleware
+\end_layout
+
+\begin_layout Chapter
+Study and discussion
+\end_layout
+
+\begin_layout Section
+Prototyp Implementation
+\end_layout
+
+\begin_layout Section
+Test Results
+\end_layout
+
+\begin_layout Section
+Future Enhancements
+\end_layout
+
+\begin_layout Section
+Outlook
+\end_layout
+
+\begin_layout Chapter*
+\start_of_appendix
+Anhang
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList algorithm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset index_print
+LatexCommand printindex
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2009,/Users/sebastian/Documents/_BibPapers/ModRobots2009"
+options "plainurl"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
