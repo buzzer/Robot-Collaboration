@@ -49,7 +49,7 @@
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Diese Datei enthält eine Lösungsvorlage für:
@@ -211,7 +211,7 @@ today
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Falls eine Logodatei namens "university-logo-filename.xxx" vorhanden ist,
@@ -251,7 +251,7 @@ pgfuseimage{institution-logo}}
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Folgendes sollte gelöscht werden, wenn man nicht am Anfang jedes Unterabschnitts
@@ -333,7 +333,7 @@ tableofcontents[currentsection,currentsubsection]
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Falls Aufzählungen immer schrittweise gezeigt werden sollen, kann folgendes
@@ -376,7 +376,7 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Einen Vortrag zu strukturieren ist nicht immer einfach.
@@ -428,11 +428,334 @@ Motivation
 \end_layout
 
 \begin_layout Subsection
-Tasks
+Introduction
+\end_layout
+
+\begin_layout BeginFrame
+Introduction
+\end_layout
+
+\begin_layout Itemize
+Complex tasks require specialised hardware (stereo vision, robot arm or
+ even hand etc.)
+\end_layout
+
+\begin_layout Itemize
+Simple tasks are complex tasks (
+\begin_inset Quotes ald
+\end_inset
+
+grip that trash there
+\begin_inset Quotes ard
+\end_inset
+
+, 
+\begin_inset Quotes ald
+\end_inset
+
+open that door
+\begin_inset Quotes ard
+\end_inset
+
+, 
+\begin_inset Quotes ald
+\end_inset
+
+find the pink one
+\begin_inset Quotes ard
+\end_inset
+
+)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Few sophisticated robot vs.
+ multiple simple robots which coordinate
+\end_layout
+
+\begin_layout Pause
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Lot of older and unused hardware in the lab
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Use cheaper hardware for complex tasks
+\end_layout
+
+\begin_layout Pause
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Augment the action radius (of the platform)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Cover a larger area in less time
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Scenarios
+\end_layout
+
+\begin_layout BeginFrame
+Scenarios
+\end_layout
+
+\begin_layout FrameSubtitle
+A few examples only
+\end_layout
+
+\begin_layout Itemize
+Hunter and Prey (Hide and Seek)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Coordinated search for hiding robot
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Cleanerworld
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Look for and take away 
+\begin_inset Quotes ald
+\end_inset
+
+trash
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Maintain battery life
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exploration
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Map building from unknown territory
+\end_layout
+
+\begin_layout Itemize
+Efficient coordination of multiple 
+\begin_inset Quotes ald
+\end_inset
+
+Explorers
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Others?
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout Subsection
 Hardware
+\end_layout
+
+\begin_layout BeginFrame
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+[allowframebreaks]
+\end_layout
+
+\end_inset
+
+Hardware
+\end_layout
+
+\begin_layout FrameSubtitle
+@TAMS
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+width "65text%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/PioneerArmada.png
+	lyxscale 30
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/3pioneers.png
+	lyxscale 30
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+width "30text%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/TaserPromo.png
+	lyxscale 30
+	height 75theight%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename graphics/TamsRobots.png
+	lyxscale 30
+	height 80theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout Section
@@ -440,7 +763,29 @@ Current State
 \end_layout
 
 \begin_layout Subsection
-Results
+Demo
+\end_layout
+
+\begin_layout BeginFrame
+Demo
+\end_layout
+
+\begin_layout AlertBlock
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{Demo}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout Subsection
@@ -448,6 +793,16 @@ Ideas
 \end_layout
 
 \begin_layout BeginFrame
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+[allowframebreaks]
+\end_layout
+
+\end_inset
+
 Architecture
 \end_layout
 
@@ -456,13 +811,13 @@ Architecture
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset External
 	template XFig
-	filename Architecture2.fig
-	height 80theight%
+	filename graphics/Architecture2.fig
+	height 75theight%
 	keepAspectRatio
 
 \end_inset
@@ -475,11 +830,87 @@ status open
 
 \end_layout
 
+\begin_layout Itemize
+Robot platform transparently provides
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Path planning (goto)
+\end_layout
+
+\begin_layout Itemize
+Localization (whereami)
+\end_layout
+
+\begin_layout Itemize
+Collision Avoidance
+\end_layout
+
+\begin_layout Itemize
+Map?
+\end_layout
+
+\begin_layout Itemize
+Special abilities (Gripper, Arm etc.)?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Different robot platforms shall be supported
+\end_layout
+
+\begin_layout Itemize
+Different middleware modules shall be supported
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
 
-\begin_layout Section*
+\begin_layout Subsection
+Requirements
+\end_layout
+
+\begin_layout BeginFrame
+Requirements
+\end_layout
+
+\begin_layout FrameSubtitle
+High-level
+\end_layout
+
+\begin_layout Itemize
+Task description and definition
+\end_layout
+
+\begin_layout Itemize
+Task dividing and sharing between robots
+\end_layout
+
+\begin_layout Pause
+
+\end_layout
+
+\begin_layout Itemize
+Communication
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+central or peer-to-peer ?
+\end_layout
+
+\begin_layout Itemize
+blackboard methodology ?
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
 Summary
 \end_layout
 
@@ -487,9 +918,50 @@ Summary
 Summary
 \end_layout
 
+\begin_layout Itemize
+Task-flexibility
+\end_layout
+
+\begin_layout Itemize
+Fault tolerance
+\end_layout
+
+\begin_layout Itemize
+Hardware re-use
+\end_layout
+
+\begin_layout Itemize
+Abstraction from 
+\begin_inset Quotes ald
+\end_inset
+
+a robot
+\begin_inset Quotes ard
+\end_inset
+
+ to 
+\begin_inset Quotes ald
+\end_inset
+
+a network
+\begin_inset Quotes ard
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Collaboration of Robotics and Multi-Agent-Systems
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
+
+\begin_layout Section*
+\start_of_appendix
+\begin_inset Note Note
+status open
 
 \begin_layout Section*
 \start_of_appendix
@@ -527,7 +999,7 @@ status collapsed
 Further Reading
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status collapsed
 
@@ -575,7 +1047,7 @@ Anfangen sollte man mit Übersichtswerken.
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2009,/Users/sebastian/Documents/_BibPapers/ModRobots2009"
@@ -587,6 +1059,11 @@ options "plainurl"
 \end_layout
 
 \begin_layout EndFrame
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
