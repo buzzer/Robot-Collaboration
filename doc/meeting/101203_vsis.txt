@@ -8,6 +8,7 @@ Jadex
 TODO
 ----
 -setup latest jadex version
--writing exposé: introduction, motivation, goal(s), restriction(s), TOC, pictures
+-writing exposé: introduction, motivation, goal(s), preliminary work,
+  restriction(s), TOC, pictures
 
 
