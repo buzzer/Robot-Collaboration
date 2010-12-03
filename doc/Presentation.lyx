@@ -705,9 +705,9 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /Users/sebastian/robotcolla/doc/graphics/TaserPromo.png
+	filename graphics/taser_1arm.png
 	lyxscale 30
-	height 75theight%
+	height 70theight%
 
 \end_inset
 
@@ -736,7 +736,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename graphics/TamsRobots.png
+	filename graphics/tams_robots.jpg
 	lyxscale 30
 	height 80theight%
 
