@@ -196,7 +196,7 @@ In the following subsections the advantages of a distributed multi-robot
 \end_layout
 
 \begin_layout Subsection*
-Flexibility
+Task Flexibility
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Flexibility"
@@ -229,6 +229,14 @@ Cost
 \begin_layout Standard
 This work assumes that a group of heterogenous and smaller robots is mid-
  to long-term cheaper in maintenance than a few highly specialised ones.
+\end_layout
+
+\begin_layout Subsection*
+Platform Flexibility
+\end_layout
+
+\begin_layout Standard
+The later support for different robot and agent platforms shall be prepared.
 \end_layout
 
 \begin_layout Subsection*
@@ -284,8 +292,96 @@ In this scenarios two or more robots shall explore unknown territory to
 Preliminary Work
 \end_layout
 
+\begin_layout Standard
+In the context of the student's project the author had the chance to use
+ the robot platform Player/Stage 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Reference
+\end_layout
+
+\end_inset
+
+.
+ As hardware served a Pioneer 2DX robot 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Picture, Ref
+\end_layout
+
+\end_inset
+
+ with Sonar, Laser and an omni-directional camera on board.
+\end_layout
+
+\begin_layout Standard
+With a wall follow exploration algortihm and the fusion of the mentioned
+ sensor data its goal was to look out for a small pink ball in its near
+ environment.
+ Once detected by the vision device the robot heads towards the ball position
+ with continuous tracking.
+\end_layout
+
+\begin_layout Standard
+The project provided practical knowledge with a robot platform and a mobile
+ robot hardware.
+ This will be exhaustively used by this work in the first place and shall
+ be extended later.
+\end_layout
+
 \begin_layout Section*
 Restrictions
+\end_layout
+
+\begin_layout Standard
+This work will deal with the combination of a high level multi-agent and
+ a robot platform.
+ Current technologies in Multi-Agent-Systems (MAS) and Mobile Robotics will
+ be used to achieve high level task flexibility.
+\end_layout
+
+\begin_layout Standard
+Also there might be implemented specilized algorithms, e.g.
+ for robot control, mostly out-of-the box drivers and interfaces will be
+ used.
+ Especially the Multi-Agent-System shall be used and is assumed to provide
+ already:
+\end_layout
+
+\begin_layout Itemize
+Task description and definition
+\end_layout
+
+\begin_layout Itemize
+Task dividing and sharing between agents
+\end_layout
+
+\begin_layout Itemize
+Communication over LAN between agents
+\end_layout
+
+\begin_layout Standard
+The robot platform shall provide at least:
+\end_layout
+
+\begin_layout Itemize
+Path planning
+\end_layout
+
+\begin_layout Itemize
+Localization
+\end_layout
+
+\begin_layout Itemize
+Collision avoidance
+\end_layout
+
+\begin_layout Itemize
+Sensor and effector drivers (Laser, Gripper etc.)
 \end_layout
 
 \begin_layout Section*
@@ -349,7 +445,6 @@ Outlook
 \start_of_appendix
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-btprint "btPrintAll"
 bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2010"
 options "plainurl"
 
