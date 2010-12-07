@@ -103,7 +103,7 @@ S.
 \end_layout
 
 \begin_layout Subject
-Exposé
+EXPOSÉ
 \end_layout
 
 \begin_layout Date
@@ -123,15 +123,161 @@ today
 \end_layout
 
 \begin_layout Section*
-Introduction
-\end_layout
-
-\begin_layout Subsection*
 Motivation
 \end_layout
 
+\begin_layout Standard
+In today's robotics still simple tasks require sophisticated and complex
+ approaches to solve them.
+ At least there are some robot platforms that provide highler level task
+ solving capabilities 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Reference
+\end_layout
+
+\end_inset
+
+ but they are mostly optimized for a special task and limited to a certain
+ environment.
+ Thus basically the problem to approach common tasks with robots remains.
+ Typical tasks for a mobile robot require at least some sensors like a stereo
+ vision camera, a robot arm or even a hand.
+ To interconnect that sensors in software in a meaningful way is not a trivial
+ assignment.
+\end_layout
+
+\begin_layout Standard
+To conclude even simple tasks like 
+\begin_inset Quotes eld
+\end_inset
+
+grip that trash there
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+open that door
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Quotes eld
+\end_inset
+
+find the pink one
+\begin_inset Quotes erd
+\end_inset
+
+ can be assumed to be complex tasks.
+\end_layout
+
+\begin_layout Standard
+Complex tasks can be solved be a few sphisticated robots or multiple relative
+ simple robots which coordinate themselves.
+ As described in the next section there a important advantages of the latter
+ category.
+ 
+\end_layout
+
 \begin_layout Section*
-Goals
+Goal
+\end_layout
+
+\begin_layout Standard
+In the following subsections the advantages of a distributed multi-robot
+ platform will be introduced.
+ This work is about to provide such a platform to the user.
+\end_layout
+
+\begin_layout Subsection*
+Flexibility
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Flexibility"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tasks for robots can be very manigfold.
+ To address this the robot platform shall be capable of accepting versatile
+ tasks and manage a dynamical and heterogenous group of robots to solve
+ them.
+\end_layout
+
+\begin_layout Subsection*
+Scalability
+\end_layout
+
+\begin_layout Standard
+The platform shall be enbabled to be on-the-fly extendable by new robots
+ as well as to overcome malfunction.
+\end_layout
+
+\begin_layout Subsection*
+Cost
+\end_layout
+
+\begin_layout Standard
+This work assumes that a group of heterogenous and smaller robots is mid-
+ to long-term cheaper in maintenance than a few highly specialised ones.
+\end_layout
+
+\begin_layout Subsection*
+Scenarios
+\end_layout
+
+\begin_layout Standard
+The scenarios are partly taken from 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Reference Jadex
+\end_layout
+
+\end_inset
+
+.
+ They shall demonstrate basic functionality of the platform and provide
+ a template for different tasks.
+\end_layout
+
+\begin_layout Subsubsection*
+Hunter and Prey (as extended Hide and Seek scenario)
+\end_layout
+
+\begin_layout Standard
+Two or more robots look out for an hiding robot and try to catch him.
+ The searching robots shall coordinate for more efficient search.
+\end_layout
+
+\begin_layout Subsubsection*
+Cleanerworld
+\end_layout
+
+\begin_layout Standard
+Two or more robots look out for trash or special marked objects to be collected
+ and put to a trash can respectively a prepared place.
+ The robots shall coordinate to efficiently cover the work area.
+ An extension would be a second task to maintain the robot's battery life.
+\end_layout
+
+\begin_layout Subsubsection*
+Exploration
+\end_layout
+
+\begin_layout Standard
+In this scenarios two or more robots shall explore unknown territory to
+ build a map collaboratively.
 \end_layout
 
 \begin_layout Section*
@@ -184,7 +330,7 @@ Study and discussion
 \end_layout
 
 \begin_layout Subsection
-Prototyp Implementation
+Prototype Implementation
 \end_layout
 
 \begin_layout Subsection
