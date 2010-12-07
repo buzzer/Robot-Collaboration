@@ -1,0 +1,216 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "Multi-Robot Platform"
+\pdf_author "Sebastian Rockel"
+\pdf_subject "Exposé Master Thesis"
+\pdf_keywords "multi-robot, collaboration, multi-agent"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
+\begin_inset OptArg
+status open
+
+\begin_layout Plain Layout
+A Multi-Robot Platform
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Sebastian
+\begin_inset space ~
+\end_inset
+
+Rockel
+\series default
+
+\begin_inset OptArg
+status open
+
+\begin_layout Plain Layout
+S.
+ Rockel
+\end_layout
+
+\end_inset
+
+
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series default
+\size small
+8rockel@informatik.uni-hamburg.de
+\end_layout
+
+\begin_layout Subject
+Exposé
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Introduction
+\end_layout
+
+\begin_layout Subsection*
+Motivation
+\end_layout
+
+\begin_layout Section*
+Goals
+\end_layout
+
+\begin_layout Section*
+Preliminary Work
+\end_layout
+
+\begin_layout Section*
+Restrictions
+\end_layout
+
+\begin_layout Section*
+Table of Contents
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Section
+State of the Art
+\end_layout
+
+\begin_layout Subsection
+Robot Platform
+\end_layout
+
+\begin_layout Subsection
+Multi-agent Platform
+\end_layout
+
+\begin_layout Subsection
+Middleware
+\end_layout
+
+\begin_layout Section
+Study and discussion
+\end_layout
+
+\begin_layout Subsection
+Prototyp Implementation
+\end_layout
+
+\begin_layout Subsection
+Test Results
+\end_layout
+
+\begin_layout Subsection
+Future Enhancements
+\end_layout
+
+\begin_layout Subsection
+Outlook
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2010"
+options "plainurl"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
