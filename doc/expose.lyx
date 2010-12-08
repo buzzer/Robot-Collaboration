@@ -445,7 +445,7 @@ Outlook
 \start_of_appendix
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2010"
+bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2010,/Users/sebastian/Documents/_BibPapers/Agent2010"
 options "plainurl"
 
 \end_inset
