@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass scrartcl
+\begin_preamble
+\addto\captionsenglish{\def\figurename{Fig.}}
+\end_preamble
 \use_default_options true
 \language english
 \inputencoding auto
@@ -16,7 +19,6 @@
 \font_tt_scale 100
 
 \graphics default
-\float_placement H
 \paperfontsize default
 \spacing single
 \use_hyperref true
@@ -37,7 +39,7 @@
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\cite_engine natbib_authoryear
+\cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
 \secnumdepth 3
@@ -129,7 +131,7 @@ Motivation
 \begin_layout Standard
 In today's robotics still simple tasks require sophisticated and complex
  approaches to solve them.
- At least there are some robot platforms that provide highler level task
+ At least there are some robot platforms that provide higher level task
  solving capabilities 
 \begin_inset Note Note
 status open
@@ -178,10 +180,10 @@ find the pink one
 \end_layout
 
 \begin_layout Standard
-Complex tasks can be solved be a few sphisticated robots or multiple relative
+Complex tasks can be solved by a few sophisticated robots or multiple relative
  simple robots which coordinate themselves.
  As described in the next section there a important advantages of the latter
- category.
+ approach.
  
 \end_layout
 
@@ -207,9 +209,9 @@ name "sub:Flexibility"
 \end_layout
 
 \begin_layout Standard
-Tasks for robots can be very manigfold.
+Tasks for robots can be very manifold.
  To address this the robot platform shall be capable of accepting versatile
- tasks and manage a dynamical and heterogenous group of robots to solve
+ tasks and manage a dynamical and heterogeneous group of robots to solve
  them.
 \end_layout
 
@@ -218,8 +220,8 @@ Scalability
 \end_layout
 
 \begin_layout Standard
-The platform shall be enbabled to be on-the-fly extendable by new robots
- as well as to overcome malfunction.
+The platform shall be enabled to be on-the-fly extendable by new robots
+ as well as to overcome robot malfunction.
 \end_layout
 
 \begin_layout Subsection*
@@ -227,7 +229,7 @@ Cost
 \end_layout
 
 \begin_layout Standard
-This work assumes that a group of heterogenous and smaller robots is mid-
+This work assumes that a group of heterogeneous and smaller robots is mid-
  to long-term cheaper in maintenance than a few highly specialised ones.
 \end_layout
 
@@ -244,13 +246,11 @@ Scenarios
 \end_layout
 
 \begin_layout Standard
-The scenarios are partly taken from 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Reference Jadex
-\end_layout
+The scenarios are partly taken from the Multi-Agent-Simulator (MAS) Jadex
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "JadexSF"
 
 \end_inset
 
@@ -286,6 +286,51 @@ Exploration
 \begin_layout Standard
 In this scenarios two or more robots shall explore unknown territory to
  build a map collaboratively.
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/stage/StageCollectEx.png
+	lyxscale 30
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Two mobile robots and another scenario.
+ The right one is equipped with a camera to look out for certain colors
+ and the left one has a gripper attached to collect detected objects.
+ Both working together to collect these objects.
+ Here in the simulator Stage 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "PlayerProject"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Section*
@@ -293,37 +338,38 @@ Preliminary Work
 \end_layout
 
 \begin_layout Standard
-In the context of the student's project the author had the chance to use
- the robot platform Player/Stage 
-\begin_inset Note Note
-status open
+In the context of the student's project 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wallfollow09"
 
-\begin_layout Plain Layout
-Reference
-\end_layout
+\end_inset
+
+ the author had the chance to use the robot platform Player/Stage 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PlayerProject"
 
 \end_inset
 
 .
- As hardware served a Pioneer 2DX robot 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Picture, Ref
-\end_layout
+ As hardware served a Pioneer 2DX robot (as can be seen at Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fig:PioneerLap"
 
 \end_inset
 
- with Sonar, Laser and an omni-directional camera on board.
+) with Sonar, Laser and an omni-directional camera on board.
 \end_layout
 
 \begin_layout Standard
-With a wall follow exploration algortihm and the fusion of the mentioned
+With a wall follow exploration algorithm and the fusion of the mentioned
  sensor data its goal was to look out for a small pink ball in its near
  environment.
  Once detected by the vision device the robot heads towards the ball position
- with continuous tracking.
+ while continuous tracking it.
 \end_layout
 
 \begin_layout Standard
@@ -331,6 +377,61 @@ The project provided practical knowledge with a robot platform and a mobile
  robot hardware.
  This will be exhaustively used by this work in the first place and shall
  be extended later.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+did also some SLAM
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/pion1.jpg
+	lyxscale 30
+	height 30theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Pioneer robot used in practical student project.
+ The mounted Laptop runs the control program and communicates wireless via
+ WLAN.
+ The (dismounted) Laser at the front top and the fixed sonar sensors are
+ visible too.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fig:PioneerLap"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -340,16 +441,15 @@ Restrictions
 \begin_layout Standard
 This work will deal with the combination of a high level multi-agent and
  a robot platform.
- Current technologies in Multi-Agent-Systems (MAS) and Mobile Robotics will
- be used to achieve high level task flexibility.
+ Current technologies in MAS and Mobile Robotics will be used to achieve
+ high level task flexibility.
 \end_layout
 
 \begin_layout Standard
-Also there might be implemented specilized algorithms, e.g.
+Also there might be implemented specialized algorithms, e.g.
  for robot control, mostly out-of-the box drivers and interfaces will be
  used.
- Especially the Multi-Agent-System shall be used and is assumed to provide
- already:
+ Especially the MAS shall be used and is assumed to provide already:
 \end_layout
 
 \begin_layout Itemize
