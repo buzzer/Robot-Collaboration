@@ -1,0 +1,14 @@
+Jadex
+-----
+-use version 2.0-rc (latest): dynamic service detection via network
+-standalone version provides full communication (no JADE neccessary)
+-service detection examples: chat, madelbrot
+-basic (micro) agent example: marsworld
+
+TODO
+----
+-setup latest jadex version
+-writing exposé: introduction, motivation, goal(s), preliminary work,
+  restriction(s), TOC, pictures
+
+

@@ -1,0 +1,557 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass scrartcl
+\begin_preamble
+\addto\captionsenglish{\def\figurename{Fig.}}
+\end_preamble
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "Multi-Robot Platform"
+\pdf_author "Sebastian Rockel"
+\pdf_subject "Exposé Master Thesis"
+\pdf_keywords "multi-robot, collaboration, multi-agent"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
+\begin_inset OptArg
+status open
+
+\begin_layout Plain Layout
+A Multi-Robot Platform
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Sebastian
+\begin_inset space ~
+\end_inset
+
+Rockel
+\series default
+
+\begin_inset OptArg
+status open
+
+\begin_layout Plain Layout
+S.
+ Rockel
+\end_layout
+
+\end_inset
+
+
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series default
+\size small
+8rockel@informatik.uni-hamburg.de
+\end_layout
+
+\begin_layout Subject
+EXPOSÉ
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Motivation
+\end_layout
+
+\begin_layout Standard
+In today's robotics still simple tasks require sophisticated and complex
+ approaches to solve them.
+ At least there are some robot platforms that provide higher level task
+ solving capabilities 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Reference
+\end_layout
+
+\end_inset
+
+ but they are mostly optimized for a special task and limited to a certain
+ environment.
+ Thus basically the problem to approach common tasks with robots remains.
+ Typical tasks for a mobile robot require at least some sensors like a stereo
+ vision camera, a robot arm or even a hand.
+ To interconnect that sensors in software in a meaningful way is not a trivial
+ assignment.
+\end_layout
+
+\begin_layout Standard
+To conclude even simple tasks like 
+\begin_inset Quotes eld
+\end_inset
+
+grip that trash there
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+open that door
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Quotes eld
+\end_inset
+
+find the pink one
+\begin_inset Quotes erd
+\end_inset
+
+ can be assumed to be complex tasks.
+\end_layout
+
+\begin_layout Standard
+Complex tasks can be solved by a few sophisticated robots or multiple relative
+ simple robots which coordinate themselves.
+ As described in the next section there a important advantages of the latter
+ approach.
+ 
+\end_layout
+
+\begin_layout Section*
+Goal
+\end_layout
+
+\begin_layout Standard
+In the following subsections the advantages of a distributed multi-robot
+ platform will be introduced.
+ This work is about to provide such a platform to the user.
+\end_layout
+
+\begin_layout Subsection*
+Task Flexibility
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Flexibility"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Tasks for robots can be very manifold.
+ To address this the robot platform shall be capable of accepting versatile
+ tasks and manage a dynamical and heterogeneous group of robots to solve
+ them.
+\end_layout
+
+\begin_layout Subsection*
+Scalability
+\end_layout
+
+\begin_layout Standard
+The platform shall be enabled to be on-the-fly extendable by new robots
+ as well as to overcome robot malfunction.
+\end_layout
+
+\begin_layout Subsection*
+Cost
+\end_layout
+
+\begin_layout Standard
+This work assumes that a group of heterogeneous and smaller robots is mid-
+ to long-term cheaper in maintenance than a few highly specialised ones.
+\end_layout
+
+\begin_layout Subsection*
+Platform Flexibility
+\end_layout
+
+\begin_layout Standard
+The later support for different robot and agent platforms shall be prepared.
+\end_layout
+
+\begin_layout Subsection*
+Scenarios
+\end_layout
+
+\begin_layout Standard
+The scenarios are partly taken from the Multi-Agent-Simulator (MAS) Jadex
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "JadexSF"
+
+\end_inset
+
+.
+ They shall demonstrate basic functionality of the platform and provide
+ a template for different tasks.
+\end_layout
+
+\begin_layout Subsubsection*
+Hunter and Prey (as extended Hide and Seek scenario)
+\end_layout
+
+\begin_layout Standard
+Two or more robots look out for an hiding robot and try to catch him.
+ The searching robots shall coordinate for more efficient search.
+\end_layout
+
+\begin_layout Subsubsection*
+Cleanerworld
+\end_layout
+
+\begin_layout Standard
+Two or more robots look out for trash or special marked objects to be collected
+ and put to a trash can respectively a prepared place.
+ The robots shall coordinate to efficiently cover the work area.
+ An extension would be a second task to maintain the robot's battery life.
+\end_layout
+
+\begin_layout Subsubsection*
+Exploration
+\end_layout
+
+\begin_layout Standard
+In this scenarios two or more robots shall explore unknown territory to
+ build a map collaboratively.
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/stage/StageCollectEx.png
+	lyxscale 30
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Two mobile robots and another scenario.
+ The right one is equipped with a camera to look out for certain colors
+ and the left one has a gripper attached to collect detected objects.
+ Both working together to collect these objects.
+ Here in the simulator Stage 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "PlayerProject"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Section*
+Preliminary Work
+\end_layout
+
+\begin_layout Standard
+In the context of the student's project 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wallfollow09"
+
+\end_inset
+
+ the author had the chance to use the robot platform Player/Stage 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PlayerProject"
+
+\end_inset
+
+.
+ As hardware served a Pioneer 2DX robot (as can be seen at Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fig:PioneerLap"
+
+\end_inset
+
+) with Sonar, Laser and an omni-directional camera on board.
+\end_layout
+
+\begin_layout Standard
+With a wall follow exploration algorithm and the fusion of the mentioned
+ sensor data its goal was to look out for a small pink ball in its near
+ environment.
+ Once detected by the vision device the robot heads towards the ball position
+ while continuous tracking it.
+\end_layout
+
+\begin_layout Standard
+The project provided practical knowledge with a robot platform and a mobile
+ robot hardware.
+ This will be exhaustively used by this work in the first place and shall
+ be extended later.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+did also some SLAM
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/pion1.jpg
+	lyxscale 30
+	height 30theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Pioneer robot used in practical student project.
+ The mounted Laptop runs the control program and communicates wireless via
+ WLAN.
+ The (dismounted) Laser at the front top and the fixed sonar sensors are
+ visible too.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fig:PioneerLap"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Restrictions
+\end_layout
+
+\begin_layout Standard
+This work will deal with the combination of a high level multi-agent and
+ a robot platform.
+ Current technologies in MAS and Mobile Robotics will be used to achieve
+ high level task flexibility.
+\end_layout
+
+\begin_layout Standard
+Also there might be implemented specialized algorithms, e.g.
+ for robot control, mostly out-of-the box drivers and interfaces will be
+ used.
+ Especially the MAS shall be used and is assumed to provide already:
+\end_layout
+
+\begin_layout Itemize
+Task description and definition
+\end_layout
+
+\begin_layout Itemize
+Task dividing and sharing between agents
+\end_layout
+
+\begin_layout Itemize
+Communication over LAN between agents
+\end_layout
+
+\begin_layout Standard
+The robot platform shall provide at least:
+\end_layout
+
+\begin_layout Itemize
+Path planning
+\end_layout
+
+\begin_layout Itemize
+Localization
+\end_layout
+
+\begin_layout Itemize
+Collision avoidance
+\end_layout
+
+\begin_layout Itemize
+Sensor and effector drivers (Laser, Gripper etc.)
+\end_layout
+
+\begin_layout Section*
+Table of Contents
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{section}{0}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Section
+State of the Art
+\end_layout
+
+\begin_layout Subsection
+Robot Platform
+\end_layout
+
+\begin_layout Subsection
+Multi-agent Platform
+\end_layout
+
+\begin_layout Subsection
+Middleware
+\end_layout
+
+\begin_layout Section
+Study and discussion
+\end_layout
+
+\begin_layout Subsection
+Prototype Implementation
+\end_layout
+
+\begin_layout Subsection
+Test Results
+\end_layout
+
+\begin_layout Subsection
+Future Enhancements
+\end_layout
+
+\begin_layout Subsection
+Outlook
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/sebastian/Documents/_BibPapers/Robotics2010,/Users/sebastian/Documents/_BibPapers/Agent2010"
+options "plainurl"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
