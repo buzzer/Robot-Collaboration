@@ -61,7 +61,7 @@
 \begin_layout Title
 A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
 \begin_inset OptArg
-status open
+status collapsed
 
 \begin_layout Plain Layout
 A Multi-Robot Platform
@@ -83,7 +83,7 @@ Rockel
 \series default
 
 \begin_inset OptArg
-status open
+status collapsed
 
 \begin_layout Plain Layout
 S.
@@ -131,24 +131,35 @@ Motivation
 \begin_layout Standard
 In today's robotics still simple tasks require sophisticated and complex
  approaches to solve them.
- At least there are some robot platforms that provide higher level task
- solving capabilities 
+ An important development has been done in Multi-Robot-Systems (MRS) to
+ provide high-level access to robot hardware 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ROS,PlayerProject"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As such a platform provides transparent access to sensors and actuators
+ the difficult assignment to exercise a task remains.
+ 
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
-Reference
+Thus basically the problem to approach common tasks with robots remains.
+ 
 \end_layout
 
 \end_inset
 
- but they are mostly optimized for a special task and limited to a certain
- environment.
- Thus basically the problem to approach common tasks with robots remains.
- Typical tasks for a mobile robot require at least some sensors like a stereo
+Typical tasks for a mobile robot require at least some sensors like a stereo
  vision camera, a robot arm or even a hand.
  To interconnect that sensors in software in a meaningful way is not a trivial
- assignment.
+ assignment although device access itself might be simple.
 \end_layout
 
 \begin_layout Standard
@@ -177,24 +188,38 @@ find the pink one
 \end_inset
 
  can be assumed to be complex tasks.
+ They can be solved by one or a few sophisticated and adapted robots or
+ multiple relative simple robots which coordinate themselves.
 \end_layout
 
 \begin_layout Standard
-Complex tasks can be solved by a few sophisticated robots or multiple relative
- simple robots which coordinate themselves.
- As described in the next section there a important advantages of the latter
+As described in the next section there are important advantages of the latter
  approach.
+ This work is about providing a MRS with an intelligent Multi-Agent-System
+ (MAS) on top of it.
+ A stable robot platform serves as base for a high-level service oriented
+ layer.
  
 \end_layout
 
 \begin_layout Section*
-Goal
+Goals
 \end_layout
 
 \begin_layout Standard
-In the following subsections the advantages of a distributed multi-robot
- platform will be introduced.
- This work is about to provide such a platform to the user.
+In the following subsections the advantages of a distributed MRS will be
+ introduced.
+ 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+This work is about to provide such a platform to the user.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -238,7 +263,7 @@ Platform Flexibility
 \end_layout
 
 \begin_layout Standard
-The later support for different robot and agent platforms shall be prepared.
+The later support for different MRS and MAS shall be prepared.
 \end_layout
 
 \begin_layout Subsection*
@@ -246,8 +271,7 @@ Scenarios
 \end_layout
 
 \begin_layout Standard
-The scenarios are partly taken from the Multi-Agent-Simulator (MAS) Jadex
- 
+The scenarios are partly taken from the MAS Jadex 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "JadexSF"
@@ -256,7 +280,7 @@ key "JadexSF"
 
 .
  They shall demonstrate basic functionality of the platform and provide
- a template for different tasks.
+ a template for other tasks.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -264,8 +288,8 @@ Hunter and Prey (as extended Hide and Seek scenario)
 \end_layout
 
 \begin_layout Standard
-Two or more robots look out for an hiding robot and try to catch him.
- The searching robots shall coordinate for more efficient search.
+Two or more robots look out for an hiding robot and try to catch it.
+ The searching robots shall coordinate to search more efficiently.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -274,9 +298,18 @@ Cleanerworld
 
 \begin_layout Standard
 Two or more robots look out for trash or special marked objects to be collected
- and put to a trash can respectively a prepared place.
+ and put it or them to a trash can respectively a prepared place.
  The robots shall coordinate to efficiently cover the work area.
  An extension would be a second task to maintain the robot's battery life.
+ An example implementation is shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Fig:FindnCollect"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Subsubsection*
@@ -288,7 +321,6 @@ In this scenarios two or more robots shall explore unknown territory to
  build a map collaboratively.
  
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status collapsed
@@ -322,6 +354,13 @@ key "PlayerProject"
 
 .
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fig:FindnCollect"
 
 \end_inset
 
@@ -373,10 +412,9 @@ With a wall follow exploration algorithm and the fusion of the mentioned
 \end_layout
 
 \begin_layout Standard
-The project provided practical knowledge with a robot platform and a mobile
+The project provided practical knowledge with a robot platform and mobile
  robot hardware.
- This will be exhaustively used by this work in the first place and shall
- be extended later.
+ This will be exhaustively used by this work.
  
 \begin_inset Note Note
 status open
@@ -389,7 +427,6 @@ did also some SLAM
 
  
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status collapsed
@@ -411,9 +448,8 @@ status collapsed
 
 \begin_layout Plain Layout
 Pioneer robot used in practical student project.
- The mounted Laptop runs the control program and communicates wireless via
- WLAN.
- The (dismounted) Laser at the front top and the fixed sonar sensors are
+ The mounted Laptop runs the control program and communicates via wireless.
+ The (dismounted) laser at the front top and the fixed sonar sensors are
  visible too.
 \end_layout
 
@@ -442,14 +478,14 @@ Restrictions
 This work will deal with the combination of a high level multi-agent and
  a robot platform.
  Current technologies in MAS and Mobile Robotics will be used to achieve
- high level task flexibility.
+ high-level task flexibility.
 \end_layout
 
 \begin_layout Standard
-Also there might be implemented specialized algorithms, e.g.
- for robot control, mostly out-of-the box drivers and interfaces will be
- used.
- Especially the MAS shall be used and is assumed to provide already:
+There might be implemented specialized algorithms, e.g.
+ for robot control, but mostly out-of-the box drivers and interfaces shall
+ be used.
+ Especially the MAS shall be used and is assumed to provide following features:
 \end_layout
 
 \begin_layout Itemize
@@ -461,7 +497,7 @@ Task dividing and sharing between agents
 \end_layout
 
 \begin_layout Itemize
-Communication over LAN between agents
+Communication via (W)LAN between agents
 \end_layout
 
 \begin_layout Standard
