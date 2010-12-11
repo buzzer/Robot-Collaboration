@@ -1,5 +1,5 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0.0beta2 created this file. For more info see http://www.lyx.org/
+\lyxformat 410
 \begin_document
 \begin_header
 \textclass scrartcl
@@ -7,18 +7,25 @@
 \addto\captionsenglish{\def\figurename{Fig.}}
 \end_preamble
 \use_default_options true
+\maintain_unincluded_children false
 \language english
 \inputencoding auto
+\fontencoding global
 \font_roman lmodern
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
 \use_hyperref true
@@ -39,28 +46,38 @@
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\defskip medskip
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\tracking_changes false
+\tracking_changes true
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_be_strict false
+\author -483858032 "Sebastian Rockel" sebastianrockel@gmail.com
 \end_header
 
 \begin_body
 
 \begin_layout Title
 A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
-\begin_inset OptArg
+\begin_inset Argument
 status collapsed
 
 \begin_layout Plain Layout
@@ -82,7 +99,7 @@ Sebastian
 Rockel
 \series default
 
-\begin_inset OptArg
+\begin_inset Argument
 status collapsed
 
 \begin_layout Plain Layout
@@ -129,10 +146,22 @@ Motivation
 \end_layout
 
 \begin_layout Standard
-In today's robotics still simple tasks require sophisticated and complex
- approaches to solve them.
- An important development has been done in Multi-Robot-Systems (MRS) to
- provide high-level access to robot hardware 
+In 
+\change_deleted -483858032 1292080792
+today's robotics still simple tasks require sophisticated and complex approaches
+ to solve them
+\change_inserted -483858032 1292080806
+robotics today, simple tasks still demand complex solutions
+\change_unchanged
+.
+ An important development has been 
+\change_deleted -483858032 1292080846
+done in
+\change_inserted -483858032 1292080848
+the use of
+\change_unchanged
+ Multi-Robot-Systems (MRS) to provide high-level access to robot hardware
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ROS,PlayerProject"
@@ -143,8 +172,19 @@ key "ROS,PlayerProject"
 \end_layout
 
 \begin_layout Standard
-As such a platform provides transparent access to sensors and actuators
- the difficult assignment to exercise a task remains.
+
+\change_deleted -483858032 1292080904
+As
+\change_inserted -483858032 1292080905
+Although
+\change_unchanged
+ such a platform provides transparent access to sensors and actuators 
+\change_deleted -483858032 1292080937
+the difficult assignment to exercise a task remains
+\change_inserted -483858032 1292080944
+much difficulty still remains
+\change_unchanged
+.
  
 \begin_inset Note Note
 status collapsed
@@ -156,14 +196,44 @@ Thus basically the problem to approach common tasks with robots remains.
 
 \end_inset
 
-Typical tasks for a mobile robot require at least some sensors like a stereo
- vision camera, a robot arm or even a hand.
- To interconnect that sensors in software in a meaningful way is not a trivial
- assignment although device access itself might be simple.
+Typical tasks for a mobile robot require at least some sensors 
+\change_deleted -483858032 1292080965
+like
+\change_inserted -483858032 1292080967
+such as
+\change_unchanged
+ a stereo vision camera, a robot arm or even a hand.
+ To interconnect 
+\change_deleted -483858032 1292080983
+that
+\change_inserted -483858032 1292080984
+these
+\change_unchanged
+ sensors in software in a meaningful way is not a trivial
+\change_inserted -483858032 1292081051
+,
+\change_unchanged
+ 
+\change_deleted -483858032 1292081057
+assignment
+\change_unchanged
+ although device access itself might be simple.
 \end_layout
 
 \begin_layout Standard
-To conclude even simple tasks like 
+To 
+\change_deleted -483858032 1292081108
+conclude
+\change_inserted -483858032 1292081110
+execute
+\change_unchanged
+ even simple tasks 
+\change_deleted -483858032 1292081116
+like
+\change_inserted -483858032 1292081117
+such as
+\change_unchanged
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -179,7 +249,13 @@ open that door
 \begin_inset Quotes erd
 \end_inset
 
- of 
+ 
+\change_deleted -483858032 1292081138
+of
+\change_inserted -483858032 1292081138
+or
+\change_unchanged
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -188,17 +264,85 @@ find the pink one
 \end_inset
 
  can be assumed to be complex tasks.
- They can be solved by one or a few sophisticated and adapted robots or
- multiple relative simple robots which coordinate themselves.
+ They can be solved 
+\change_deleted -483858032 1292081160
+by one or a few
+\change_inserted -483858032 1292081178
+either by one or more
+\change_unchanged
+ sophisticated and 
+\change_inserted -483858032 1292081192
+specially 
+\change_unchanged
+adapted robots
+\change_inserted -483858032 1292081261
+,
+\change_unchanged
+ or 
+\change_inserted -483858032 1292081205
+by 
+\change_unchanged
+multiple
+\change_inserted -483858032 1292081265
+,
+\change_unchanged
+ relative
+\change_inserted -483858032 1292081231
+ly
+\change_unchanged
+ simple
+\change_inserted -483858032 1292081271
+,
+\change_unchanged
+ robots 
+\change_deleted -483858032 1292081276
+which
+\change_inserted -483858032 1292081276
+that
+\change_unchanged
+ coordinate
+\change_deleted -483858032 1292081283
+ themselves
+\change_inserted -483858032 1292081298
+ their activities
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
-As described in the next section there are important advantages of the latter
- approach.
- This work is about providing a MRS with an intelligent Multi-Agent-System
- (MAS) on top of it.
- A stable robot platform serves as base for a high-level service oriented
- layer.
+As described in the next section there are important advantages 
+\change_deleted -483858032 1292081308
+of
+\change_inserted -483858032 1292081309
+in
+\change_unchanged
+ the latter approach.
+ This 
+\change_deleted -483858032 1292081326
+work is about providing a
+\change_inserted -483858032 1292081333
+project describes an
+\change_unchanged
+ MRS 
+\change_inserted -483858032 1292081426
+controlled by 
+\change_deleted -483858032 1292081428
+with
+\change_unchanged
+ an 
+\change_inserted -483858032 1292081768
+distributed and 
+\change_unchanged
+intelligent Multi-Agent-System (MAS)
+\change_deleted -483858032 1292081437
+ on top of it
+\change_unchanged
+.
+ A stable robot platform serves as
+\change_inserted -483858032 1292081352
+ the
+\change_unchanged
+ base for a high-level service oriented layer.
  
 \end_layout
 
@@ -207,8 +351,15 @@ Goals
 \end_layout
 
 \begin_layout Standard
-In the following subsections the advantages of a distributed MRS will be
- introduced.
+In the following subsections the advantages of a 
+\change_deleted -483858032 1292081844
+distributed
+\change_unchanged
+ MRS
+\change_inserted -483858032 1292081860
+ with a distributed MAS
+\change_unchanged
+ will be introduced.
  
 \begin_inset Note Note
 status collapsed
