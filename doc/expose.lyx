@@ -209,7 +209,11 @@ that
 \change_inserted -483858032 1292080984
 these
 \change_unchanged
- sensors in software in a meaningful way is not a trivial
+ sensors in software in a meaningful way is not
+\change_deleted -483858032 1292161872
+ a
+\change_unchanged
+ trivial
 \change_inserted -483858032 1292081051
 ,
 \change_unchanged
@@ -385,10 +389,17 @@ name "sub:Flexibility"
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -483858032 1292158191
 Tasks for robots can be very manifold.
  To address this the robot platform shall be capable of accepting versatile
  tasks and manage a dynamical and heterogeneous group of robots to solve
  them.
+\change_inserted -483858032 1292158227
+The platform shall be able to execute tasks of arbitrary complexity through
+ the management of a dynamic and heterogeneous group of robots.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection*
@@ -396,8 +407,17 @@ Scalability
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -483858032 1292158361
 The platform shall be enabled to be on-the-fly extendable by new robots
  as well as to overcome robot malfunction.
+\change_inserted -483858032 1292159132
+The platform shall perform with an arbitrary number of robots which is defined
+ by availability and task requirements.
+ The dynamical addition and removal of robots shall be prepared to replace
+ malfunctioning robots in future.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection*
@@ -405,24 +425,64 @@ Cost
 \end_layout
 
 \begin_layout Standard
-This work assumes that a group of heterogeneous and smaller robots is mid-
- to long-term cheaper in maintenance than a few highly specialised ones.
+This work assumes that a group of
+\change_inserted -483858032 1292159186
+ small,
+\change_unchanged
+ heterogeneous 
+\change_deleted -483858032 1292159193
+and smaller
+\change_unchanged
+ robots is 
+\change_deleted -483858032 1292159207
+mid- to long-term cheaper in maintenance
+\change_inserted -483858032 1292159217
+cheaper to maintain in the mid- to long-term
+\change_unchanged
+ than a few
+\change_inserted -483858032 1292159223
+,
+\change_unchanged
+ highly 
+\change_deleted -483858032 1292161750
+specialised
+\change_inserted -483858032 1292161750
+specialized
+\change_unchanged
+ ones.
 \end_layout
 
 \begin_layout Subsection*
-Platform Flexibility
+Platform 
+\change_deleted -483858032 1292159386
+Flexibility
+\change_inserted -483858032 1292159388
+Autonomy
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
+
+\change_inserted -483858032 1292159629
+Preparation shall be done regarding the possibility of exchanging the MRS
+ and MAS with other potentially better suited systems.
+\change_deleted -483858032 1292159659
 The later support for different MRS and MAS shall be prepared.
+\change_unchanged
+
 \end_layout
 
-\begin_layout Subsection*
+\begin_layout Section*
 Scenarios
 \end_layout
 
 \begin_layout Standard
-The scenarios are partly taken from the MAS Jadex 
+The 
+\change_inserted -483858032 1292159724
+following three 
+\change_unchanged
+scenarios are partly taken from the MAS Jadex 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "JadexSF"
@@ -430,28 +490,104 @@ key "JadexSF"
 \end_inset
 
 .
- They shall demonstrate basic functionality of the platform and provide
- a template for other tasks.
+ They 
+\change_deleted -483858032 1292159671
+shall
+\change_unchanged
+ demonstrate 
+\change_inserted -483858032 1292159676
+the 
+\change_unchanged
+basic functionality of the platform and 
+\change_inserted -483858032 1292159686
+shall 
+\change_unchanged
+provide a template for other tasks.
 \end_layout
 
-\begin_layout Subsubsection*
-Hunter and Prey (as extended Hide and Seek scenario)
+\begin_layout Subsection*
+Hunter and Prey (
+\change_deleted -483858032 1292159764
+as
+\change_inserted -483858032 1292159764
+an
+\change_unchanged
+ extended Hide and Seek scenario)
 \end_layout
 
 \begin_layout Standard
-Two or more robots look out for an hiding robot and try to catch it.
- The searching robots shall coordinate to search more efficiently.
+Two or more robots look 
+\change_deleted -483858032 1292159792
+out
+\change_unchanged
+ for an hiding robot and try to catch it.
+ The searching robots 
+\change_deleted -483858032 1292159801
+shall
+\change_unchanged
+ coordinate 
+\change_deleted -483858032 1292159814
+to search more efficiently
+\change_inserted -483858032 1292159822
+their search to increase efficiency
+\change_unchanged
+.
 \end_layout
 
-\begin_layout Subsubsection*
-Cleanerworld
+\begin_layout Subsection*
+Cleaner
+\change_inserted -483858032 1292159740
+ 
+\change_deleted -483858032 1292159741
+w
+\change_inserted -483858032 1292159741
+W
+\change_unchanged
+orld
 \end_layout
 
 \begin_layout Standard
-Two or more robots look out for trash or special marked objects to be collected
- and put it or them to a trash can respectively a prepared place.
- The robots shall coordinate to efficiently cover the work area.
- An extension would be a second task to maintain the robot's battery life.
+Two or more robots 
+\change_deleted -483858032 1292159877
+look out for
+\change_inserted -483858032 1292159879
+collect
+\change_unchanged
+ trash or special
+\change_inserted -483858032 1292159885
+ly
+\change_unchanged
+ marked objects
+\change_inserted -483858032 1292159893
+.
+
+\change_deleted -483858032 1292159903
+ to be collected and put it or them to a trash can respectively a prepared
+ place.
+
+\change_unchanged
+ The robots 
+\change_deleted -483858032 1292159916
+shall
+\change_unchanged
+ coordinate 
+\change_deleted -483858032 1292159928
+to efficiently
+\change_inserted -483858032 1292159931
+their search to
+\change_unchanged
+ cover the work area
+\change_inserted -483858032 1292159941
+ efficiently
+\change_unchanged
+.
+ 
+\change_deleted -483858032 1292159972
+An extension would be a second task to maintain the robot's battery life.
+\change_inserted -483858032 1292160001
+As an extension, a second task could be to maintain robot battery life.
+
+\change_unchanged
  An example implementation is shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -463,13 +599,26 @@ reference "Fig:FindnCollect"
  
 \end_layout
 
-\begin_layout Subsubsection*
+\begin_layout Subsection*
 Exploration
 \end_layout
 
 \begin_layout Standard
-In this scenarios two or more robots shall explore unknown territory to
- build a map collaboratively.
+In this scenarios two or more robots 
+\change_deleted -483858032 1292160169
+shall
+\change_inserted -483858032 1292160174
+collaborate to
+\change_unchanged
+ explore unknown territory
+\change_inserted -483858032 1292160188
+ and
+\change_unchanged
+ to build a map
+\change_deleted -483858032 1292160199
+ collaboratively
+\change_unchanged
+.
  
 \begin_inset Float figure
 wide false
@@ -493,10 +642,46 @@ status collapsed
 
 \begin_layout Plain Layout
 Two mobile robots and another scenario.
- The right one is equipped with a camera to look out for certain colors
- and the left one has a gripper attached to collect detected objects.
- Both working together to collect these objects.
- Here in the simulator Stage 
+ The 
+\change_deleted -483858032 1292160266
+right one
+\change_inserted -483858032 1292160269
+robot on the right
+\change_unchanged
+ is equipped with a camera to look 
+\change_deleted -483858032 1292160288
+out 
+\change_unchanged
+for certain colors and 
+\change_deleted -483858032 1292160316
+the left one
+\change_inserted -483858032 1292160321
+the robot on the left
+\change_unchanged
+ has a gripper 
+\change_deleted -483858032 1292160333
+attached
+\change_unchanged
+ to collect
+\change_deleted -483858032 1292160338
+ detected
+\change_unchanged
+ objects
+\change_inserted -483858032 1292160343
+ detected
+\change_unchanged
+.
+ 
+\change_deleted -483858032 1292160512
+Both working together to collect these objects.
+ Here in the simulator Stage
+\change_unchanged
+ 
+\change_inserted -483858032 1292160559
+The picture is taken from the multi-robot simulator included in the MRS
+ PlayerStage 
+\change_unchanged
+
 \begin_inset CommandInset citation
 LatexCommand citet
 key "PlayerProject"
@@ -528,14 +713,30 @@ Preliminary Work
 \end_layout
 
 \begin_layout Standard
-In the context of the student's project 
+
+\change_deleted -483858032 1292160664
+In the context of the student's project
+\change_inserted -483858032 1292160668
+In an earlier project
+\change_unchanged
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Wallfollow09"
 
 \end_inset
 
- the author had the chance to use the robot platform Player/Stage 
+ the author 
+\change_deleted -483858032 1292160688
+had the chance to use
+\change_inserted -483858032 1292160688
+used
+\change_unchanged
+ the robot platform Player
+\change_deleted -483858032 1292160697
+/
+\change_unchanged
+Stage 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "PlayerProject"
@@ -543,7 +744,14 @@ key "PlayerProject"
 \end_inset
 
 .
- As hardware served a Pioneer 2DX robot (as can be seen at Fig.
+ 
+\change_deleted -483858032 1292160723
+As hardware served a Pioneer 2DX robot
+\change_inserted -483858032 1292160809
+A Pioneer 2DX robot with on-board sonar, laser and omni-directional camera
+ served as the hardware
+\change_unchanged
+ (as can be seen at Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -551,24 +759,76 @@ reference "Fig:PioneerLap"
 
 \end_inset
 
-) with Sonar, Laser and an omni-directional camera on board.
+)
+\change_deleted -483858032 1292160776
+ with Sonar, Laser and an omni-directional camera on board
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
-With a wall follow exploration algorithm and the fusion of the mentioned
- sensor data its goal was to look out for a small pink ball in its near
+With a wall
+\change_inserted -483858032 1292160840
+-
+\change_deleted -483858032 1292160840
+ 
+\change_unchanged
+follow
+\change_inserted -483858032 1292160842
+ing
+\change_unchanged
+ exploration algorithm and the 
+\change_deleted -483858032 1292160863
+fusion of the mentioned sensor
+\change_inserted -483858032 1292160867
+sonar, laser and camera
+\change_unchanged
+ data its goal was to look 
+\change_deleted -483858032 1292160878
+out
+\change_unchanged
+ for a small pink ball in its 
+\change_deleted -483858032 1292160886
+near
+\change_unchanged
  environment.
- Once detected by the vision device the robot heads towards the ball position
- while continuous tracking it.
+ Once detected 
+\change_deleted -483858032 1292160896
+by the vision device
+\change_unchanged
+ the robot heads towards the ball 
+\change_deleted -483858032 1292160906
+position
+\change_unchanged
+ while continuous
+\change_inserted -483858032 1292160911
+ly
+\change_unchanged
+ tracking it.
 \end_layout
 
 \begin_layout Standard
-The project provided practical knowledge with a robot platform and mobile
- robot hardware.
- This will be exhaustively used by this work.
+The project provided practical 
+\change_deleted -483858032 1292161446
+knowledge
+\change_inserted -483858032 1292161448
+experience
+\change_unchanged
+ with a robot platform and
+\change_inserted -483858032 1292161457
+ with
+\change_unchanged
+ mobile robot hardware
+\change_deleted -483858032 1292161482
+.
+ This will be exhaustively used
+\change_inserted -483858032 1292161487
+ that will be relied upon
+\change_unchanged
+ by this work.
  
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 did also some SLAM
@@ -577,48 +837,6 @@ did also some SLAM
 \end_inset
 
  
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename /Users/sebastian/robotcolla/doc/graphics/pion1.jpg
-	lyxscale 30
-	height 30theight%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Pioneer robot used in practical student project.
- The mounted Laptop runs the control program and communicates via wireless.
- The (dismounted) laser at the front top and the fixed sonar sensors are
- visible too.
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "Fig:PioneerLap"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section*
@@ -626,17 +844,70 @@ Restrictions
 \end_layout
 
 \begin_layout Standard
-This work will deal with the combination of a high level multi-agent and
- a robot platform.
- Current technologies in MAS and Mobile Robotics will be used to achieve
- high-level task flexibility.
+This work will 
+\change_deleted -483858032 1292161534
+deal with the combination of
+\change_inserted -483858032 1292161535
+combine
+\change_unchanged
+ a high level multi-agent
+\change_inserted -483858032 1292161561
+-system
+\change_unchanged
+ 
+\change_deleted -483858032 1292161570
+and
+\change_inserted -483858032 1292161571
+with
+\change_unchanged
+ a 
+\change_inserted -483858032 1292161589
+multi-
+\change_unchanged
+robot platform.
+ Current technologies in MAS and 
+\change_inserted -483858032 1292161603
+m
+\change_deleted -483858032 1292161602
+M
+\change_unchanged
+obile 
+\change_inserted -483858032 1292161606
+r
+\change_deleted -483858032 1292161606
+R
+\change_unchanged
+obotics will be used to achieve 
+\change_deleted -483858032 1292161623
+high-level
+\change_inserted -483858032 1292161626
+a high degree of
+\change_unchanged
+ task flexibility.
 \end_layout
 
 \begin_layout Standard
-There might be implemented specialized algorithms, e.g.
- for robot control, but mostly out-of-the box drivers and interfaces shall
+
+\change_deleted -483858032 1292161642
+There might be implemented specialized algorithms
+\change_inserted -483858032 1292161657
+Some specialized algorithms might be implemented
+\change_unchanged
+, e.g.
+ for robot control, but mostly out-of-the box drivers and interfaces 
+\change_deleted -483858032 1292161673
+shall
+\change_inserted -483858032 1292161673
+will
+\change_unchanged
  be used.
- Especially the MAS shall be used and is assumed to provide following features:
+ 
+\change_deleted -483858032 1292161690
+Especially t
+\change_inserted -483858032 1292161690
+T
+\change_unchanged
+he MAS shall be used and is assumed to provide following features:
 \end_layout
 
 \begin_layout Itemize
@@ -644,7 +915,13 @@ Task description and definition
 \end_layout
 
 \begin_layout Itemize
-Task dividing and sharing between agents
+Task 
+\change_deleted -483858032 1292161708
+dividing and sharing
+\change_inserted -483858032 1292161714
+division and distribution
+\change_unchanged
+ between agents
 \end_layout
 
 \begin_layout Itemize
@@ -669,6 +946,55 @@ Collision avoidance
 
 \begin_layout Itemize
 Sensor and effector drivers (Laser, Gripper etc.)
+\change_inserted -483858032 1292162483
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /Users/sebastian/robotcolla/doc/graphics/pion1.jpg
+	lyxscale 30
+	height 30theight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Pioneer robot used in a practical student project.
+ The mounted Laptop runs the control program and communicates via wireless.
+ The (dismounted) laser can be seen on top of the robot and the fixed sonar
+ sensors are visible as circular devices underneath the top board at the
+ front.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Fig:PioneerLap"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
