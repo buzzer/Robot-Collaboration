@@ -178,7 +178,13 @@ As
 \change_inserted -483858032 1292080905
 Although
 \change_unchanged
- such a platform provides transparent access to sensors and actuators 
+ such 
+\change_deleted -483858032 1292232250
+a platform provides
+\change_inserted -483858032 1292232254
+platforms provide
+\change_unchanged
+ transparent access to sensors and actuators 
 \change_deleted -483858032 1292080937
 the difficult assignment to exercise a task remains
 \change_inserted -483858032 1292080944
@@ -231,7 +237,13 @@ conclude
 \change_inserted -483858032 1292081110
 execute
 \change_unchanged
- even simple tasks 
+ even simple 
+\change_deleted -483858032 1292232281
+tasks
+\change_inserted -483858032 1292232283
+commands
+\change_unchanged
+ 
 \change_deleted -483858032 1292081116
 like
 \change_inserted -483858032 1292081117
@@ -311,43 +323,32 @@ that
  their activities
 \change_unchanged
 .
+\change_deleted -483858032 1292239395
+
 \end_layout
 
 \begin_layout Standard
-As described in the next section there are important advantages 
-\change_deleted -483858032 1292081308
-of
-\change_inserted -483858032 1292081309
-in
-\change_unchanged
- the latter approach.
- This 
-\change_deleted -483858032 1292081326
-work is about providing a
-\change_inserted -483858032 1292081333
-project describes an
-\change_unchanged
- MRS 
-\change_inserted -483858032 1292081426
-controlled by 
-\change_deleted -483858032 1292081428
-with
-\change_unchanged
- an 
-\change_inserted -483858032 1292081768
-distributed and 
-\change_unchanged
-intelligent Multi-Agent-System (MAS)
-\change_deleted -483858032 1292081437
- on top of it
-\change_unchanged
-.
- A stable robot platform serves as
-\change_inserted -483858032 1292081352
- the
-\change_unchanged
- base for a high-level service oriented layer.
+
+\change_deleted -483858032 1292239395
+As described in the next section there are important advantages in the latter
+ approach.
+ This project describes an MRS controlled by  a distributed and intelligent
+ Multi-Agent-System (MAS).
+ A stable robot platform serves as the base for a high-level service-oriented
+ layer.
  
+\change_inserted -483858032 1292238811
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -483858032 1292239501
+There are important advantages in the latter approach, such as task flexibility,
+ scalability, cost and platform autonomy, which will be substantiated as
+ requirements to this project in the next section.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section*
@@ -355,16 +356,27 @@ Goals
 \end_layout
 
 \begin_layout Standard
-In the following subsections the advantages of a 
-\change_deleted -483858032 1292081844
-distributed
-\change_unchanged
- MRS
-\change_inserted -483858032 1292081860
- with a distributed MAS
-\change_unchanged
- will be introduced.
+
+\change_inserted -483858032 1292239450
+This project describes an MRS controlled by a distributed and intelligent
+ Multi-Agent-System (MAS).
+ A stable robot platform serves as the base for high-level services.
  
+\change_unchanged
+In the following subsections the 
+\change_deleted -483858032 1292239523
+advantages
+\change_inserted -483858032 1292239525
+requirements
+\change_unchanged
+ 
+\change_deleted -483858032 1292239602
+of a  MRS with a distributed MAS 
+\change_unchanged
+will be introduced.
+ 
+\change_deleted -483858032 1292239229
+
 \begin_inset Note Note
 status collapsed
 
@@ -374,6 +386,8 @@ This work is about to provide such a platform to the user.
 
 \end_inset
 
+
+\change_unchanged
 
 \end_layout
 
@@ -411,11 +425,11 @@ Scalability
 \change_deleted -483858032 1292158361
 The platform shall be enabled to be on-the-fly extendable by new robots
  as well as to overcome robot malfunction.
-\change_inserted -483858032 1292159132
-The platform shall perform with an arbitrary number of robots which is defined
- by availability and task requirements.
- The dynamical addition and removal of robots shall be prepared to replace
- malfunctioning robots in future.
+\change_inserted -483858032 1292237880
+The platform shall perform with an arbitrary number of robots, selected
+ according to robot availability and task requirements.
+ Preparatory work shall be done to facilitate future dynamic addition and
+ removal of malfunctioning robots.
 \change_unchanged
 
 \end_layout
@@ -464,8 +478,8 @@ Autonomy
 
 \begin_layout Standard
 
-\change_inserted -483858032 1292159629
-Preparation shall be done regarding the possibility of exchanging the MRS
+\change_inserted -483858032 1292237938
+Preparations shall be made with regard to the possible exchange of the MRS
  and MAS with other potentially better suited systems.
 \change_deleted -483858032 1292159659
 The later support for different MRS and MAS shall be prepared.
@@ -498,11 +512,7 @@ shall
 \change_inserted -483858032 1292159676
 the 
 \change_unchanged
-basic functionality of the platform and 
-\change_inserted -483858032 1292159686
-shall 
-\change_unchanged
-provide a template for other tasks.
+basic functionality of the platform and provide a template for other tasks.
 \end_layout
 
 \begin_layout Subsection*
@@ -520,7 +530,11 @@ Two or more robots look
 \change_deleted -483858032 1292159792
 out
 \change_unchanged
- for an hiding robot and try to catch it.
+ for a
+\change_deleted -483858032 1292237992
+n
+\change_unchanged
+ hiding robot and try to catch it.
  The searching robots 
 \change_deleted -483858032 1292159801
 shall
@@ -584,8 +598,8 @@ their search to
  
 \change_deleted -483858032 1292159972
 An extension would be a second task to maintain the robot's battery life.
-\change_inserted -483858032 1292160001
-As an extension, a second task could be to maintain robot battery life.
+\change_inserted -483858032 1292238029
+As an extension, a second task could be to conserve robot battery life.
 
 \change_unchanged
  An example implementation is shown in figure 
@@ -604,7 +618,11 @@ Exploration
 \end_layout
 
 \begin_layout Standard
-In this scenarios two or more robots 
+In this scenario
+\change_deleted -483858032 1292238040
+s
+\change_unchanged
+ two or more robots 
 \change_deleted -483858032 1292160169
 shall
 \change_inserted -483858032 1292160174
@@ -641,7 +659,13 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Two mobile robots and another scenario.
+Two mobile robots and 
+\change_deleted -483858032 1292238068
+another
+\change_inserted -483858032 1292238075
+the Cleaner World
+\change_unchanged
+ scenario.
  The 
 \change_deleted -483858032 1292160266
 right one
@@ -677,9 +701,9 @@ Both working together to collect these objects.
  Here in the simulator Stage
 \change_unchanged
  
-\change_inserted -483858032 1292160559
+\change_inserted -483858032 1292238657
 The picture is taken from the multi-robot simulator included in the MRS
- PlayerStage 
+ Player/Stage 
 \change_unchanged
 
 \begin_inset CommandInset citation
@@ -732,11 +756,13 @@ had the chance to use
 \change_inserted -483858032 1292160688
 used
 \change_unchanged
- the robot platform Player
-\change_deleted -483858032 1292160697
-/
+ the 
+\change_deleted -483858032 1292238624
+robot platform
+\change_inserted -483858032 1292238624
+MRS
 \change_unchanged
-Stage 
+ Player/Stage 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "PlayerProject"
@@ -850,9 +876,11 @@ deal with the combination of
 \change_inserted -483858032 1292161535
 combine
 \change_unchanged
- a high level multi-agent
-\change_inserted -483858032 1292161561
--system
+ a high level 
+\change_deleted -483858032 1292238300
+multi-agent
+\change_inserted -483858032 1292238300
+MAS
 \change_unchanged
  
 \change_deleted -483858032 1292161570
@@ -861,10 +889,12 @@ and
 with
 \change_unchanged
  a 
-\change_inserted -483858032 1292161589
-multi-
+\change_deleted -483858032 1292238314
+robot platform
+\change_inserted -483858032 1292238315
+MRS
 \change_unchanged
-robot platform.
+.
  Current technologies in MAS and 
 \change_inserted -483858032 1292161603
 m
@@ -902,12 +932,16 @@ will
 \change_unchanged
  be used.
  
-\change_deleted -483858032 1292161690
-Especially t
-\change_inserted -483858032 1292161690
-T
+\change_deleted -483858032 1292238375
+Especially the
+\change_inserted -483858032 1292238375
+An
 \change_unchanged
-he MAS shall be used and is assumed to provide following features:
+ MAS 
+\change_deleted -483858032 1292238394
+shall be used and
+\change_unchanged
+ is assumed to provide following features:
 \end_layout
 
 \begin_layout Itemize
