@@ -421,17 +421,15 @@ Scalability
 \end_layout
 
 \begin_layout Standard
-
-\change_deleted -483858032 1292158361
-The platform shall be enabled to be on-the-fly extendable by new robots
- as well as to overcome robot malfunction.
-\change_inserted -483858032 1292237880
 The platform shall perform with an arbitrary number of robots, selected
  according to robot availability and task requirements.
- Preparatory work shall be done to facilitate future dynamic addition and
- removal of malfunctioning robots.
+ Preparatory work shall be done to facilitate future dynamic addition 
+\change_deleted -483858032 1292267052
+and removal
+\change_inserted -483858032 1292267059
+of extra robots and replacement
 \change_unchanged
-
+ of malfunctioning robots.
 \end_layout
 
 \begin_layout Subsection*
@@ -876,7 +874,13 @@ deal with the combination of
 \change_inserted -483858032 1292161535
 combine
 \change_unchanged
- a high level 
+ a high
+\change_inserted -483858032 1292267367
+-
+\change_deleted -483858032 1292267365
+ 
+\change_unchanged
+level 
 \change_deleted -483858032 1292238300
 multi-agent
 \change_inserted -483858032 1292238300
@@ -888,7 +892,11 @@ and
 \change_inserted -483858032 1292161571
 with
 \change_unchanged
- a 
+ a
+\change_inserted -483858032 1292267406
+n
+\change_unchanged
+ 
 \change_deleted -483858032 1292238314
 robot platform
 \change_inserted -483858032 1292238315
