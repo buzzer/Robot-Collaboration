@@ -75,7 +75,7 @@
 \begin_body
 
 \begin_layout Title
-A Multi-Robot Platform for Mobil Robots with Multi-Agent Middleware
+A Multi-Robot Platform for Mobile Robots with Multi-Agent Technology
 \begin_inset Argument
 status collapsed
 
@@ -327,7 +327,7 @@ In this scenario two or more robots collaborate to explore unknown territory
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -348,8 +348,10 @@ status collapsed
 Two mobile robots and the Cleaner World scenario.
  The robot on the right is equipped with a camera to look for certain colors
  and the robot on the left has a gripper to collect objects detected.
- The picture is taken from the multi-robot simulator included in the MRS
- Player/Stage 
+ The robot exploration and the blackboard communication as well as the sensor
+ interpretation algorithms have been implemented in Java.
+ The picture is showing the scenario in the multi-robot simulator Stage
+ included in the MRS Player/Stage 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "PlayerProject"
@@ -445,7 +447,7 @@ This work will combine a high-level MAS with an MRS.
 Some specialized algorithms might be implemented, e.g.
  for robot control, but mostly out-of-the box drivers and interfaces will
  be used.
- An MAS is assumed to provide following features:
+ A MAS is assumed to provide following features:
 \end_layout
 
 \begin_layout Itemize
@@ -528,7 +530,7 @@ name "Fig:PioneerLap"
 \end_layout
 
 \begin_layout Section*
-Table of Contents
+Abstract
 \begin_inset ERT
 status collapsed
 
@@ -548,32 +550,56 @@ setcounter{section}{0}
 Introduction
 \end_layout
 
+\begin_layout Subsection
+Goals
+\end_layout
+
+\begin_layout Subsection
+Outline
+\end_layout
+
 \begin_layout Section
 State of the Art
 \end_layout
 
 \begin_layout Subsection
-Robot Platform
+Multi-Robot System
 \end_layout
 
 \begin_layout Subsection
-Multi-agent Platform
+Multi-Agent System
 \end_layout
 
 \begin_layout Subsection
 Middleware
 \end_layout
 
+\begin_layout Subsection
+Related Work
+\end_layout
+
 \begin_layout Section
-Study and discussion
+Approach
 \end_layout
 
 \begin_layout Subsection
-Prototype Implementation
+Concept
 \end_layout
 
 \begin_layout Subsection
-Test Results
+Implementation
+\end_layout
+
+\begin_layout Subsection
+Examples
+\end_layout
+
+\begin_layout Subsection
+Evaluation
+\end_layout
+
+\begin_layout Section
+Conclusion
 \end_layout
 
 \begin_layout Subsection
