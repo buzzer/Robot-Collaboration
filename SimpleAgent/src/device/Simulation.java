@@ -37,7 +37,7 @@ public class Simulation extends RobotDevice {
 		objList = new ConcurrentHashMap<String, Position>();	
 		isDirtyList = new ConcurrentHashMap<String, Boolean>();
 		
-//		setSleepTime(1000);
+//		setSleepTime(10);
 	}
 	/**
 	 * Returns a Singleton instance of the Gui
@@ -108,7 +108,9 @@ public class Simulation extends RobotDevice {
 				}
 			}
 			/** Wait for simulation sync before updating a new object */
-			try { Thread.sleep(50); } catch (InterruptedException e) { thread.interrupt(); }
+//			try { Thread.sleep(50); } catch (InterruptedException e) { //thread.interrupt();
+//				setThreaded(false);
+//			}
 		}
 	}
 

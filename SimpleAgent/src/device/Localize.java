@@ -43,6 +43,7 @@ public class Localize extends RobotDevice
 				if (hypList.length > 0) {
 					// Only first hypothesis
 					PlayerPose curPos = hypList[0].getMean();
+					
 					getPosition.setX(curPos.getPx());
 					getPosition.setY(curPos.getPy());
 					getPosition.setYaw(curPos.getPa());

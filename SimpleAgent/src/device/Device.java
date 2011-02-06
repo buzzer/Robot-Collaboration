@@ -17,7 +17,7 @@ public class Device implements IDevice, Runnable
 	int deviceNumber = 0;
 	
 	// Every class of this type has it's own thread
-	protected Thread thread = new Thread ( this );
+	Thread thread = new Thread ( this );
 
 	long SLEEPTIME = 100;
 	private boolean isRunning = false;
@@ -81,7 +81,7 @@ public class Device implements IDevice, Runnable
 
 	public synchronized void runThreaded()
 	{
-		if (thread.isAlive() != true) {
+		if (thread.isAlive() == false) {
 			// Start all devices
 			if (deviceList != null && deviceList.size() > 0)
 			{
@@ -93,14 +93,16 @@ public class Device implements IDevice, Runnable
 
 					// Start device
 					device.runThreaded();
-					while (device.thread.isAlive() == false);
+					while (device.isRunning() == false);
+//					while (device.thread.isAlive() == false);
 				}
 			}
 
-			isThreaded  = true;
+			isThreaded = true;
 
 			thread.start();
-			while (thread.isAlive() == false);
+			while(isRunning() == false);
+//			while (thread.isAlive() == false);
 
 //			ProjectLogger.logDeviceActivity(false, "Running", this);
 			logger.info("Running "+this.getClass().toString()+" in "+thread.getName());
@@ -111,7 +113,8 @@ public class Device implements IDevice, Runnable
 	public void run()
 	{
 	    isRunning = true;
-		while ( ! thread.isInterrupted() && isThreaded == true)
+//		while ( ! thread.isInterrupted() && isThreaded == true)
+	    while (isThreaded == true)
 		{
 			update();
 			
@@ -137,12 +140,13 @@ public class Device implements IDevice, Runnable
 	}
 	public synchronized void shutdown()
 	{
-		isThreaded = false;
+		setThreaded(false);
+		while( isRunning() == true );
         
-		while (isRunning == true)
-		{// wait to exit run thread
-            try { Thread.sleep (10); } catch (Exception e) { }
-		}
+//		while (isRunning == true)
+//		{// wait to exit run thread
+//            try { Thread.sleep (10); } catch (Exception e) { }
+//		}
 		
 //		thread.interrupt();
 //		while (thread.isAlive());
@@ -157,6 +161,7 @@ public class Device implements IDevice, Runnable
 //				device.thread.interrupt();
 //				while (device.thread.isAlive());
 				device.shutdown();
+//				while (device.isRunning() == true);
 			}
 			// empty device list
 			deviceList.clear();
@@ -259,5 +264,8 @@ public class Device implements IDevice, Runnable
 	}
 	public boolean isThreaded() {
 		return isThreaded;
+	}
+	public void setThreaded(boolean isThreaded) {
+		this.isThreaded = isThreaded;
 	}
 }

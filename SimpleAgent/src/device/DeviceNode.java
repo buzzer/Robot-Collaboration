@@ -2,7 +2,6 @@ package device;
 
 import javaclient3.PlayerClient;
 import javaclient3.PlayerException;
-import javaclient3.structures.PlayerConstants;
 import javaclient3.structures.PlayerDevAddr;
 import javaclient3.structures.player.PlayerDeviceDevlist;
 
@@ -84,12 +83,12 @@ public class DeviceNode extends Device {
 			// Requires that above call has internally updated device list already!
 			// Add devices of that client to internal list
 			updateDeviceList(client, host, port);
-			client.setNotThreaded();
+//			client.setNotThreaded();
 
 			// Get the devices available
-			client.requestDataDeliveryMode(PlayerConstants.PLAYER_DATAMODE_PUSH);
+//			client.requestDataDeliveryMode(PlayerConstants.PLAYER_DATAMODE_PULL);
 			// Push requires no sleep time
-			setSleepTime(0);
+//			setSleepTime(0);
 		}
 		catch (PlayerException e)
 		{
@@ -102,16 +101,22 @@ public class DeviceNode extends Device {
 	public void runThreaded()
 	{
 		if (deviceList.size() > 0) {
+			Iterator<PlayerClient> it = playerClientList.iterator();
+			while (it.hasNext()) {
+				
+				PlayerClient pc = it.next();
+				pc.runThreaded(-1, -1); 
+				logger.info("Running "+pc.getClass().getName()+" in " + pc.getName() );
+			}
+			/** Start devices */
 			super.runThreaded();
-//			Iterator<PlayerClient> it = playerClientList.iterator();
-//			while (it.hasNext()) { it.next().runThreaded(-1, -1); }
 		}
 	}
 	@Override
 	protected void update()
 	{
-		Iterator<PlayerClient> it = playerClientList.iterator();
-		while (it.hasNext()) { it.next().readAll(); }
+//		Iterator<PlayerClient> it = playerClientList.iterator();
+//		while (it.hasNext()) { it.next().readAll(); }
 	}
 	/**
 	 * Shutdown robot client and clean up
@@ -119,11 +124,18 @@ public class DeviceNode extends Device {
 	@Override
 	public void shutdown ()
 	{
-		if (isThreaded() == true) {
+//		if (isThreaded() == true) {
+			/** Shutdown devices */
 			super.shutdown();
+
 			Iterator<PlayerClient> it = playerClientList.iterator();
-			while (it.hasNext()) { it.next().close(); }
-		}
+			while (it.hasNext()) {
+				PlayerClient pc = it.next();
+				pc.close();
+				logger.info("Shutdown "+pc.getClass().getName()+" in " + pc.getName() );				
+			}
+			playerClientList.clear();
+//		}
 	}
 	
 	/**
