@@ -67,8 +67,16 @@ Approach
 Concept
 \end_layout
 
+\begin_layout Itemize
+Architecture image
+\end_layout
+
 \begin_layout Section
 Implementation
+\end_layout
+
+\begin_layout Itemize
+Class diagram
 \end_layout
 
 \begin_layout Section
@@ -77,6 +85,10 @@ Examples
 
 \begin_layout Section
 Evaluation
+\end_layout
+
+\begin_layout Itemize
+re-usability
 \end_layout
 
 \end_body

@@ -67,12 +67,88 @@ State of the Art
 Multi-Robot System
 \end_layout
 
+\begin_layout Itemize
+PlayerStage
+\end_layout
+
+\begin_layout Itemize
+ROS
+\end_layout
+
+\begin_layout Itemize
+What does 'Multi-Robot' mean? Is it appropriate?
+\end_layout
+
 \begin_layout Section
 Multi-Agent System
 \end_layout
 
+\begin_layout Itemize
+Jadex
+\end_layout
+
 \begin_layout Section
 Middleware
+\end_layout
+
+\begin_layout Itemize
+Link between separate software applications
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://en.wikipedia.org/wiki/Middleware
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Distribution
+\end_layout
+
+\begin_layout Itemize
+Communication/Localization
+\end_layout
+
+\begin_layout Itemize
+Network independence
+\end_layout
+
+\begin_layout Itemize
+Reliability
+\end_layout
+
+\begin_layout Itemize
+Services
+\end_layout
+
+\begin_layout Itemize
+Multiple processes
+\end_layout
+
+\begin_layout Itemize
+XML, SOAP, service-oriented architecture.
+\end_layout
+
+\begin_layout Itemize
+different operating systems
+\end_layout
+
+\begin_layout Itemize
+Architecture image
 \end_layout
 
 \begin_layout Section
