@@ -91,5 +91,25 @@ Evaluation
 re-usability
 \end_layout
 
+\begin_layout Itemize
+augmented reality
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Stage as GUI
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+What is the usage of it?
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
