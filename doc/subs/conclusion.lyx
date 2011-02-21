@@ -1,5 +1,5 @@
-#LyX 2.0.0beta2 created this file. For more info see http://www.lyx.org/
-\lyxformat 410
+#LyX 2.0.0beta4 created this file. For more info see http://www.lyx.org/
+\lyxformat 412
 \begin_document
 \begin_header
 \textclass scrbook
@@ -7,6 +7,7 @@
 \master /Users/sebastian/robotcolla/doc/main_d.lyx
 \maintain_unincluded_children false
 \language english
+\language_package default
 \inputencoding auto
 \fontencoding global
 \font_roman default
@@ -71,5 +72,16 @@ Future Enhancements
 Outlook
 \end_layout
 
+\begin_layout Itemize
+Communication protocol
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+e.g.
+ FIPA contract net
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
