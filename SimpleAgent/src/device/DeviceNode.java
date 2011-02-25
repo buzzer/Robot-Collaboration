@@ -113,8 +113,9 @@ public class DeviceNode extends Device {
 		Iterator<PlayerClient> it = playerClientList.iterator();
         try {
             while (it.hasNext()) { it.next().readAll(); }
-        } catch (Exception e) {
-            logger.severe("Failed reading PlayerClient");
+        } catch (PlayerException e) {
+            logger.severe("Failed reading PlayerClient, shutting down");
+            super.shutdown();
         }
 	}
 	/**

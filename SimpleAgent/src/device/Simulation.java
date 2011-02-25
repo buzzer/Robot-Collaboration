@@ -10,6 +10,7 @@ import java.util.concurrent.*;
 
 import javaclient3.structures.PlayerPose;
 import javaclient3.structures.simulation.PlayerSimulationPose2dReq;
+import javaclient3.PlayerException;
 import javaclient3.SimulationInterface;
 
 /**
@@ -27,7 +28,6 @@ public class Simulation extends RobotDevice {
 		super();
 	}
 	
-	// Singleton
 	protected Simulation(DeviceNode roboClient, Device device)
 	{
 		super(roboClient, device);
@@ -62,45 +62,45 @@ public class Simulation extends RobotDevice {
 	// TODO Currently only 'static' objects should be modified
 	@Override protected void update ()
 	{
-		Set<Entry<String,Position>> set = objList.entrySet();
-		Iterator<Entry<String, Position>> i = set.iterator();
-		while(i.hasNext())
+		try
 		{
-			Map.Entry<String, Position> me = (Map.Entry<String, Position>)i.next();
-			String key = (String)me.getKey();
-			
-			if (isDirtyList.get(key) != null && isDirtyList.get(key) == true)
+			Set<Entry<String,Position>> set = objList.entrySet();
+			Iterator<Entry<String, Position>> i = set.iterator();
+			while(i.hasNext())
 			{
-				isDirtyList.put(key, false);
-				Position pos = (Position)me.getValue();
-				PlayerPose pp = new PlayerPose(pos.getX(), pos.getY(), pos.getYaw());
-				
-				((SimulationInterface) device).set2DPose(key, pp);
-			}
-			else
-			{
-			    try {
-			        ((SimulationInterface) device).get2DPose (key);
-			    } catch (Exception e) {
-			        getLogger().severe("Failed reading 2d position");
-			    }
-								
-				if (((SimulationInterface) device).isPose2DReady())
+				Map.Entry<String, Position> me = (Map.Entry<String, Position>)i.next();
+				String key = (String)me.getKey();
+
+				if (isDirtyList.get(key) != null && isDirtyList.get(key) == true)
 				{
-					PlayerSimulationPose2dReq pose = ((SimulationInterface) device).getSimulationPose2D();
-					PlayerPose pPose = pose.getPose();
-					if (pPose != null) {
-						Position curPose = new Position(
-								pPose.getPx(),
-								pPose.getPy(),
-								pPose.getPa());
-						objList.put(key, curPose);
+					isDirtyList.put(key, false);
+					Position pos = (Position)me.getValue();
+					PlayerPose pp = new PlayerPose(pos.getX(), pos.getY(), pos.getYaw());
+
+					((SimulationInterface) device).set2DPose(key, pp);
+				}
+				else
+				{
+					((SimulationInterface) device).get2DPose (key);
+
+					if (((SimulationInterface) device).isPose2DReady())
+					{
+						PlayerSimulationPose2dReq pose = ((SimulationInterface) device).getSimulationPose2D();
+						PlayerPose pPose = pose.getPose();
+						if (pPose != null) {
+							Position curPose = new Position(
+									pPose.getPx(),
+									pPose.getPy(),
+									pPose.getPa());
+							objList.put(key, curPose);
+						}
+
 					}
-					
 				}
 			}
-//			/** Wait for simulation sync before updating a new object */
-//			try { Thread.sleep(50); } catch (InterruptedException e) { thread.interrupt(); }
+		} catch (PlayerException e) {
+			getLogger().severe("Failed reading 2d position, shutting down");
+			shutdown();
 		}
 	}
 
