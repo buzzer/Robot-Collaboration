@@ -1,12 +1,15 @@
 package jadex.tools;
 
 import jadex.agent.ConsoleAgent;
+import jadex.bridge.IComponentChangeEvent;
 import jadex.bridge.IComponentListener;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.SGUI;
+import jadex.commons.IFilter;
+import jadex.commons.future.IFuture;
+import jadex.commons.gui.SGUI;
 import jadex.micro.IMicroExternalAccess;
 
 import java.awt.BorderLayout;
@@ -47,12 +50,12 @@ public class MessagePanel extends JPanel
 		final JScrollPane main = new JScrollPane(ta);
 		
 		/** Register message service */
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				ConsoleAgent ca = (ConsoleAgent)ia;
-				ca.getMessageService().addChangeListener(new IChangeListener()
+				ca.getMessageService().addChangeListener(new IChangeListener<Void>()
 				{
 					public void changeOccurred(ChangeEvent event)
 					{
@@ -69,12 +72,12 @@ public class MessagePanel extends JPanel
 		});
 
 		/** Register to HelloService */
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
-				ca.getHelloService().addChangeListener(new IChangeListener()
+				ca.getHelloService().addChangeListener(new IChangeListener<Void>()
 				{
 					public void changeOccurred(ChangeEvent event)
 					{
@@ -91,12 +94,12 @@ public class MessagePanel extends JPanel
 		});
 		
 		/** Register to Position update service */
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
-				ca.getSendPositionService().addChangeListener(new IChangeListener()
+				ca.getSendPositionService().addChangeListener(new IChangeListener<Void>()
 				{
 					public void changeOccurred(ChangeEvent event)
 					{
@@ -113,12 +116,12 @@ public class MessagePanel extends JPanel
 		});
 		
 		/** Register to goal reached service */
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
-				ca.getGoalReachedService().addChangeListener(new IChangeListener()
+				ca.getGoalReachedService().addChangeListener(new IChangeListener<Void>()
 				{
 					public void changeOccurred(ChangeEvent event)
 					{
@@ -135,12 +138,12 @@ public class MessagePanel extends JPanel
 		});
 		
 		/** Register new goal event callback */
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
-				ca.getReceiveNewGoalService().addChangeListener(new IChangeListener()
+				ca.getReceiveNewGoalService().addChangeListener(new IChangeListener<Void>()
 				{
 					public void changeOccurred(ChangeEvent event)
 					{
@@ -166,9 +169,9 @@ public class MessagePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				agent.scheduleStep(new IComponentStep()
+				agent.scheduleStep(new IComponentStep<Void>()
 				{
-					public Object execute(IInternalAccess ia)
+					public IFuture<Void> execute(IInternalAccess ia)
 					{
 						ConsoleAgent ca = (ConsoleAgent)ia;
 						ca.getMessageService().tell(""+agent.getComponentIdentifier(), tf.getText());
@@ -204,19 +207,31 @@ public class MessagePanel extends JPanel
 			}
 		});
 		
-		agent.scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				ia.addComponentListener(new IComponentListener()
 				{
-					public void componentTerminating(ChangeEvent ce)
-					{
-					}
+//					public void componentTerminating(ChangeEvent ce)
+//					{
+//					}
 					
-					public void componentTerminated(ChangeEvent ce)
-					{
-						f.setVisible(false);
+//					public void componentTerminated(ChangeEvent ce)
+//					{
+//						f.setVisible(false);
+//					}
+
+					@Override
+					public IFilter getFilter() {
+						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public IFuture<Void> eventOccured(IComponentChangeEvent cce) {
+						// TODO Auto-generated method stub
+						return null;
 					}
 				});
 				return null;

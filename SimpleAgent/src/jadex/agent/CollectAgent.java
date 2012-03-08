@@ -17,16 +17,34 @@ import device.external.IDevice;
 import device.external.IGripperListener;
 import device.external.ILocalizeListener;
 import device.external.IPlannerListener;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
 import jadex.bridge.*;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
 
-import jadex.micro.MicroAgentMetaInfo;
+import jadex.micro.annotation.*;
+import jadex.micro.annotation.Argument;
 import jadex.service.GoalReachedService;
 import jadex.service.HelloService;
+import jadex.service.IReceiveNewGoalService;
 import jadex.service.ReceiveNewGoalService;
 import jadex.service.SendPositionService;
 
+/**
+ * @author sebastian
+ * 
+ */
+
+@Agent
+@Arguments(
+{
+		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
+		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
+		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "blob", description = "color", clazz = String.class, defaultvalue = "green") })
+@ProvidedServices(@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)))
 public class CollectAgent extends NavAgent
 {
     /** Data */
@@ -36,9 +54,12 @@ public class CollectAgent extends NavAgent
     Position depotPose;
     boolean permitGripperOpen = false;
     boolean objectInGripper = false;
+    @Agent
     CollectAgent agent;
 
-	@Override public void agentCreated()
+    @AgentCreated
+    public IFuture<Void> agentCreated()
+	//@Override public void agentCreated()
 	{
 		agent = this;
 	    hs = new HelloService(getExternalAccess());
@@ -104,6 +125,7 @@ public class CollectAgent extends NavAgent
         sendHello();
 		
 		bb = new Board();
+		return IFuture.DONE;
 	}
 	
 	@Override public void executeBody()

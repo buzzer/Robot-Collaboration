@@ -3,16 +3,22 @@ package jadex.service;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.IFuture;
+import jadex.commons.future.DefaultResultListener;
+import jadex.bridge.service.BasicService;
 import jadex.micro.IMicroExternalAccess;
+import jadex.micro.annotation.Binding;
+import jadex.bridge.service.IServiceIdentifier;
+import jadex.bridge.service.annotation.*;
+import jadex.bridge.service.search.SServiceProvider;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This service sends new goals to agents on the network.
@@ -20,8 +26,10 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class GoalReachedService extends BasicService implements IGoalReachedService {
-
+@Service
+public class GoalReachedService extends BasicService implements IGoalReachedService
+//public class GoalReachedService implements IGoalReachedService
+{
 //-------- attributes --------
 	
 	/** The agent. */
@@ -51,13 +59,14 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 	 *  @param robotName The text.
 	 *  @param obj The goal reached.
 	 */
-	public void send(final String name, final String robotName, final Object obj)
+	public IFuture<Void> send(final String name, final String robotName, final Object obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()
 		{
+			@Override
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{
@@ -69,6 +78,7 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 				}
 			}
 		});
+		return IFuture.DONE;
 	}
 	
 	/**
@@ -110,5 +120,23 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 	public String toString()
 	{
 		return "TestService, "+agent.getComponentIdentifier();
+	}
+
+	@Override
+	public IServiceIdentifier getServiceIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IFuture<Boolean> isValid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getPropertyMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

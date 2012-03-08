@@ -3,10 +3,12 @@ package jadex.service;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.micro.IMicroExternalAccess;
+import jadex.micro.annotation.Binding;
+import jadex.bridge.service.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +24,9 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class SendPositionService extends BasicService implements ISendPositionService {
-
+@Service
+public class SendPositionService extends BasicService implements ISendPositionService
+{
 //-------- attributes --------
 	
 	/** The agent. */
@@ -55,11 +58,12 @@ public class SendPositionService extends BasicService implements ISendPositionSe
 	 */
 	public void send(final String name,final String robotName, final Object obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), ISendPositionService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), ISendPositionService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()
 		{
+			@Override
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{
@@ -85,7 +89,7 @@ public class SendPositionService extends BasicService implements ISendPositionSe
 		IChangeListener[] lis = (IChangeListener[])listeners.toArray(new IChangeListener[0]);
 		for(int i=0; i<lis.length; i++)
 		{
-			lis[i].changeOccurred(new ChangeEvent(this, null, new Object[]{name, robotName, obj}));
+			lis[i].changeOccurred(new ChangeEvent<Object[]>(this, null, new Object[]{name, robotName, obj}));
 		}
 	}
 	

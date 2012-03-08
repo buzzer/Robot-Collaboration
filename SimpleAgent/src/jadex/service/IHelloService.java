@@ -1,7 +1,6 @@
 package jadex.service;
 
-import jadex.commons.service.IService;
-
+import jadex.bridge.service.IService;
 
 /**
  *  Service can receive chat messages.

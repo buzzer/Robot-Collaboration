@@ -3,15 +3,15 @@ package jadex.agent;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
-import jadex.bridge.*;
-import jadex.commons.ChangeEvent;
-import jadex.commons.IChangeListener;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
-import jadex.micro.MicroAgentMetaInfo;
-import jadex.service.GoalReachedService;
-import jadex.service.HelloService;
+import jadex.micro.annotation.*;
+import jadex.service.IReceiveNewGoalService;
 import jadex.service.ReceiveNewGoalService;
-import jadex.service.SendPositionService;
+import jadex.bridge.IComponentStep;
+import jadex.bridge.IInternalAccess;
+
 import data.Host;
 import data.Position;
 import device.Device;
@@ -20,39 +20,54 @@ import device.external.IDevice;
 import device.external.ILocalizeListener;
 import device.external.IPlannerListener;
 import robot.NavRobot;
+import jadex.service.*;
 
-public class NavAgent extends MicroAgent
+/**
+ * @author sebastian
+ * 
+ */
+@Description("This agent starts up a navigation agent.")
+@Agent
+@Arguments
+({
+		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
+		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
+		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "devIndex", description = "Device index", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "Angle", description = "Degree", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
+		@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true")
+})
+
+@ProvidedServices
+({
+		@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)),
+		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
+		@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
+		@ProvidedService(type = IGoalReachedService.class, implementation = @Implementation(GoalReachedService.class))
+})
+
+public class NavAgent
 {
+	@Agent
+	MicroAgent agent;
 	/** Logging support */
     static Logger logger = Logger.getLogger (NavAgent.class.getName ());
-
-	/** Services */
-	HelloService hs;
-	SendPositionService ps;
-	ReceiveNewGoalService gs;
-	GoalReachedService gr;
 	
 	DeviceNode deviceNode = null;
 	NavRobot robot = null;
-		
-	@Override public void agentCreated()
+	
+	@AgentCreated
+	public IFuture<Void> agentCreated()
 	{
-		hs = new HelloService(getExternalAccess());
-		ps = new SendPositionService(getExternalAccess());
-		gs = new ReceiveNewGoalService(getExternalAccess());
-		gr = new GoalReachedService(getExternalAccess());
-
-		addDirectService(hs);
-		addDirectService(ps);
-		addDirectService(gs);
-		addDirectService(gr);
-
-		String host = (String)getArgument("host");
-		Integer port = (Integer)getArgument("port");
-        Integer robotIdx = (Integer)getArgument("robId");
-        Boolean hasLaser = (Boolean)getArgument("laser");
-        Boolean hasSimu = (Boolean)getArgument("simulation");
-        Integer devIdx = (Integer)getArgument("devIndex");
+		String host = (String)agent.getArgument("host");
+		Integer port = (Integer)agent.getArgument("port");
+        Integer robotIdx = (Integer)agent.getArgument("robId");
+        Boolean hasLaser = (Boolean)agent.getArgument("laser");
+        Boolean hasSimu = (Boolean)agent.getArgument("simulation");
+        Integer devIdx = (Integer)agent.getArgument("devIndex");
 
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -84,44 +99,49 @@ public class NavAgent extends MicroAgent
 		 *  Check if a particular position is set
 		 */
 		Position setPose = new Position(
-                (Double)getArgument("X"),
-                (Double)getArgument("Y"),
-                (Double)getArgument("Angle"));
+                (Double)agent.getArgument("X"),
+                (Double)agent.getArgument("Y"),
+                (Double)agent.getArgument("Angle"));
 		
 		if ( setPose.equals(new Position(0,0,0)) == false )
 		    robot.setPosition(setPose);		    
 
 		sendHello();
+		return IFuture.DONE;
 	}
 	
 	void sendHello()
 	{
-		hs.send(""+getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
-		logger.fine(""+getComponentIdentifier()+" sending hello");
+		//hs.send(""+getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
+		HelloService.send(""+agent.getExternalAccess(), robot.getRobotId(), robot.getClass().getName());
+		logger.fine(""+agent.getExternalAccess()+" sending hello");
 	}
 
 	protected void sendPosition(Position newPose)
 	{
 	    if (newPose != null)
 	    {
-    		ps.send(""+getComponentIdentifier(), robot.getRobotId(), newPose);
-    		logger.finest(""+getComponentIdentifier()+" sending position "+newPose);
+    		//ps.send(""+getComponentIdentifier(), robot.getRobotId(), newPose);
+	    	this.getSendPositionService.send(""+agent.getExternalAccess(), robot.getRobotId(), newPose);
+    		logger.finest(""+agent.getExternalAccess()+" sending position "+newPose);
 	    }
 	}
-	
-	@Override public void executeBody()
+	@AgentBody
+	public IFuture<Void> executeBody()
+	//@Override public void executeBody()
 	{
 		/** Agent is worthless if underlying robot or devices fail */
 		if (robot == null || deviceNode == null) {
-			killAgent();
+			//TODO
+//			killAgent();
 		}
 		
 		/**
 		 *  Register planner callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				if (robot.getPlanner() != null) /** Does it have a planner? */
 				{
@@ -154,7 +174,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register localizer callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public Object execute(IInternalAccess ia)
 			{
@@ -198,7 +218,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register new goal event callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public Object execute(IInternalAccess ia)
 			{
@@ -230,7 +250,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register to HelloService
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public Object execute(IInternalAccess ia)
 			{
@@ -256,9 +276,9 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register to Position update service
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep<Void>()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture<Void> execute(IInternalAccess ia)
 			{
 				getSendPositionService().addChangeListener(new IChangeListener()
 				{
@@ -276,40 +296,44 @@ public class NavAgent extends MicroAgent
 				});
 				return null;
 			}
+
 		});
+		return new Future<Void>();
 	}
 	
-	@Override public void agentKilled()
+	@AgentKilled
+	public IFuture<Void> agentKilled()
 	{
 	    robot.stop();
 		robot.shutdown();
 		deviceNode.shutdown();
 		
-		hs.send(""+getComponentIdentifier(), ""+robot, "Bye");
-		logger.fine("Bye "+getComponentIdentifier());
+		HelloService.send(""+agent.getExternalAccess(), ""+robot, "Bye");
+		logger.fine("Bye "+agent.getExternalAccess());
+		return IFuture.DONE;
 	}
 	
-	public HelloService getHelloService() { return hs; }
-	public SendPositionService getSendPositionService() { return ps; }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return gs; }
-	public GoalReachedService getGoalReachedService() { return gr; }
-
-	public static MicroAgentMetaInfo getMetaInfo()
+	public IHelloService getHelloService()
 	{
-		IArgument[] args = {
-                new Argument("host", "Player", "String", "localhost"),
-				new Argument("port", "Player", "Integer", new Integer(6665)),
-                new Argument("robId", "Robot identifier", "Integer", new Integer(0)),
-                new Argument("devIndex", "Device index", "Integer", new Integer(0)),
-				new Argument("X", "Meter", "Double", new Double(0.0)),
-				new Argument("Y", "Meter", "Double", new Double(0.0)),
-				new Argument("Angle", "Degree", "Double", new Double(0.0)),
-                new Argument("laser", "Laser ranger", "Boolean", new Boolean(true)),
-                new Argument("simulation", "Simulation device", "Boolean", new Boolean(true))
-		};
-		
-		return new MicroAgentMetaInfo("This agent starts up a navigation agent.", null, args, null);
+		return (IHelloService) (agent.getServiceContainer()
+				.getProvidedServices(IHelloService.class)[0]);
 	}
+	public ISendPositionService getSendPositionService()
+	{
+		return (ISendPositionService) (agent.getServiceContainer()
+				.getProvidedServices(ISendPositionService.class)[0]);
+	}
+	public IReceiveNewGoalService getReceiveNewGoalService()
+	{
+		return (IReceiveNewGoalService) (agent.getServiceContainer()
+				.getProvidedServices(IReceiveNewGoalService.class)[0]);
+	}
+	public IGoalReachedService getGoalReachedService()
+	{
+		return (IGoalReachedService) (agent.getServiceContainer()
+				.getProvidedServices(IGoalReachedService.class)[0]);
+	}
+
 	public Logger getLogger() {
 		return logger;
 	}

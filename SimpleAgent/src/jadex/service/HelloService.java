@@ -1,18 +1,25 @@
 package jadex.service;
 
-import jadex.bridge.IExternalAccess;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.IServiceIdentifier;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.annotation.ServiceStart;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
+import jadex.commons.future.IFuture;
 import jadex.micro.IMicroExternalAccess;
+import jadex.micro.annotation.Binding;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class implements a Hello service.
@@ -24,14 +31,18 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class HelloService extends BasicService implements IHelloService {
+@Service
+public class HelloService implements IHelloService
+{
 
 //-------- attributes --------
 	
 	/** The agent. */
+	@ServiceComponent
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
+	@SuppressWarnings("rawtypes")
 	protected List<IChangeListener> listeners;
 	
 	//-------- constructors --------
@@ -40,10 +51,11 @@ public class HelloService extends BasicService implements IHelloService {
 	 *  Create a new helpline service.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public HelloService(IExternalAccess agent)
+	//public HelloService(IExternalAccess agent)
+	public HelloService()
 	{
-		super(agent.getServiceProvider().getId(), IHelloService.class, null);
-		this.agent = (IMicroExternalAccess)agent;
+//		super(agent.getServiceProvider().getId(), IHelloService.class, null);
+//		this.agent = (IMicroExternalAccess)agent;
 		this.listeners = Collections.synchronizedList(new ArrayList());
 	}
 	
@@ -54,13 +66,15 @@ public class HelloService extends BasicService implements IHelloService {
 	 *  @param robotName The text.
 	 *  @param obj
 	 */
-	public void send(final String name, final String robotName, final String obj)
+//	public static void send(final String name, final String robotName, final String obj)
+	@SuppressWarnings("unchecked")
+	public IFuture<Void> send(final String name, final String robotName, final String obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()
 		{
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{
@@ -72,6 +86,7 @@ public class HelloService extends BasicService implements IHelloService {
 				}
 			}
 		});
+		return IFuture.DONE;
 	}
 	
 	/**
@@ -82,6 +97,7 @@ public class HelloService extends BasicService implements IHelloService {
 	 */
 	public void receive(String name, String robotName, String content)
 	{
+		@SuppressWarnings("rawtypes")
 		IChangeListener[] lis = (IChangeListener[])listeners.toArray(new IChangeListener[0]);
 		for(int i=0; i<lis.length; i++)
 		{
@@ -92,6 +108,7 @@ public class HelloService extends BasicService implements IHelloService {
 	/**
 	 *  Add a change listener.
 	 */
+	@SuppressWarnings("rawtypes")
 	public void addChangeListener(IChangeListener listener)
 	{
 		listeners.add(listener);
@@ -100,6 +117,7 @@ public class HelloService extends BasicService implements IHelloService {
 	/**
 	 *  Remove a change listener.
 	 */
+	@SuppressWarnings("rawtypes")
 	public void removeChangeListener(IChangeListener listener)
 	{
 		listeners.remove(listener);
@@ -112,5 +130,23 @@ public class HelloService extends BasicService implements IHelloService {
 	public String toString()
 	{
 		return "HelloService, "+agent.getComponentIdentifier();
+	}
+
+	@Override
+	public IServiceIdentifier getServiceIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IFuture<Boolean> isValid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getPropertyMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

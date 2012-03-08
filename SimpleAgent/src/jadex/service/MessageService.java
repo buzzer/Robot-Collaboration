@@ -3,10 +3,11 @@ package jadex.service;
 import jadex.bridge.IExternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.micro.IMicroExternalAccess;
+import jadex.micro.annotation.Binding;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,10 +49,10 @@ public class MessageService extends BasicService implements IMessageService
 	 */
 	public void tell(final String name, final String text)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IMessageService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IMessageService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()
 		{
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{

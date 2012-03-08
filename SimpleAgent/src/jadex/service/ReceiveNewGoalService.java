@@ -1,11 +1,19 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
+import jadex.bridge.IInternalAccess;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.IServiceIdentifier;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.annotation.ServiceStart;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
 import jadex.micro.IMicroExternalAccess;
 
 import java.util.ArrayList;
@@ -13,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This service sends new goals to agents on the network.
@@ -20,12 +29,17 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class ReceiveNewGoalService extends BasicService implements IReceiveNewGoalService {
+@Service
+public class ReceiveNewGoalService extends BasicService implements IReceiveNewGoalService
+{
 
 //-------- attributes --------
 	
-	/** The agent. */
-	protected IMicroExternalAccess agent;
+
+	
+
+	@ServiceComponent
+	IExternalAccess agent;
 	
 	/** The listeners. */
 	@SuppressWarnings("rawtypes")
@@ -51,13 +65,15 @@ public class ReceiveNewGoalService extends BasicService implements IReceiveNewGo
 	 *  @param robotName The robot name.
 	 *  @param obj A new goal.
 	 */
-	public void send(final String name, final String robotName, final Object obj)
+	public static void send(IExternalAccess agent, final String name, final String robotName, final Object obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IReceiveNewGoalService.class, true, true)
+		
+		SServiceProvider.getServices(agent.getServiceProvider(), IReceiveNewGoalService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{
@@ -112,4 +128,24 @@ public class ReceiveNewGoalService extends BasicService implements IReceiveNewGo
 	{
 		return "TestService, "+agent.getComponentIdentifier();
 	}
+
+	@Override
+	public IServiceIdentifier getServiceIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IFuture<Boolean> isValid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getPropertyMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
 }
