@@ -39,7 +39,7 @@ public class HelloService implements IHelloService
 	
 	/** The agent. */
 	@ServiceComponent
-	protected IMicroExternalAccess agent;
+	protected static IMicroExternalAccess agent;
 	
 	/** The listeners. */
 	@SuppressWarnings("rawtypes")
@@ -68,7 +68,7 @@ public class HelloService implements IHelloService
 	 */
 //	public static void send(final String name, final String robotName, final String obj)
 	@SuppressWarnings("unchecked")
-	public IFuture<Void> send(final String name, final String robotName, final String obj)
+	public static IFuture<Void> send(final String name, final String robotName, final String obj)
 	{
 		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()

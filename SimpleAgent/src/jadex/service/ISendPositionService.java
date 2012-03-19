@@ -1,6 +1,7 @@
 package jadex.service;
 
 import jadex.bridge.service.IService;
+import data.Position;
 
 
 /**
@@ -15,5 +16,6 @@ public interface ISendPositionService extends IService
 	 *  @param content The @see Position.
 	 */
 	public void receive(String name, String robotName, Object content);
-		
+	public void send(String name, String robotName, Position content);
+	
 }

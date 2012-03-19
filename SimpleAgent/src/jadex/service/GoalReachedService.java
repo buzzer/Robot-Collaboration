@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import data.Position;
+
 /**
  * This service sends new goals to agents on the network.
  * No sending is required of participating agents.
@@ -59,7 +61,7 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 	 *  @param robotName The text.
 	 *  @param obj The goal reached.
 	 */
-	public IFuture<Void> send(final String name, final String robotName, final Object obj)
+	public IFuture<Void> send(final String name, final String robotName, final Position obj)
 	{
 		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class, Binding.SCOPE_GLOBAL)
 			.addResultListener(new DefaultResultListener()

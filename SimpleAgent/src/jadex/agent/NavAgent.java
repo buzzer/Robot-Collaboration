@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
+import jadex.commons.IChangeListener;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.*;
 import jadex.service.IReceiveNewGoalService;
@@ -122,7 +123,7 @@ public class NavAgent
 	    if (newPose != null)
 	    {
     		//ps.send(""+getComponentIdentifier(), robot.getRobotId(), newPose);
-	    	this.getSendPositionService.send(""+agent.getExternalAccess(), robot.getRobotId(), newPose);
+	    	getSendPositionService().send(""+agent.getExternalAccess(), robot.getRobotId(), newPose);
     		logger.finest(""+agent.getExternalAccess()+" sending position "+newPose);
 	    }
 	}
@@ -149,7 +150,8 @@ public class NavAgent
 					{
 						@Override public void callWhenIsDone()
 						{
-							gr.send(""+getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
+//							GoalReachedService.send(""+getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
+							GoalReachedService.send(""+agent.getExternalAccess(), ""+robot,robot.getPlanner().getGoal());
 
 							logger.fine(""+getComponentIdentifier()+" "+robot+" reached goal "+robot.getPlanner().getGoal());
 						}
@@ -176,7 +178,7 @@ public class NavAgent
 		 */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				if (robot.getLocalizer() != null) /** Does it have a localizer? */
 				{
@@ -199,7 +201,7 @@ public class NavAgent
 			         */
 			        final IComponentStep step = new IComponentStep()
 			        {
-			            public Object execute(IInternalAccess ia)
+			            public IFuture execute(IInternalAccess ia)
 			            {
 			                Position curPose = robot.getPosition();
 			                sendPosition(curPose);

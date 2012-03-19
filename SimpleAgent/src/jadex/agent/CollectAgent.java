@@ -62,22 +62,22 @@ public class CollectAgent extends NavAgent
 	//@Override public void agentCreated()
 	{
 		agent = this;
-	    hs = new HelloService(getExternalAccess());
-        ps = new SendPositionService(getExternalAccess());
-        gs = new ReceiveNewGoalService(getExternalAccess());
-        gr = new GoalReachedService(getExternalAccess());
-
-        addDirectService(hs);
-        addDirectService(ps);
-        addDirectService(gs);
-        addDirectService(gr);
-
-        String host = (String)getArgument("host");
-        Integer port = (Integer)getArgument("port");
-        Integer robotIdx = (Integer)getArgument("robId");
-        Boolean hasLaser = (Boolean)getArgument("laser");
-        Boolean hasSimu = (Boolean)getArgument("simulation");
-        Integer devIdx = (Integer)getArgument("devIndex");
+//	    hs = new HelloService(getExternalAccess());
+//        ps = new SendPositionService(getExternalAccess());
+//        gs = new ReceiveNewGoalService(getExternalAccess());
+//        gr = new GoalReachedService(getExternalAccess());
+//
+//        addDirectService(hs);
+//        addDirectService(ps);
+//        addDirectService(gs);
+//        addDirectService(gr);
+//
+//        String host = (String)getArgument("host");
+//        Integer port = (Integer)getArgument("port");
+//        Integer robotIdx = (Integer)getArgument("robId");
+//        Boolean hasLaser = (Boolean)getArgument("laser");
+//        Boolean hasSimu = (Boolean)getArgument("simulation");
+//        Integer devIdx = (Integer)getArgument("devIndex");
 
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
