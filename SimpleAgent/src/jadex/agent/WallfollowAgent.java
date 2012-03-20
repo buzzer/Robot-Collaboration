@@ -120,7 +120,9 @@ public class WallfollowAgent extends MicroAgent
 
     void sendHello()
     {
-        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
+//        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
+        HelloService.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName(), getExternalAccess());
+
     }
 
     void sendPosition(Position newPose)
@@ -243,10 +245,12 @@ public class WallfollowAgent extends MicroAgent
         robot.shutdown();
         deviceNode.shutdown();
 
-        getHelloService().send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
+//        getHelloService().send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
+        HelloService.send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye", getExternalAccess());
         return IFuture.DONE;
     }
 
+    //TODO move send from service to agent
     public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
     public SendPositionService getSendPositionService() {return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
 
