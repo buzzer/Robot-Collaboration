@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- <H3> Dispers scenario </H3> Starts the dispers scenario. -->
-<applicationtype xmlns="http://jadex.sourceforge.net/jadex-application"
+<applicationtype xmlns="http://jadex.sourceforge.net/jadex"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jadex.sourceforge.net/jadex-application
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 						http://jadex.sourceforge.net/jadex-application-2.0.xsd"
 	name="Dispersion" package="jadex.scenario">
 
@@ -29,9 +29,9 @@
 			master="true" />
 	</componenttypes>
 
-	<applications>
+	<configurations>
 
-		<application name="All available robots, Tams floor">
+		<configuration name="All available robots, Tams floor">
 			<components>
 				<component type="Dispersion0" name="Dispersion0">
 					<arguments>
@@ -39,9 +39,9 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 		
-		<application name="3 Robots, Tams floor, real">
+		<configuration name="3 Robots, Tams floor, real">
 			<components>
 				<component type="Nav3" name="Nav3">
 					<arguments>
@@ -70,9 +70,9 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="3 Robots, Tams floor, virtual">
+		<configuration name="3 Robots, Tams floor, virtual">
 			<components>
 				<component type="Nav0" name="Nav0">
 					<arguments>
@@ -101,9 +101,9 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="6 Robots, Tams floor, mixed">
+		<configuration name="6 Robots, Tams floor, mixed">
 			<components>
 				<component type="Nav0" name="Nav0">
 					<arguments>
@@ -153,9 +153,9 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 
-	</applications>
+	</configurations>
 
 </applicationtype>
 

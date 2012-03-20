@@ -38,8 +38,8 @@ import device.external.ILocalizeListener;
  */
 @Agent
 @Arguments({
-	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
-	@Argument(name="port", description="Player", clazz=String.class, defaultvalue="player"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
+	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6665"),
 	@Argument(name="robID", description="Robot identifier", clazz=Integer.class, defaultvalue="0"),
 	@Argument(name="devIndex", description="Device index", clazz=Integer.class, defaultvalue="0"),
 	@Argument(name="X", description="Meter", clazz=Double.class, defaultvalue="0.0"),
@@ -65,15 +65,35 @@ public class WallfollowAgent extends MicroAgent
 
         
         String host = (String)getArgument("host");
+        
         Integer port = (Integer)getArgument("port");
-        Integer robotIdx = (Integer)getArgument("robId");
+        Integer robotIdx = (Integer)getArgument("robID");
         Integer devIdx = (Integer)getArgument("devIndex");
         Boolean hasLaser = (Boolean)getArgument("laser");
         Boolean hasLocalize = (Boolean)getArgument("localize");
-
+        if(port==null)
+        {
+        	port=0;
+        }
+        if(robotIdx==null)
+        {
+        	robotIdx=0;
+        }
+        if(devIdx==null)
+        {
+        	devIdx=0;
+        }
+        
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
-        devList.add( new Device(IDevice.DEVICE_POSITION2D_CODE,host,port,devIdx) );
+        try{
+        	Device d=new Device(IDevice.DEVICE_POSITION2D_CODE,host,port,devIdx);
+        devList.add(d);
+        }
+        catch(Exception e)
+        {
+        	e.printStackTrace();
+        }
         devList.add( new Device(IDevice.DEVICE_RANGER_CODE,host,port,devIdx) );
         devList.add( new Device(IDevice.DEVICE_SONAR_CODE,host,port,devIdx));
         devList.add( new Device(IDevice.DEVICE_SIMULATION_CODE,host,port,-1) );
@@ -120,9 +140,7 @@ public class WallfollowAgent extends MicroAgent
 
     void sendHello()
     {
-//        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
-        HelloService.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName(), getExternalAccess());
-
+        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
     }
 
     void sendPosition(Position newPose)
@@ -245,12 +263,10 @@ public class WallfollowAgent extends MicroAgent
         robot.shutdown();
         deviceNode.shutdown();
 
-//        getHelloService().send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
-        HelloService.send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye", getExternalAccess());
+        getHelloService().send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
         return IFuture.DONE;
     }
 
-    //TODO move send from service to agent
     public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
     public SendPositionService getSendPositionService() {return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
 

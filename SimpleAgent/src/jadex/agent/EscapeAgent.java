@@ -33,7 +33,7 @@ import device.external.ILocalizeListener;
 	@Argument(name="X", description="Meter", clazz=Double.class, defaultvalue="0.0"),
 	@Argument(name="devIndex", description="Device Index", clazz=Integer.class, defaultvalue="0"),
 	@Argument(name="robId", description="Robot identifier", clazz=Integer.class, defaultvalue="0"),
-	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
 	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6665")
 })
 public class EscapeAgent extends WallfollowAgent

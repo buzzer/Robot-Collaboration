@@ -59,7 +59,7 @@ public class HelloService implements IHelloService {
 	 *  @param robotName The text.
 	 *  @param obj
 	 */
-	public static void send(final String name, final String robotName, final String obj, IExternalAccess agent)
+	public void send(final String name, final String robotName, final String obj)
 	{
 		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()

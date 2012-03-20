@@ -73,6 +73,11 @@ public class Device implements IDevice, Runnable
 		this.port = port;
 		this.index = index;
 	}
+	
+	public Device(int a)
+	{
+		System.out.println("Konstruktor kaputt");
+	}
 	/**
 	 * Creates a device with the given properties.
 	 * @param device A device template to create a new device

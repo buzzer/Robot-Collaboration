@@ -40,12 +40,12 @@ import device.external.IDevice;
 	@Argument(name="Y", description="Meter", clazz=Double.class, defaultvalue="0.0"),
 	@Argument(name="Angle", description="Degree", clazz=Double.class, defaultvalue="0.0")
 	})
-@ProvidedServices({ 
-	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
-	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class)),
-	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)),
-	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))
-})
+//@ProvidedServices({ 
+//	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
+//	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class)),
+//	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)),
+//	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))
+//})
 public class SwarmAgent extends NavAgent
 {
     @Override public IFuture agentCreated()

@@ -47,8 +47,8 @@ import device.external.IDevice;
 {
 	
 	
-		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
-		@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
+//		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
+//		@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
 		@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)) })
 public class ExploreAgent extends WallfollowAgent
 {
