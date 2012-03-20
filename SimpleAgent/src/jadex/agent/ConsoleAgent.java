@@ -1,9 +1,19 @@
 package jadex.agent;
 
+import jadex.commons.future.IFuture;
+import jadex.commons.future.Future;
 import jadex.micro.IMicroExternalAccess;
 import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
 import jadex.service.GoalReachedService;
 import jadex.service.HelloService;
+import jadex.service.IGoalReachedService;
+import jadex.service.IHelloService;
+import jadex.service.IMessageService;
+import jadex.service.IReceiveNewGoalService;
+import jadex.service.ISendPositionService;
 import jadex.service.MessageService;
 import jadex.service.ReceiveNewGoalService;
 import jadex.service.SendPositionService;
@@ -14,36 +24,23 @@ import javax.swing.SwingUtilities;
 /**
  *  Message micro agent. 
  */
+@ProvidedServices({ 
+	@ProvidedService(type=IMessageService.class,implementation=@Implementation(MessageService.class)),
+	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
+	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class)),
+	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)), 
+	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))})
+
 public class ConsoleAgent extends MicroAgent
 {
-	//-------- attributes --------
-	
-	/** The message service. */
-	MessageService ms;
-	/** Other services */
-	HelloService hs;
-	SendPositionService ps;
-	ReceiveNewGoalService gs;
-	GoalReachedService gr;
 
-	//-------- methods --------
 	
 	/**
 	 *  Called once after agent creation.
 	 */
-	public void agentCreated()
+	public IFuture agentCreated()
 	{
-		ms = new MessageService(getExternalAccess());
-		hs = new HelloService(getExternalAccess());
-		ps = new SendPositionService(getExternalAccess());
-		gs = new ReceiveNewGoalService(getExternalAccess());
-		gr = new GoalReachedService(getExternalAccess());
 
-		addDirectService(ms);
-		addDirectService(hs);
-		addDirectService(ps);
-		addDirectService(gs);
-		addDirectService(gr);
 		
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -52,13 +49,15 @@ public class ConsoleAgent extends MicroAgent
 				MessagePanel.createGui((IMicroExternalAccess)getExternalAccess());
 			}
 		});
+		return new Future();
 	}
 	/**
 	 *  Get the services.
 	 */
-	public MessageService getMessageService() { return ms; 	}
-	public HelloService getHelloService() { return hs; }
-	public SendPositionService getSendPositionService() { return ps; }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return gs; }
-	public GoalReachedService getGoalReachedService() { return gr; }	
+	public MessageService getMessageService() { return (MessageService) getServiceContainer().getProvidedServices(MessageService.class)[0]; 	}
+	public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
+	public SendPositionService getSendPositionService() { return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
+	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getServiceContainer().getProvidedServices(ReceiveNewGoalService.class)[0]; }
+	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getServiceContainer().getProvidedServices(GoalReachedService.class)[0]; }
+	
 }

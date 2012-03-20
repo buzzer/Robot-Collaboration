@@ -1,11 +1,14 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
 import jadex.micro.IMicroExternalAccess;
 
 import java.util.ArrayList;
@@ -17,11 +20,13 @@ import java.util.List;
 /**
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class MessageService extends BasicService implements IMessageService
+@Service
+public class MessageService implements IMessageService
 {
 	//-------- attributes --------
 	
 	/** The agent. */
+	@ServiceComponent
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
@@ -32,9 +37,9 @@ public class MessageService extends BasicService implements IMessageService
 	/**
 	 *  Create a new helpline service.
 	 */
-	public MessageService(IExternalAccess agent)
+	public MessageService()
 	{
-		super(agent.getServiceProvider().getId(), IMessageService.class, null);
+		//super(agent.getServiceProvider().getId(), IMessageService.class, null);
 		this.agent = (IMicroExternalAccess)agent;
 		this.listeners = Collections.synchronizedList(new ArrayList());
 	}
@@ -48,10 +53,11 @@ public class MessageService extends BasicService implements IMessageService
 	 */
 	public void tell(final String name, final String text)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IMessageService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IMessageService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			public void resultAvailable(Object source, Object result)
+
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{
@@ -62,6 +68,7 @@ public class MessageService extends BasicService implements IMessageService
 					}
 				}
 			}
+
 		});
 	}
 	

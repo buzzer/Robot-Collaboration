@@ -3,6 +3,24 @@
  */
 package jadex.agent;
 
+import jadex.bridge.IComponentStep;
+import jadex.bridge.IInternalAccess;
+import jadex.commons.ChangeEvent;
+import jadex.commons.IChangeListener;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
+import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.service.HelloService;
+import jadex.service.IHelloService;
+import jadex.service.ISendPositionService;
+import jadex.service.SendPositionService;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
@@ -13,40 +31,38 @@ import device.Device;
 import device.DeviceNode;
 import device.external.IDevice;
 import device.external.ILocalizeListener;
-import jadex.bridge.Argument;
-import jadex.bridge.IArgument;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IInternalAccess;
-import jadex.commons.ChangeEvent;
-import jadex.commons.IChangeListener;
-import jadex.micro.MicroAgent;
-import jadex.micro.MicroAgentMetaInfo;
-import jadex.service.HelloService;
-import jadex.service.SendPositionService;
 
 /**
  * @author sebastian
  *
  */
+@Agent
+@Arguments({
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="port", description="Player", clazz=String.class, defaultvalue="player"),
+	@Argument(name="robID", description="Robot identifier", clazz=Integer.class, defaultvalue="0"),
+	@Argument(name="devIndex", description="Device index", clazz=Integer.class, defaultvalue="0"),
+	@Argument(name="X", description="Meter", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="Y", description="Meter", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="Angle", description="Degree", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="laser", description="Laser ranger", clazz=Boolean.class, defaultvalue="true"),
+	@Argument(name="localize", description="Localize device", clazz=Boolean.class, defaultvalue="true")
+	})
+@ProvidedServices({ 
+	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
+	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class))})
 public class WallfollowAgent extends MicroAgent
 {
     /** Logging support */
     Logger logger = Logger.getLogger (WallfollowAgent.class.getName ());
     
-    /** Services */
-    HelloService hs;
-    SendPositionService ps;
 
     DeviceNode deviceNode;
     Pioneer robot;
 
-    @Override public void agentCreated()
+    @Override public IFuture agentCreated()
     {
-        hs = new HelloService(getExternalAccess());
-        ps = new SendPositionService(getExternalAccess());
 
-        addDirectService(hs);
-        addDirectService(ps);
         
         String host = (String)getArgument("host");
         Integer port = (Integer)getArgument("port");
@@ -99,29 +115,30 @@ public class WallfollowAgent extends MicroAgent
             getRobot().setPosition(setPose);         
 
         sendHello();
+        return IFuture.DONE;
     }
 
     void sendHello()
     {
-        hs.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
+        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
     }
 
     void sendPosition(Position newPose)
     {
         if (newPose != null)
         {
-            ps.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), newPose);
+            getSendPositionService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), newPose);
         }
     }
 
-    @Override public void executeBody()
+    @Override public IFuture executeBody()
     {
         /**
          *  Register localizer callback
          */
         scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 if (robot.getLocalizer() != null) /** Does it have a localizer? */
                 {
@@ -140,18 +157,18 @@ public class WallfollowAgent extends MicroAgent
                      */
                     final IComponentStep step = new IComponentStep()
                     {
-                        public Object execute(IInternalAccess ia)
+                        public IFuture execute(IInternalAccess ia)
                         {
                             Position curPose = robot.getPosition();
                             sendPosition(curPose);
                             logger.finest("Sending new pose "+curPose+" for "+robot);
                             waitFor(1000,this);
-                            return null;
+                            return IFuture.DONE;
                         }
                     };
                     waitForTick(step);
                 }
-                return null;
+                return IFuture.DONE;
             }
         });
 
@@ -160,7 +177,7 @@ public class WallfollowAgent extends MicroAgent
          */
         scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 getHelloService().addChangeListener(new IChangeListener()
                 {
@@ -177,7 +194,7 @@ public class WallfollowAgent extends MicroAgent
                         }
                     }
                 });
-                return null;
+                return IFuture.DONE;
             }
         });
 
@@ -186,7 +203,7 @@ public class WallfollowAgent extends MicroAgent
          */
         scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 getSendPositionService().addChangeListener(new IChangeListener()
                 {
@@ -201,7 +218,7 @@ public class WallfollowAgent extends MicroAgent
                         }
                     }
                 });
-                return null;
+                return IFuture.DONE;
             }
         });
 
@@ -210,43 +227,30 @@ public class WallfollowAgent extends MicroAgent
          */
         scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 robot.setWallfollow();
                 robot.runThreaded();
-                return null;
+                return IFuture.DONE;
             }
         });
+    return new Future();
     }
 
-    @Override public void agentKilled()
+    @Override public IFuture agentKilled()
     {    
         robot.stop();
         robot.shutdown();
         deviceNode.shutdown();
 
-        hs.send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
+        getHelloService().send(getComponentIdentifier().toString(), robot.getRobotId(), "Bye");
+        return IFuture.DONE;
     }
 
-    public HelloService getHelloService() { return hs; }
-    public SendPositionService getSendPositionService() { return ps; }
+    public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
+    public SendPositionService getSendPositionService() {return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
 
-    public static MicroAgentMetaInfo getMetaInfo()
-    {
-        IArgument[] args = {
-                new Argument("host", "Player", "String", "localhost"),
-                new Argument("port", "Player", "Integer", new Integer(6665)),
-                new Argument("robId", "Robot identifier", "Integer", new Integer(0)),
-                new Argument("devIndex", "Device index", "Integer", new Integer(0)),
-                new Argument("X", "Meter", "Double", new Double(0.0)),
-                new Argument("Y", "Meter", "Double", new Double(0.0)),
-                new Argument("Angle", "Degree", "Double", new Double(0.0)),
-                new Argument("laser", "Laser ranger", "Boolean", new Boolean(true)),
-                new Argument("localize", "Localize device", "Boolean", new Boolean(true))
-        };
 
-        return new MicroAgentMetaInfo("This agent starts up a wallfollow agent.", null, args, null);
-    }
 
     /**
      * @return the robot

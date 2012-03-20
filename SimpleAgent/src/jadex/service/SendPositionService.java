@@ -1,11 +1,13 @@
 package jadex.service;
 
-import jadex.bridge.IExternalAccess;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.annotation.ServiceStart;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
 import jadex.micro.IMicroExternalAccess;
 
 import java.util.ArrayList;
@@ -22,11 +24,13 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class SendPositionService extends BasicService implements ISendPositionService {
+@Service
+public class SendPositionService implements ISendPositionService {
 
 //-------- attributes --------
 	
 	/** The agent. */
+	@ServiceComponent
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
@@ -39,9 +43,9 @@ public class SendPositionService extends BasicService implements ISendPositionSe
 	 *  Create a new helpline service.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public SendPositionService(IExternalAccess agent)
+	public SendPositionService()
 	{
-		super(agent.getServiceProvider().getId(), ISendPositionService.class, null);
+		//super(agent.getServiceProvider().getId(), ISendPositionService.class, null);
 		this.agent = (IMicroExternalAccess)agent;
 		this.listeners = Collections.synchronizedList(new ArrayList());
 	}
@@ -55,11 +59,11 @@ public class SendPositionService extends BasicService implements ISendPositionSe
 	 */
 	public void send(final String name,final String robotName, final Object obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), ISendPositionService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), ISendPositionService.class,RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			@SuppressWarnings("rawtypes")	
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{

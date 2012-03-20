@@ -1,12 +1,16 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
 import jadex.micro.IMicroExternalAccess;
+import jadex.micro.annotation.RequiredService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,11 +24,13 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class GoalReachedService extends BasicService implements IGoalReachedService {
+@Service
+public class GoalReachedService implements IGoalReachedService {
 
 //-------- attributes --------
 	
 	/** The agent. */
+	@ServiceComponent
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
@@ -37,9 +43,9 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 	 *  Create a new helpline service.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public GoalReachedService(IExternalAccess agent)
+	public GoalReachedService()
 	{
-		super(agent.getServiceProvider().getId(), IGoalReachedService.class, null);
+		//super(agent.getServiceProvider().getId(), IGoalReachedService.class, null);
 		this.agent = (IMicroExternalAccess)agent;
 		this.listeners = Collections.synchronizedList(new ArrayList());
 	}
@@ -53,11 +59,11 @@ public class GoalReachedService extends BasicService implements IGoalReachedServ
 	 */
 	public void send(final String name, final String robotName, final Object obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class,RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{

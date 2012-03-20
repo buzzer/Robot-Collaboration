@@ -3,20 +3,38 @@
  */
 package jadex.agent;
 
-import data.Position;
-import device.external.ILocalizeListener;
-import jadex.bridge.Argument;
-import jadex.bridge.IArgument;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.micro.MicroAgentMetaInfo;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
+import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+import data.Position;
+import device.external.ILocalizeListener;
 
 /**
  * @author sebastian
  *
  */
+@Agent
+@Arguments({
+	@Argument(name="robot",description="To follow", clazz=Integer.class, defaultvalue="0"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6667"),
+	@Argument(name="robId", description="Robot identifier", clazz=Integer.class, defaultvalue="1"),
+	@Argument(name="devIndex", description="Device Index", clazz=Integer.class, defaultvalue="0"),
+	@Argument(name="X", description="Meter", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="Y", description="Meter", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="Angle", description="Degree", clazz=Double.class, defaultvalue="0.0"),
+	@Argument(name="laser", description="Laser ranger", clazz=Boolean.class, defaultvalue="true"),
+	@Argument(name="simulation", description="Simulation device", clazz=Boolean.class, defaultvalue="true"),	
+	@Argument(name="minDistance", description="Meter", clazz=Double.class, defaultvalue="2.0"),
+	@Argument(name="updateInterval", description="ms", clazz=Integer.class, defaultvalue="5000")
+})
 public class FollowAgent extends NavAgent
 {
     Position followPose;
@@ -26,35 +44,38 @@ public class FollowAgent extends NavAgent
     boolean caughtRobot = false;
     long updateInterval;
     double minToGoalDist;
-
+@Agent
+MicroAgent agent;
+    
     /**
      * @see jadex.agent.NavAgent#agentCreated()
      */
-    @Override public void agentCreated()
+    @Override public IFuture agentCreated()
     {
-        super.agentCreated();
-       
+               
         isNewFollowPose = false;
         followPose = getRobot().getPosition();
         robotPose = getRobot().getPosition();
-        folRobot = "r"+(Integer)getArgument("robot");
-        updateInterval = (Integer)getArgument("updateInterval");
-        minToGoalDist = (Double)getArgument("minDistance");
+        folRobot = "r"+(Integer)agent.getArgument("robot");
+        updateInterval = (Integer)agent.getArgument("updateInterval");
+        minToGoalDist = (Double)agent.getArgument("minDistance");
+        super.agentCreated();
+        return IFuture.DONE;
     }
 
     /**
      * @see jadex.agent.NavAgent#executeBody()
      */
-    @Override public void executeBody()
+    @Override public IFuture executeBody()
     {
         super.executeBody();
 
         /**
          *  Register to Position update service
          */
-        scheduleStep(new IComponentStep()
+        agent.scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 getSendPositionService().addChangeListener(new IChangeListener()
                 {
@@ -76,15 +97,15 @@ public class FollowAgent extends NavAgent
                         }
                     }
                 });
-                return null;
+                return IFuture.DONE;
             }
         });
         /**
          *  Register localizer callback
          */
-        scheduleStep(new IComponentStep()
+        agent.scheduleStep(new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 if (getRobot().getLocalizer() != null) /** Does it have a localizer? */
                 {
@@ -103,18 +124,18 @@ public class FollowAgent extends NavAgent
                      */
                     final IComponentStep step = new IComponentStep()
                     {
-                        public Object execute(IInternalAccess ia)
+                        public IFuture execute(IInternalAccess ia)
                         {
                             Position curPose = robot.getPosition();
                             robotPose = curPose;
 
-                            waitFor(1000,this);
-                            return null;
+                            agent.waitFor(1000,this);
+                            return IFuture.DONE;
                         }
                     };
-                    waitForTick(step);
+                    agent.waitForTick(step);
                 }
-                return null;
+                return IFuture.DONE;
             }
         });
         /**
@@ -122,14 +143,15 @@ public class FollowAgent extends NavAgent
          */
         final IComponentStep step = new IComponentStep()
         {
-            public Object execute(IInternalAccess ia)
+            public IFuture execute(IInternalAccess ia)
             {
                 updateGoal();
-                waitFor(updateInterval,this);
-                return null;
+                agent.waitFor(updateInterval,this);
+                return IFuture.DONE;
             }
         };
-        waitForTick(step);
+        agent.waitForTick(step);
+        return new Future();
     }
    
     void updateGoal()
@@ -174,30 +196,12 @@ public class FollowAgent extends NavAgent
     /**
      * @see jadex.agent.NavAgent#agentKilled()
      */
-    @Override public void agentKilled()
+    @Override public IFuture agentKilled()
     {
         super.agentKilled();
+        return IFuture.DONE;
     }
 
-    public static MicroAgentMetaInfo getMetaInfo()
-    {
-        IArgument[] args = {
-                new Argument("robot", "To follow", "Integer", new Integer(0)),
-                new Argument("host", "Player", "String", "localhost"),
-                new Argument("port", "Player", "Integer", new Integer(6667)),
-                new Argument("robId", "Robot identifier", "Integer", new Integer(1)),
-                new Argument("devIndex", "Device index", "Integer", new Integer(0)),
-                new Argument("X", "Meter", "Double", new Double(0.0)),
-                new Argument("Y", "Meter", "Double", new Double(0.0)),
-                new Argument("Angle", "Degree", "Double", new Double(0.0)),
-                new Argument("laser", "Laser ranger", "Boolean", new Boolean(true)),
-                new Argument("simulation", "Simulation device", "Boolean", new Boolean(true)),
-                new Argument("minDistance", "Meter", "Double", new Double(2.0)),
-                new Argument("updateInterval", "ms", "Integer", new Integer(5000))
-        };
-
-        return new MicroAgentMetaInfo("This agent starts up a follow agent.", null, args, null);
-    }
 
     /**
      * @return the followPose

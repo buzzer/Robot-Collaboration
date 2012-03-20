@@ -1,11 +1,10 @@
 package jadex.service;
 
-import jadex.commons.service.IService;
 
 /**
  *  Service can receive chat messages.
  */
-public interface IGoalReachedService extends IService
+public interface IGoalReachedService
 {
 	/**
 	 *  Hear something.

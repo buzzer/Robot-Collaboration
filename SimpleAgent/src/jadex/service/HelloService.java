@@ -1,11 +1,14 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
+import jadex.bridge.service.BasicService;
+import jadex.bridge.service.RequiredServiceInfo;
+import jadex.bridge.service.annotation.Service;
+import jadex.bridge.service.annotation.ServiceComponent;
+import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.concurrent.DefaultResultListener;
-import jadex.commons.service.BasicService;
-import jadex.commons.service.SServiceProvider;
+import jadex.commons.future.DefaultResultListener;
 import jadex.micro.IMicroExternalAccess;
 
 import java.util.ArrayList;
@@ -24,11 +27,13 @@ import java.util.List;
  * @author sebastian
  *
  */
-public class HelloService extends BasicService implements IHelloService {
+@Service
+public class HelloService implements IHelloService {
 
 //-------- attributes --------
 	
 	/** The agent. */
+	@ServiceComponent
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
@@ -40,9 +45,9 @@ public class HelloService extends BasicService implements IHelloService {
 	 *  Create a new helpline service.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public HelloService(IExternalAccess agent)
+	public HelloService()
 	{
-		super(agent.getServiceProvider().getId(), IHelloService.class, null);
+		//super(agent.getServiceProvider().getId(), IHelloService.class, null);
 		this.agent = (IMicroExternalAccess)agent;
 		this.listeners = Collections.synchronizedList(new ArrayList());
 	}
@@ -56,11 +61,11 @@ public class HelloService extends BasicService implements IHelloService {
 	 */
 	public void send(final String name, final String robotName, final String obj)
 	{
-		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, true, true)
+		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
 			@SuppressWarnings("rawtypes")
-			public void resultAvailable(Object source, Object result)
+			public void resultAvailable(Object result)
 			{
 				if(result!=null)
 				{

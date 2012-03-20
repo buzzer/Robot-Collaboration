@@ -1,58 +1,81 @@
 package jadex.agent;
 
+import jadex.bridge.IComponentStep;
+import jadex.bridge.IInternalAccess;
+import jadex.commons.ChangeEvent;
+import jadex.commons.IChangeListener;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
+import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.Implementation;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.service.GoalReachedService;
+import jadex.service.HelloService;
+import jadex.service.IGoalReachedService;
+import jadex.service.IHelloService;
+import jadex.service.IReceiveNewGoalService;
+import jadex.service.ISendPositionService;
+import jadex.service.ReceiveNewGoalService;
+import jadex.service.SendPositionService;
+
 import java.util.logging.Logger;
 
 import data.Board;
 import data.BoardObject;
 import data.Position;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IInternalAccess;
-import jadex.commons.ChangeEvent;
-import jadex.commons.IChangeListener;
-import jadex.micro.*;
-import jadex.service.*;
-
+@Agent
+@ProvidedServices({ 
+	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
+	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class))
+	,@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class))
+	,@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))	
+})
 public class MasterAgent extends MicroAgent
 {
 	/** Logging support */
     static Logger logger = Logger.getLogger (MasterAgent.class.getName ());
-	
-	/** Services */
-	HelloService hs;
-	SendPositionService ps;
-	ReceiveNewGoalService gs;
-	GoalReachedService gr;
-	
+	@Agent
+	MicroAgent agent;
+//	/** Services */
+//	HelloService hs;
+//	SendPositionService ps;
+//	ReceiveNewGoalService gs;
+//	GoalReachedService gr;
+//	
 	/** Blackboard */
 	Board board;
 	
-	@Override public void agentCreated()
+	@Override public IFuture agentCreated()
 	{
 		board = new Board();
 
-		hs = new HelloService(getExternalAccess());
-		ps = new SendPositionService(getExternalAccess());
-		gs = new ReceiveNewGoalService(getExternalAccess());
-		gr = new GoalReachedService(getExternalAccess());
-
-		addDirectService(hs);
-		addDirectService(ps);
-		addDirectService(gs);
-		addDirectService(gr);
+//		hs = new HelloService(getExternalAccess());
+//		ps = new SendPositionService(getExternalAccess());
+//		gs = new ReceiveNewGoalService(getExternalAccess());
+//		gr = new GoalReachedService(getExternalAccess());
+//
+//		addDirectService(hs);
+//		addDirectService(ps);
+//		addDirectService(gs);
+//		addDirectService(gr);
 		
-		hs.send(""+getComponentIdentifier(), "", "Hello");
+		getHelloService().send(""+getComponentIdentifier(), "", "Hello");
 
 		logger.fine(""+getComponentIdentifier()+" sending hello ");
+		return IFuture.DONE;
 	}
 
-	@Override public void executeBody()
+	@Override public IFuture executeBody()
 	{
+		
 		/**
 		 *  Register to HelloService
 		 */
 		scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				getHelloService().addChangeListener(new IChangeListener()
 				{
@@ -76,7 +99,7 @@ public class MasterAgent extends MicroAgent
 						}
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 		
@@ -85,7 +108,7 @@ public class MasterAgent extends MicroAgent
 		 */
 		scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				getSendPositionService().addChangeListener(new IChangeListener()
 				{
@@ -107,7 +130,7 @@ public class MasterAgent extends MicroAgent
 						logger.finer(""+getComponentIdentifier()+" receiving "+buf);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 		
@@ -116,7 +139,7 @@ public class MasterAgent extends MicroAgent
 		 */
 		scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				getGoalReachedService().addChangeListener(new IChangeListener()
 				{
@@ -138,9 +161,11 @@ public class MasterAgent extends MicroAgent
 						
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
+		
+		return new Future();
 		
 //		/**
 //		 * Request all robot agents.
@@ -177,33 +202,38 @@ public class MasterAgent extends MicroAgent
 //			}
 //		};
 //		waitForTick(step);
+	
+	
 	}
+	
+	
 	public void pingAllAgents()
 	{
 		getHelloService().send(""+getComponentIdentifier(), "", "ping");
 
 		logger.info(""+getComponentIdentifier()+" pinging all agents");
 	}
-	@Override public void agentKilled()
+	@Override public IFuture agentKilled()
 	{
 		board.clear();
 
-		hs.send(""+getComponentIdentifier(), "", "Bye");
+		getHelloService().send(""+getComponentIdentifier(), "", "Bye");
 
 		logger.fine(""+getComponentIdentifier()+" sending bye");
+		return IFuture.DONE;
 	}
 
-	public HelloService getHelloService() { return hs; }
-	public SendPositionService getSendPositionService() { return ps; }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return gs; }
-	public GoalReachedService getGoalReachedService() { return gr; }
+	public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(IHelloService.class)[0]; }
+	public SendPositionService getSendPositionService() { return (SendPositionService) getServiceContainer().getProvidedServices(ISendPositionService.class)[0];}
+	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getServiceContainer().getProvidedServices(IReceiveNewGoalService.class)[0]; }
+	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getServiceContainer().getProvidedServices(IGoalReachedService.class)[0]; }
 	
 	void goToAll(Position goalPos) {
 		// TODO implement
 		
 	}
 	void goToRobot(Position goalPos, String robotName) {
-		gs.send(""+getComponentIdentifier(), robotName, new Position(goalPos));
+		getReceiveNewGoalService().send(agent.getExternalAccess(),""+getComponentIdentifier(), robotName, new Position(goalPos));
 	}
 	protected Board getBoard() {
 		return board;

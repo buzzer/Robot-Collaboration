@@ -3,25 +3,35 @@
  */
 package jadex.agent;
 
+import jadex.bridge.IComponentStep;
+import jadex.bridge.IInternalAccess;
+import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
+import jadex.micro.IMicroExternalAccess;
+import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 import robot.Robot;
-
 import data.BoardObject;
 import data.Position;
-import jadex.bridge.Argument;
-import jadex.bridge.IArgument;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IInternalAccess;
-import jadex.micro.MicroAgentMetaInfo;
 
 /**
  * @author sebastian
  *
  */
+@Agent
+@Arguments({
+	@Argument(name="pingInterval", description="Time between pings in ms", clazz=Integer.class, defaultvalue="30000"),
+	@Argument(name="dispersionInterval", description="Time between dispersions in ms", clazz=Integer.class, defaultvalue="60000")
+})
 public class DispersionAgent extends MasterAgent
 {
+
 	Integer dispersionInterval;
 	
 	/**
@@ -39,12 +49,14 @@ public class DispersionAgent extends MasterAgent
 			new Position(-3,-1,0) /** Right */
 	};
 
-	@Override public void agentCreated()
+	@Override public IFuture agentCreated()
 	{
 		super.agentCreated();
+		
 		dispersionInterval = (Integer)getArgument("dispersionInterval");
+		return IFuture.DONE;
 	}
-	@Override public void executeBody()
+	@Override public IFuture executeBody()
 	{
 		super.executeBody();
 
@@ -54,13 +66,13 @@ public class DispersionAgent extends MasterAgent
 		 */
 		scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				//				getBoard().clear();
 				pingAllAgents();
 
 				waitFor((Integer)getArgument("pingInterval"),this);
-				return null;
+				return IFuture.DONE;
 			}
 		});
 
@@ -71,10 +83,10 @@ public class DispersionAgent extends MasterAgent
 //		scheduleStep(new IComponentStep()
 		waitFor(1000, new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				requestAllPositions();
-				return null;
+				return IFuture.DONE;
 			}
 		});
 
@@ -84,7 +96,7 @@ public class DispersionAgent extends MasterAgent
 //		scheduleStep(new IComponentStep()
 		waitFor(1100, new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				ArrayList<Integer> positions = new ArrayList<Integer>();
 
@@ -155,7 +167,7 @@ public class DispersionAgent extends MasterAgent
 					{
 						getLogger().finer("Nearest goal is "+nearestGoal+" index: "+positions.get(goalIndex));
 						
-						getReceiveNewGoalService().send(""+getComponentIdentifier(), robotKeys.get(i), nearestGoal);
+						getReceiveNewGoalService().send(agent.getExternalAccess(),""+getComponentIdentifier(), robotKeys.get(i), nearestGoal);
 
 						getLogger().finer("Sending goal: "+nearestGoal+" to "+robotKeys.get(i));
 					
@@ -174,9 +186,11 @@ public class DispersionAgent extends MasterAgent
 					killAgent();
 				}
 
-				return null;
+				return IFuture.DONE;
 			}
 		});
+		
+		return new Future();
 	}
 	protected void requestAllPositions()
 	{
@@ -184,18 +198,11 @@ public class DispersionAgent extends MasterAgent
 
 		getLogger().info(""+getComponentIdentifier()+" requesting all positions");		
 	}
-	@Override public void agentKilled()
+	@Override public IFuture agentKilled()
 	{
 		super.agentKilled();
+		return IFuture.DONE;
 	}
-	public static MicroAgentMetaInfo getMetaInfo()
-	{
-		IArgument[] args =
-		{
-				new Argument("pingInterval", "Time between pings in ms", "Integer", new Integer(30000)),
-				new Argument("dispersionInterval", "Time between dispersions in ms", "Integer", new Integer(60000)),
-		};
 
-		return new MicroAgentMetaInfo("This agent starts up a dispersion scenario. Set dispersionInterval to -1 for no repetition.", null, args, null);
-	}
+
 }

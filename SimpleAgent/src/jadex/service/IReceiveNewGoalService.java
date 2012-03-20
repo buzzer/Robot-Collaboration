@@ -1,12 +1,11 @@
 package jadex.service;
 
-import jadex.commons.service.IService;
 
 
 /**
  *  Service can receive chat messages.
  */
-public interface IReceiveNewGoalService extends IService
+public interface IReceiveNewGoalService
 {
 	/**
 	 *  Hear something.
@@ -15,5 +14,7 @@ public interface IReceiveNewGoalService extends IService
 	 *  @param content The new goal.
 	 */
 	public void receive(String name, String robotName, Object content);
+	
+	
 		
 }

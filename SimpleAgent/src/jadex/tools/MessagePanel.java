@@ -1,12 +1,15 @@
 package jadex.tools;
 
 import jadex.agent.ConsoleAgent;
+import jadex.bridge.IComponentChangeEvent;
 import jadex.bridge.IComponentListener;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.SGUI;
+import jadex.commons.IFilter;
+import jadex.commons.future.IFuture;
+import jadex.commons.gui.SGUI;
 import jadex.micro.IMicroExternalAccess;
 
 import java.awt.BorderLayout;
@@ -49,7 +52,7 @@ public class MessagePanel extends JPanel
 		/** Register message service */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				ConsoleAgent ca = (ConsoleAgent)ia;
 				ca.getMessageService().addChangeListener(new IChangeListener()
@@ -64,14 +67,14 @@ public class MessagePanel extends JPanel
 						scrollToEnd(main);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 
 		/** Register to HelloService */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
 				ca.getHelloService().addChangeListener(new IChangeListener()
@@ -86,14 +89,14 @@ public class MessagePanel extends JPanel
 						scrollToEnd(main);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 		
 		/** Register to Position update service */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
 				ca.getSendPositionService().addChangeListener(new IChangeListener()
@@ -108,14 +111,14 @@ public class MessagePanel extends JPanel
 						scrollToEnd(main);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 		
 		/** Register to goal reached service */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
 				ca.getGoalReachedService().addChangeListener(new IChangeListener()
@@ -130,14 +133,14 @@ public class MessagePanel extends JPanel
 						scrollToEnd(main);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 		
 		/** Register new goal event callback */
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				final ConsoleAgent ca = (ConsoleAgent)ia;
 				ca.getReceiveNewGoalService().addChangeListener(new IChangeListener()
@@ -152,7 +155,7 @@ public class MessagePanel extends JPanel
 						scrollToEnd(main);
 					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 				
@@ -168,12 +171,12 @@ public class MessagePanel extends JPanel
 			{
 				agent.scheduleStep(new IComponentStep()
 				{
-					public Object execute(IInternalAccess ia)
+					public IFuture execute(IInternalAccess ia)
 					{
 						ConsoleAgent ca = (ConsoleAgent)ia;
 						ca.getMessageService().tell(""+agent.getComponentIdentifier(), tf.getText());
 						tf.setText("");
-						return null;
+						return IFuture.DONE;
 					}
 				});
 			}
@@ -206,7 +209,7 @@ public class MessagePanel extends JPanel
 		
 		agent.scheduleStep(new IComponentStep()
 		{
-			public Object execute(IInternalAccess ia)
+			public IFuture execute(IInternalAccess ia)
 			{
 				ia.addComponentListener(new IComponentListener()
 				{
@@ -218,8 +221,22 @@ public class MessagePanel extends JPanel
 					{
 						f.setVisible(false);
 					}
+
+					@Override
+					public IFuture<Void> eventOccured(IComponentChangeEvent arg0)
+					{
+						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public IFilter getFilter()
+					{
+						// TODO Auto-generated method stub
+						return null;
+					}
 				});
-				return null;
+				return IFuture.DONE;
 			}
 		});
 	}
