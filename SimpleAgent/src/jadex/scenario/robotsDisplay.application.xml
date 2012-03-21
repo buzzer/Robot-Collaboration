@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- <H3> Multiple Robot Scenario </H3> Starts view agents. -->
-<applicationtype xmlns="http://jadex.sourceforge.net/jadex-application"
+<applicationtype xmlns="http://jadex.sourceforge.net/jadex"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jadex.sourceforge.net/jadex-application
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 						http://jadex.sourceforge.net/jadex-application-2.0.xsd"
-	name="robotDisplay" package="jadex.scenario">
+	name="robotsDisplay" package="jadex.scenario">
 
 	<arguments>
-		<argument name="port" typename="Integer"> 6665 </argument>
-		<argument name="host" typename="String"> "localhost" </argument>
+		<argument name="port" class="Integer"> 6665 </argument>
+		<argument name="host" class="String"> "localhost" </argument>
 	</arguments>
 
 	<componenttypes>
@@ -28,9 +28,9 @@
 			master="true" />
 	</componenttypes>
 
-	<applications>
+	<configurations>
 
-		<application name="1 Display, Mixed">
+		<configuration name="1 Display, Mixed">
 			<components>
 				<component type="View3" name="View3">
 					<arguments>
@@ -54,9 +54,9 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 		
-		<application name="1 Display, View only">
+		<configuration name="1 Display, View only">
 			<components>
 				<component type="View10" name="View10">
 					<arguments>
@@ -65,8 +65,8 @@
 					</arguments>
 				</component>
 			</components>
-		</application>
+		</configuration>
 
-	</applications>
+	</configurations>
 
 </applicationtype>

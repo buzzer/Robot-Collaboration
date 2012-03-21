@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- <H3> Swarm Scenario </H3> Starts a robot swarm. -->
-<applicationtype xmlns="http://jadex.sourceforge.net/jadex-application"
+<applicationtype xmlns="http://jadex.sourceforge.net/jadex"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jadex.sourceforge.net/jadex-application
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 						http://jadex.sourceforge.net/jadex-application-2.0.xsd"
 	name="swarm" package="jadex.scenario">
 
 	<arguments>
 
-		<argument name="port" typename="Integer"> 6665 </argument>
-		<argument name="host" typename="String"> "localhost" </argument>
-		<argument name="laser" typename="Boolean"> false </argument>
-		<argument name="planner" typename="Boolean"> false </argument>
-		<argument name="simulation" typename="Boolean"> false </argument>
+		<argument name="port" class="Integer"> 6665 </argument>
+		<argument name="host" class="String"> "localhost" </argument>
+		<argument name="laser" class="Boolean"> false </argument>
+		<argument name="planner" class="Boolean"> false </argument>
+		<argument name="simulation" class="Boolean"> false </argument>
 
 	</arguments>
 
@@ -222,9 +222,9 @@
 
 	</componenttypes>
 
-	<applications>
+	<configurations>
 		
-		<application name="10 Wallfollow">
+		<configuration name="10 Wallfollow">
 			<components>
         <component type="Wallfollow0" name="Wallfollow0">   <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0 </argument> <argument name="devIndex"> 0 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 				<component type="Wallfollow1" name="Wallfollow1">   <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 1 </argument> <argument name="devIndex"> 1 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
@@ -237,9 +237,9 @@
 				<component type="Wallfollow8" name="Wallfollow8">   <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 8 </argument> <argument name="devIndex"> 8 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 				<component type="Wallfollow9" name="Wallfollow9">   <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 9 </argument> <argument name="devIndex"> 9 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="100 Wallfollow">
+		<configuration name="100 Wallfollow">
 			<components>
         <component type="Wallfollow0"  name="Wallfollow0">  <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0  </argument> <argument name="devIndex"> 0  </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 				<component type="Wallfollow1"  name="Wallfollow1">  <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 1  </argument> <argument name="devIndex"> 1  </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
@@ -342,9 +342,9 @@
 				<component type="Wallfollow98" name="Wallfollow98"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 98 </argument> <argument name="devIndex"> 98 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 				<component type="Wallfollow99" name="Wallfollow99"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 99 </argument> <argument name="devIndex"> 99 </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="1 Wallfollow 10 Follow">
+		<configuration name="1 Wallfollow 10 Follow">
 			<components>
         <component type="Wallfollow0"  name="Wallfollow0">  <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0  </argument> <argument name="devIndex"> 0  </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
         <component type="Follow0" name="Follow0"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0 </argument> <argument name="devIndex"> 0 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
@@ -358,9 +358,9 @@
 				<component type="Follow8" name="Follow8"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 8 </argument> <argument name="devIndex"> 8 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
 				<component type="Follow9" name="Follow9"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 9 </argument> <argument name="devIndex"> 9 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="1 Wallfollow 40 Follow">
+		<configuration name="1 Wallfollow 40 Follow">
 			<components>
         <component type="Wallfollow0" name="Wallfollow0">  <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0  </argument> <argument name="devIndex"> 0  </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
         <component type="Follow0" name="Follow0"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0 </argument> <argument name="devIndex"> 0 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
@@ -404,9 +404,9 @@
 				<component type="Follow38" name="Follow38"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 38 </argument> <argument name="devIndex"> 38 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
 				<component type="Follow39" name="Follow39"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 39 </argument> <argument name="devIndex"> 39 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
 			</components>
-		</application>
+		</configuration>
 
-		<application name="3 Wallfollow 30 Follow">
+		<configuration name="3 Wallfollow 30 Follow">
 			<components>
         <component type="Wallfollow0" name="Wallfollow0"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0  </argument> <argument name="devIndex"> 0  </argument> <argument name="laser"> $args.laser </argument> <argument name="localize"> false </argument> </arguments> </component>
         <!--<component type="Follow0" name="Follow0"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 0 </argument> <argument name="devIndex"> 0 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>-->
@@ -445,8 +445,8 @@
 				<component type="Follow30" name="Follow30"> <arguments> <argument name="port"> $args.port </argument> <argument name="host"> $args.host </argument> <argument name="robId"> 30 </argument> <argument name="devIndex"> 30 </argument> <argument name="laser"> $args.laser </argument> <argument name="simulation"> $args.simulation </argument> </arguments> </component>
 
 			</components>
-		</application>
+		</configuration>
 
-	</applications>
+	</configurations>
 
 </applicationtype>

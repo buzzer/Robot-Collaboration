@@ -7,9 +7,9 @@
 	name="Dispersion" package="jadex.scenario">
 
 	<arguments>
-		<argument name="port" typename="Integer"> 6665 </argument>
-		<argument name="host" typename="String"> "localhost" </argument>
-		<argument name="dispersionInterval" typename="Integer"> 3600000 </argument>
+		<argument name="port" class="Integer"> 6665 </argument>
+		<argument name="host" class="String"> "localhost" </argument>
+		<argument name="dispersionInterval" class="Integer"> 3600000 </argument>
 	</arguments>
 
 	<componenttypes>
