@@ -2,15 +2,17 @@ package jadex.agent;
 
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
-import jadex.bridge.modelinfo.IArgument;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
-import jadex.commons.future.IFuture;
 import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
-import jadex.micro.MicroAgentMetaInfo;
-import jadex.micro.annotation.Arguments;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
+import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
@@ -27,9 +29,9 @@ import device.Device;
 import device.DeviceNode;
 import device.Simulation;
 import device.external.IDevice;
-
+@Agent
 @Arguments({
-	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
 	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6600"),
 	@Argument(name="robID", description="Only track this", clazz=Integer.class, defaultvalue="-1")
 })
@@ -39,7 +41,8 @@ import device.external.IDevice;
 public class ViewAgent extends MicroAgent
 {
 
-	
+	@Agent
+	MicroAgent agent;
 	/** API to the simulator (gui) */
 	protected Simulation simu = null;
 	protected DeviceNode deviceNode = null;
@@ -47,17 +50,15 @@ public class ViewAgent extends MicroAgent
 	/** Dedicated follow robot, if any */
 	String folRobot = null;
 	
-	@Override public IFuture agentCreated()
+	@Override 
+	@AgentCreated
+	public IFuture agentCreated()
 	{
-//		hs = new HelloService(getExternalAccess());
-//		ps = new SendPositionService(getExternalAccess());
-//
-//		addDirectService(hs);
-//		addDirectService(ps);
+
 
 		String host = (String)getArgument("host");
         Integer port = (Integer)getArgument("port");
-        int id = (Integer)getArgument("robId");
+        int id = (Integer)getArgument("robID");
         if (id != -1)
             folRobot = "r"+id;
 
@@ -73,8 +74,8 @@ public class ViewAgent extends MicroAgent
         deviceNode = new DeviceNode(hostList.toArray(new Host[hostList.size()]), devList.toArray(new Device[devList.size()]));
 		deviceNode.runThreaded();
 		
-		getHelloService().send(""+getComponentIdentifier(), "", "Hello");
-
+		//HelloService().send(""+getComponentIdentifier(), "", "Hello", getExternalAccess());
+		HelloService.send(""+getComponentIdentifier(), "","Hello", getExternalAccess());
 		simu = (Simulation) deviceNode.getDevice(new Device(IDevice.DEVICE_SIMULATION_CODE, null, -1, -1));
 		
 		if (simu == null)
@@ -82,7 +83,9 @@ public class ViewAgent extends MicroAgent
 		return IFuture.DONE;
 	}
 
-	@Override public IFuture executeBody()
+	@Override 
+	@AgentBody
+	public IFuture executeBody()
 	{
 	    scheduleStep(new IComponentStep()
 		{
@@ -114,34 +117,19 @@ public class ViewAgent extends MicroAgent
 			}
 		});
 
-//		waitFor(200, new IComponentStep()
-//		{
-//			public Object execute(IInternalAccess args)
-//			{
-//				simu = (Simulation) deviceNode.getDevice(new Device(IDevice.DEVICE_SIMULATION_CODE, null, -1, -1));
-//				simu.initPositionOf("r0");
-//				simu.initPositionOf("r1");
-//				return null;
-//			}
-//		});
+
 	    return new Future();
 	}
-	@Override public IFuture agentKilled()
+	@Override 
+	@AgentKilled
+	public IFuture agentKilled()
 	{
 		deviceNode.shutdown();
-		getHelloService().send(getComponentIdentifier().toString(), "", "Bye");
+		//HelloService().send(getComponentIdentifier().toString(), "", "Bye", getExternalAccess());
+		HelloService.send(""+getComponentIdentifier().toString(), "","Bye", getExternalAccess());
 		return IFuture.DONE;
 	}
-//	public static MicroAgentMetaInfo getMetaInfo()
-//	{
-//		IArgument[] args = {
-//                new Argument("host", "Player", "String", "localhost"),
-//				new Argument("port", "Player", "Integer", new Integer(6600)),
-//                new Argument("robId", "Only track this", "Integer", new Integer(-1))
-//		};
-//		
-//		return new MicroAgentMetaInfo("This agent starts up a view agent.", null, args, null);
-//	}
+
 
 	public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
 	public SendPositionService getSendPositionService() { return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }

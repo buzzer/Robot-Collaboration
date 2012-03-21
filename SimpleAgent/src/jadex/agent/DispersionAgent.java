@@ -10,6 +10,9 @@ import jadex.commons.future.IFuture;
 import jadex.micro.IMicroExternalAccess;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 
@@ -48,7 +51,7 @@ public class DispersionAgent extends MasterAgent
 			new Position(-14,-1.5,0), /** Center right */
 			new Position(-3,-1,0) /** Right */
 	};
-
+	@AgentCreated
 	@Override public IFuture agentCreated()
 	{
 		super.agentCreated();
@@ -56,6 +59,8 @@ public class DispersionAgent extends MasterAgent
 		dispersionInterval = (Integer)getArgument("dispersionInterval");
 		return IFuture.DONE;
 	}
+	
+	@AgentBody
 	@Override public IFuture executeBody()
 	{
 		super.executeBody();
@@ -198,6 +203,8 @@ public class DispersionAgent extends MasterAgent
 
 		getLogger().info(""+getComponentIdentifier()+" requesting all positions");		
 	}
+	
+	@AgentKilled
 	@Override public IFuture agentKilled()
 	{
 		super.agentKilled();

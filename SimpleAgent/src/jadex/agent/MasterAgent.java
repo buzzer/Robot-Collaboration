@@ -8,6 +8,8 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
@@ -38,35 +40,21 @@ public class MasterAgent extends MicroAgent
     static Logger logger = Logger.getLogger (MasterAgent.class.getName ());
 	@Agent
 	MicroAgent agent;
-//	/** Services */
-//	HelloService hs;
-//	SendPositionService ps;
-//	ReceiveNewGoalService gs;
-//	GoalReachedService gr;
-//	
+
 	/** Blackboard */
 	Board board;
 	
+	@AgentCreated
 	@Override public IFuture agentCreated()
 	{
 		board = new Board();
 
-//		hs = new HelloService(getExternalAccess());
-//		ps = new SendPositionService(getExternalAccess());
-//		gs = new ReceiveNewGoalService(getExternalAccess());
-//		gr = new GoalReachedService(getExternalAccess());
-//
-//		addDirectService(hs);
-//		addDirectService(ps);
-//		addDirectService(gs);
-//		addDirectService(gr);
 		
-		getHelloService().send(""+getComponentIdentifier(), "", "Hello");
-
+		HelloService.send(""+getComponentIdentifier(), "","Hello",getExternalAccess());
 		logger.fine(""+getComponentIdentifier()+" sending hello ");
 		return IFuture.DONE;
 	}
-
+	@AgentBody
 	@Override public IFuture executeBody()
 	{
 		
@@ -166,58 +154,22 @@ public class MasterAgent extends MicroAgent
 		});
 		
 		return new Future();
-		
-//		/**
-//		 * Request all robot agents.
-//		 * Do it periodically.
-//		 */
-//		final IComponentStep step = new IComponentStep()
-//		{
-//			public Object execute(IInternalAccess ia)
-//			{
-//				pingAllAgents();
-//				
-//				waitFor(30000,this);
-//				return null;
-//			}
-//		};
-//		waitForTick(step);
-//		
-//		/** Send a 1st goal */
-//		waitFor(5000, new IComponentStep()
-//		{
-//			public Object execute(IInternalAccess ia)
-//			{
-//				gs.send(getComponentIdentifier().toString(), "all", new Position(-6.5,-1.5,0));
-//				return null;
-//			}
-//		});
-		
-//		final IComponentStep step = new IComponentStep()
-//		{
-//			public Object execute(IInternalAccess ia)
-//			{
-//				waitFor(1000,this);
-//				return null;
-//			}
-//		};
-//		waitForTick(step);
-	
 	
 	}
 	
 	
 	public void pingAllAgents()
 	{
-		getHelloService().send(""+getComponentIdentifier(), "", "ping");
-
+		//HelloService().send(""+getComponentIdentifier(), " ", "ping",getExternalAccess());
+		HelloService.send(""+getComponentIdentifier(), "", "ping", getExternalAccess());
 		logger.info(""+getComponentIdentifier()+" pinging all agents");
 	}
 	@Override public IFuture agentKilled()
 	{
 		board.clear();
 
-		getHelloService().send(""+getComponentIdentifier(), "", "Bye");
+		//HelloService().send(""+getComponentIdentifier(), "", "Bye", getExternalAccess());
+		HelloService.send(""+getComponentIdentifier(), "", "Bye", getExternalAccess());
 
 		logger.fine(""+getComponentIdentifier()+" sending bye");
 		return IFuture.DONE;

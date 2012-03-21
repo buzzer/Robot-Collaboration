@@ -1,9 +1,11 @@
 package jadex.agent;
 
-import jadex.commons.future.IFuture;
 import jadex.commons.future.Future;
+import jadex.commons.future.IFuture;
 import jadex.micro.IMicroExternalAccess;
 import jadex.micro.MicroAgent;
+import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
@@ -24,6 +26,7 @@ import javax.swing.SwingUtilities;
 /**
  *  Message micro agent. 
  */
+@Agent
 @ProvidedServices({ 
 	@ProvidedService(type=IMessageService.class,implementation=@Implementation(MessageService.class)),
 	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
@@ -38,6 +41,7 @@ public class ConsoleAgent extends MicroAgent
 	/**
 	 *  Called once after agent creation.
 	 */
+	@AgentCreated
 	public IFuture agentCreated()
 	{
 

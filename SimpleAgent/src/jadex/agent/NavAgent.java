@@ -1,5 +1,6 @@
 package jadex.agent;
 
+import jadex.bdi.testcases.misc.GetExternalAccessPlan;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
@@ -39,7 +40,7 @@ import device.external.IPlannerListener;
 
 @Agent
 @Arguments({
-	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
 	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6665"),
 	@Argument(name="robID", description="Robot identifier", clazz=Integer.class, defaultvalue="0"),
 	@Argument(name="devIndex", description="Device Index", clazz=Integer.class, defaultvalue="0"),
@@ -72,7 +73,7 @@ public class NavAgent
 
 		String host = (String) agent.getArgument("host");
 		Integer port = (Integer)agent.getArgument("port");
-        Integer robotIdx = (Integer)agent.getArgument("robId");
+        Integer robotIdx = (Integer)agent.getArgument("robID");
         Boolean hasLaser = (Boolean)agent.getArgument("laser");
         Boolean hasSimu = (Boolean)agent.getArgument("simulation");
         Integer devIdx = (Integer)agent.getArgument("devIndex");
@@ -120,7 +121,8 @@ public class NavAgent
 	
 	void sendHello()
 	{
-		getHelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
+		//HelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
+		HelloService.send(""+agent.getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), agent.getExternalAccess());
 		logger.fine(""+ agent.getComponentIdentifier()+" sending hello");
 	}
 
@@ -313,7 +315,8 @@ public class NavAgent
 		robot.shutdown();
 		deviceNode.shutdown();
 		
-		getHelloService().send(""+ agent.getComponentIdentifier(), ""+robot, "Bye");
+		//getHelloService().send(""+ agent.getComponentIdentifier(), ""+robot, "Bye");
+		HelloService.send(""+agent.getComponentIdentifier(), ""+robot, "Bye", agent.getExternalAccess());
 		
 		logger.fine("Bye "+ agent.getComponentIdentifier());
 		return IFuture.DONE;

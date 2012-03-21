@@ -11,6 +11,9 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Implementation;
@@ -60,7 +63,9 @@ public class WallfollowAgent extends MicroAgent
     DeviceNode deviceNode;
     Pioneer robot;
 
-    @Override public IFuture agentCreated()
+    @Override 
+    @AgentCreated
+    public IFuture agentCreated()
     {
 
         
@@ -71,29 +76,11 @@ public class WallfollowAgent extends MicroAgent
         Integer devIdx = (Integer)getArgument("devIndex");
         Boolean hasLaser = (Boolean)getArgument("laser");
         Boolean hasLocalize = (Boolean)getArgument("localize");
-        if(port==null)
-        {
-        	port=0;
-        }
-        if(robotIdx==null)
-        {
-        	robotIdx=0;
-        }
-        if(devIdx==null)
-        {
-        	devIdx=0;
-        }
+ 
         
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
-        try{
-        	Device d=new Device(IDevice.DEVICE_POSITION2D_CODE,host,port,devIdx);
-        devList.add(d);
-        }
-        catch(Exception e)
-        {
-        	e.printStackTrace();
-        }
+        devList.add(new Device(IDevice.DEVICE_POSITION2D_CODE,host,port,devIdx));
         devList.add( new Device(IDevice.DEVICE_RANGER_CODE,host,port,devIdx) );
         devList.add( new Device(IDevice.DEVICE_SONAR_CODE,host,port,devIdx));
         devList.add( new Device(IDevice.DEVICE_SIMULATION_CODE,host,port,-1) );
@@ -152,7 +139,9 @@ public class WallfollowAgent extends MicroAgent
         }
     }
 
-    @Override public IFuture executeBody()
+    @Override 
+    @AgentBody
+    public IFuture executeBody()
     {
         /**
          *  Register localizer callback
@@ -258,7 +247,9 @@ public class WallfollowAgent extends MicroAgent
     return new Future();
     }
 
-    @Override public IFuture agentKilled()
+    @Override 
+    @AgentKilled
+    public IFuture agentKilled()
     {    
         robot.stop();
         robot.shutdown();

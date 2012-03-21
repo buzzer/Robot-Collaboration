@@ -52,7 +52,7 @@ import device.external.IPlannerListener;
 		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
 		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
 		@Argument(name = "devIndex", description = "Device Index", clazz = Integer.class, defaultvalue = "0"),
-		@Argument(name = "robId", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
 		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
 		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\"") })
 //@ProvidedServices(
@@ -81,7 +81,7 @@ public class CollectAgent extends NavAgent
 	{
 		String host = (String) agent.getArgument("host");
 		Integer port = (Integer) agent.getArgument("port");
-		Integer robotIdx = (Integer) agent.getArgument("robId");
+		Integer robotIdx = (Integer) agent.getArgument("robID");
 		Boolean hasLaser = (Boolean) agent.getArgument("laser");
 		Boolean hasSimu = (Boolean) agent.getArgument("simulation");
 		Integer devIdx = (Integer) agent.getArgument("devIndex");

@@ -6,6 +6,8 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Implementation;
@@ -34,9 +36,9 @@ import device.external.IDevice;
 @Agent
 @Arguments(
 {
-		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "localhost"),
+		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
 		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
-		@Argument(name = "robId", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
 		@Argument(name = "devIndex", description = "Device index", clazz = Integer.class, defaultvalue = "0"),
 		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
 		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
@@ -45,28 +47,51 @@ import device.external.IDevice;
 		@Argument(name = "localize", description = "Localize device", clazz = Boolean.class, defaultvalue = "true") })
 @ProvidedServices(
 {
-	
-	
-//		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
-//		@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
-		@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)) })
+
+// @ProvidedService(type = IHelloService.class, implementation =
+// @Implementation(HelloService.class)),
+// @ProvidedService(type = ISendPositionService.class, implementation =
+// @Implementation(SendPositionService.class)),
+@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)) })
 public class ExploreAgent extends WallfollowAgent
 {
-	
+
 	@Agent
 	MicroAgent agent;
 	/** Data */
 	Board bb;
 
 	@Override
+	@AgentCreated
 	public IFuture agentCreated()
 	{
-		
+
 		String host = (String) getArgument("host");
 		Integer port = (Integer) getArgument("port");
-		Integer robotIdx = (Integer) getArgument("robId");
+		Integer robotIdx = (Integer) getArgument("robID");
 		Integer devIdx = (Integer) getArgument("devIndex");
 		Boolean hasLaser = (Boolean) getArgument("laser");
+
+		if (host == null)
+		{
+			host = "localhost";
+		}
+		if (port == null)
+		{
+			port = 6665;
+		}
+		if (robotIdx == null)
+		{
+			robotIdx = 2;
+		}
+		if (devIdx == null)
+		{
+			devIdx = 0;
+		}
+		if (hasLaser == null)
+		{
+			hasLaser = true;
+		}
 
 		/** Device list */
 		CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -94,10 +119,16 @@ public class ExploreAgent extends WallfollowAgent
 		hostList.add(new Host(host, port + 1));
 
 		/** Get the device node */
+		try {
 		setDeviceNode(new DeviceNode(hostList
 				.toArray(new Host[hostList.size()]), devList
 				.toArray(new Device[devList.size()])));
-		getDeviceNode().runThreaded();
+			
+			getDeviceNode().runThreaded();
+		} catch(RuntimeException e){
+			e.printStackTrace();
+			throw e;
+		}
 
 		setRobot(new ExploreRobot(getDeviceNode().getDeviceListArray()));
 		getRobot().setRobotId("r" + robotIdx);
@@ -121,6 +152,7 @@ public class ExploreAgent extends WallfollowAgent
 	 * @see jadex.agent.WallfollowAgent#executeBody()
 	 */
 	@Override
+	@AgentBody
 	public IFuture executeBody()
 	{
 		super.executeBody();
@@ -143,7 +175,7 @@ public class ExploreAgent extends WallfollowAgent
 									/** Board object */
 									if (bb.getObject(newBlob.getColorString()) == null)
 									{
-						
+
 										Position globPose = getRobot()
 												.getPosition();
 										System.out.println("Rob pose: "
@@ -184,15 +216,15 @@ public class ExploreAgent extends WallfollowAgent
 	 */
 	void sendBlobInfo(BoardObject bo)
 	{
-		getReceiveNewGoalService().send(agent.getExternalAccess(),"" + getComponentIdentifier(),
-				"collectGoal", bo.getPosition());
+		getReceiveNewGoalService().send(agent.getExternalAccess(),
+				"" + getComponentIdentifier(), "collectGoal", bo.getPosition());
 		logger.info("Sending blob info from " + bo);
 	}
 
 	public ReceiveNewGoalService getReceiveNewGoalService()
 	{
-		return (ReceiveNewGoalService) getServiceContainer().getProvidedServices(ReceiveNewGoalService.class)[0];
+		return (ReceiveNewGoalService) getServiceContainer()
+				.getProvidedServices(ReceiveNewGoalService.class)[0];
 	}
-
 
 }

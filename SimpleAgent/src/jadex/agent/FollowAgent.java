@@ -11,6 +11,9 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
+import jadex.micro.annotation.AgentBody;
+import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import data.Position;
@@ -23,7 +26,7 @@ import device.external.ILocalizeListener;
 @Agent
 @Arguments({
 	@Argument(name="robot",description="To follow", clazz=Integer.class, defaultvalue="0"),
-	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="localhost"),
+	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
 	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6667"),
 	@Argument(name="robId", description="Robot identifier", clazz=Integer.class, defaultvalue="1"),
 	@Argument(name="devIndex", description="Device Index", clazz=Integer.class, defaultvalue="0"),
@@ -50,6 +53,7 @@ MicroAgent agent;
     /**
      * @see jadex.agent.NavAgent#agentCreated()
      */
+@AgentCreated
     @Override public IFuture agentCreated()
     {
                
@@ -66,6 +70,7 @@ MicroAgent agent;
     /**
      * @see jadex.agent.NavAgent#executeBody()
      */
+@AgentBody
     @Override public IFuture executeBody()
     {
         super.executeBody();
@@ -196,6 +201,7 @@ MicroAgent agent;
     /**
      * @see jadex.agent.NavAgent#agentKilled()
      */
+    @AgentKilled
     @Override public IFuture agentKilled()
     {
         super.agentKilled();
