@@ -1,6 +1,5 @@
 package jadex.agent;
 
-import jadex.bdi.testcases.misc.GetExternalAccessPlan;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
@@ -56,27 +55,27 @@ import device.external.IPlannerListener;
 	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)),
 	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))	
 })
-public class NavAgent 
+public class NavAgent extends MicroAgent
 {
 	/** Logging support */
     static Logger logger = Logger.getLogger (NavAgent.class.getName ());
 
     @Agent
-    MicroAgent agent;
+//    MicroAgent agent;
 	DeviceNode deviceNode = null;
 	NavRobot robot = null;
 	
+	@Override
 	@AgentCreated
 	 public IFuture agentCreated()
-	
 	{
 
-		String host = (String) agent.getArgument("host");
-		Integer port = (Integer)agent.getArgument("port");
-        Integer robotIdx = (Integer)agent.getArgument("robID");
-        Boolean hasLaser = (Boolean)agent.getArgument("laser");
-        Boolean hasSimu = (Boolean)agent.getArgument("simulation");
-        Integer devIdx = (Integer)agent.getArgument("devIndex");
+		String host = (String) getArgument("host");
+		Integer port = (Integer) getArgument("port");
+        Integer robotIdx = (Integer) getArgument("robID");
+        Boolean hasLaser = (Boolean) getArgument("laser");
+        Boolean hasSimu = (Boolean) getArgument("simulation");
+        Integer devIdx = (Integer) getArgument("devIndex");
 
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -108,9 +107,9 @@ public class NavAgent
 		 *  Check if a particular position is set
 		 */
 		Position setPose = new Position(
-                (Double)agent.getArgument("X"),
-                (Double)agent.getArgument("Y"),
-                (Double)agent.getArgument("Angle"));
+                (Double)getArgument("X"),
+                (Double)getArgument("Y"),
+                (Double)getArgument("Angle"));
 		
 		if ( setPose.equals(new Position(0,0,0)) == false )
 		    robot.setPosition(setPose);		    
@@ -122,16 +121,16 @@ public class NavAgent
 	void sendHello()
 	{
 		//HelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
-		HelloService.send(""+agent.getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), agent.getExternalAccess());
-		logger.fine(""+ agent.getComponentIdentifier()+" sending hello");
+		HelloService.send(""+getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), getExternalAccess());
+		logger.fine(""+ getComponentIdentifier()+" sending hello");
 	}
 
 	protected void sendPosition(Position newPose)
 	{
 	    if (newPose != null)
 	    {
-    		getSendPositionService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), newPose);
-    		logger.finest(""+ agent.getComponentIdentifier()+" sending position "+newPose);
+    		getSendPositionService().send(""+ getComponentIdentifier(), robot.getRobotId(), newPose);
+    		logger.finest(""+ getComponentIdentifier()+" sending position "+newPose);
 	    }
 	}
 	
@@ -147,7 +146,7 @@ public class NavAgent
 		/**
 		 *  Register planner callback
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -157,9 +156,9 @@ public class NavAgent
 					{
 						@Override public void callWhenIsDone()
 						{
-							getGoalReachedService().send(""+agent.getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
+							getGoalReachedService().send(""+getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
 
-							logger.fine(""+agent.getComponentIdentifier()+" "+robot+" reached goal "+robot.getPlanner().getGoal());
+							logger.fine(""+getComponentIdentifier()+" "+robot+" reached goal "+robot.getPlanner().getGoal());
 						}
 
                         @Override public void callWhenAbort()
@@ -182,7 +181,7 @@ public class NavAgent
 		/**
 		 *  Register localizer callback
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -213,11 +212,11 @@ public class NavAgent
 			                sendPosition(curPose);
 			                logger.finest("Sending new pose "+curPose+" for "+robot);
 			               
-			                agent.waitFor(1000,this);
+			                waitFor(1000,this);
 			                return IFuture.DONE;
 			            }
 			        };
-			        agent.waitForTick(step);
+			        waitForTick(step);
 				}
 				return IFuture.DONE;
 			}
@@ -226,7 +225,7 @@ public class NavAgent
 		/**
 		 *  Register new goal event callback
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -238,7 +237,7 @@ public class NavAgent
 						
 						String id = (String)content[1];
 						Position goal = (Position)content[2];
-						logger.finer("Receiving "+id+" @ "+goal+" "+ agent.getComponentIdentifier());
+						logger.finer("Receiving "+id+" @ "+goal+" "+ getComponentIdentifier());
 						
 						/** Check if it is this robot's goal */
 						if (
@@ -258,7 +257,7 @@ public class NavAgent
 		/**
 		 *  Register to HelloService
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -273,7 +272,7 @@ public class NavAgent
 						if (type.equalsIgnoreCase("ping"))
 						{
 							sendHello();
-                            logger.finer(""+ agent.getComponentIdentifier()+" receiving "+type);
+                            logger.finer(""+ getComponentIdentifier()+" receiving "+type);
 						}
 					}
 				});
@@ -284,7 +283,7 @@ public class NavAgent
 		/**
 		 *  Register to Position update service
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -316,17 +315,17 @@ public class NavAgent
 		deviceNode.shutdown();
 		
 		//getHelloService().send(""+ agent.getComponentIdentifier(), ""+robot, "Bye");
-		HelloService.send(""+agent.getComponentIdentifier(), ""+robot, "Bye", agent.getExternalAccess());
+		HelloService.send(""+getComponentIdentifier(), ""+robot, "Bye", getExternalAccess());
 		
-		logger.fine("Bye "+ agent.getComponentIdentifier());
+		logger.fine("Bye "+ getComponentIdentifier());
 		return IFuture.DONE;
 		
 	}
 	
-	public HelloService getHelloService() { return (HelloService) agent.getServiceContainer().getProvidedServices(HelloService.class)[0]; }
-	public SendPositionService getSendPositionService() { return (SendPositionService) agent.getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) agent.getServiceContainer().getProvidedServices(ReceiveNewGoalService.class)[0]; }
-	public GoalReachedService getGoalReachedService() { return (GoalReachedService) agent.getServiceContainer().getProvidedServices(GoalReachedService.class)[0]; }
+	public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
+	public SendPositionService getSendPositionService() { return (SendPositionService) getRawService(ISendPositionService.class); }
+	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class); }
+	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getRawService(IGoalReachedService.class); }
 
 
 	
