@@ -45,16 +45,16 @@ import device.external.IPlannerListener;
 @Agent
 @Arguments(
 {
-	@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
-	@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
-	@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
-	@Argument(name = "devIndex", description = "Device Index", clazz = Integer.class, defaultvalue = "0"),
-	@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
-	@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
-	@Argument(name = "Angle", description = "Degree", clazz = Double.class, defaultvalue = "0.0"),
-	@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
-	@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true"),
-})
+	
+		@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true"),
+		@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
+		@Argument(name = "Angle", description = "Degree", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+		@Argument(name = "devIndex", description = "Device Index", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
+		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
+		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\"") })
 //@ProvidedServices(
 //{
 //		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
@@ -71,8 +71,7 @@ public class CollectAgent extends NavAgent
 	boolean permitGripperOpen = false;
 	boolean objectInGripper = false;
 	
-	@Agent
-	MicroAgent agent;
+
 	//CollectAgent agent;
 	
 	
@@ -148,7 +147,7 @@ public class CollectAgent extends NavAgent
 	@AgentBody
 	public IFuture executeBody()
 	{
-		System.out.println("blaaaaa");
+		
 		super.executeBody();
 
 		/**

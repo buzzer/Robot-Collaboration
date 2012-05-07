@@ -68,6 +68,7 @@ public class WallfollowAgent extends MicroAgent
     public IFuture agentCreated()
     {
 
+        
         String host = (String)getArgument("host");
         
         Integer port = (Integer)getArgument("port");
@@ -75,7 +76,8 @@ public class WallfollowAgent extends MicroAgent
         Integer devIdx = (Integer)getArgument("devIndex");
         Boolean hasLaser = (Boolean)getArgument("laser");
         Boolean hasLocalize = (Boolean)getArgument("localize");
- 
+        
+
         
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -127,17 +129,34 @@ public class WallfollowAgent extends MicroAgent
     void sendHello()
     {
 //        getHelloService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName());
-        HelloService.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName(), getExternalAccess());
+		scheduleStep(new IComponentStep()
+		{
+			public IFuture execute(IInternalAccess ia)
+			{
+				HelloService.send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), getRobot().getClass().getName(), getExternalAccess());
+				return IFuture.DONE;
+			}
+		});
+    	
+    	
     }
 
-    void sendPosition(Position newPose)
-    {
-    	//TODO mit schedule step capseln
-        if (newPose != null)
-        {
-            getSendPositionService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), newPose);
-        }
-    }
+	void sendPosition(final Position newPose)
+	{
+		scheduleStep(new IComponentStep()
+		{
+			public IFuture execute(IInternalAccess ia)
+			{
+				if (newPose != null)
+				{
+					getSendPositionService().send(
+							"" + getComponentIdentifier(),
+							"" + getRobot().getRobotId(), newPose);
+				}
+				return IFuture.DONE;
+			}
+		});
+	}
 
     @Override 
     @AgentBody
@@ -260,8 +279,15 @@ public class WallfollowAgent extends MicroAgent
         return IFuture.DONE;
     }
 
-    public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
-    public SendPositionService getSendPositionService() {return (SendPositionService) getRawService(ISendPositionService.class); }
+    public HelloService getHelloService() 
+    { return (HelloService) getRawService(IHelloService.class); 
+    }
+    
+    public SendPositionService getSendPositionService() 
+    {
+    	return (SendPositionService) getRawService(ISendPositionService.class);
+    	
+    }
 
 
 

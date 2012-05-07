@@ -58,10 +58,30 @@ public class ConsoleAgent extends MicroAgent
 	/**
 	 *  Get the services.
 	 */
-	public MessageService getMessageService() { return (MessageService) getServiceContainer().getProvidedServices(MessageService.class)[0]; 	}
-	public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
-	public SendPositionService getSendPositionService() { return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getServiceContainer().getProvidedServices(ReceiveNewGoalService.class)[0]; }
-	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getServiceContainer().getProvidedServices(GoalReachedService.class)[0]; }
+	
+	public MessageService getMessageService()
+	{
+		return (MessageService) getRawService(IMessageService.class);
+	}
+
+	public HelloService getHelloService()
+	{
+		return (HelloService) getRawService(IHelloService.class);
+	}
+
+	public SendPositionService getSendPositionService()
+	{
+		return (SendPositionService) getRawService(ISendPositionService.class);
+	}
+	
+	public ReceiveNewGoalService getReceiveNewGoalService()
+	{
+		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);
+	}
+
+	public GoalReachedService getGoalReachedService()
+	{
+		return (GoalReachedService) getRawService(IGoalReachedService.class);
+	}
 	
 }

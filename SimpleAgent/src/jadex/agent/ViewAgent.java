@@ -120,17 +120,35 @@ public class ViewAgent extends MicroAgent
 
 	    return new Future();
 	}
-	@Override 
+
+	@Override
 	@AgentKilled
 	public IFuture agentKilled()
 	{
-		deviceNode.shutdown();
-		//HelloService().send(getComponentIdentifier().toString(), "", "Bye", getExternalAccess());
-		HelloService.send(""+getComponentIdentifier().toString(), "","Bye", getExternalAccess());
+
+		scheduleStep(new IComponentStep()
+		{
+			public IFuture execute(IInternalAccess ia)
+			{
+
+				deviceNode.shutdown();
+				// HelloService().send(getComponentIdentifier().toString(), "",
+				// "Bye", getExternalAccess());
+				HelloService.send("" + getComponentIdentifier().toString(), "",
+						"Bye", getExternalAccess());
+				return IFuture.DONE;
+			}
+		});
 		return IFuture.DONE;
 	}
 
-
-	public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
-	public SendPositionService getSendPositionService() { return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
+	public HelloService getHelloService()
+	{
+		return (HelloService) getRawService(IHelloService.class);
+	}
+	
+	public SendPositionService getSendPositionService()
+	{
+		return (SendPositionService) getRawService(ISendPositionService.class);
+	}
 }

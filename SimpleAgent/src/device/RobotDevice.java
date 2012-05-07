@@ -50,9 +50,12 @@ public class RobotDevice extends Device
         else
         {
             deviceNode = devNode;
-
+            System.out.println("Host::::::"+devTemplate.getHost());
+            System.out.println("Port::::::"+devTemplate.getPort());
+            
             /** Get the actual DeviceNode on this' host and port */
             DeviceNode myNode = deviceNode.getDeviceNode ( devTemplate.getHost(), devTemplate.getPort() );
+            System.out.println("myNode::::::"+myNode);
 
             if (myNode == null)
             {
@@ -61,13 +64,17 @@ public class RobotDevice extends Device
 
             try
             {
+            	System.out.println("getPlayerClient:::::::"+myNode.getPlayerClient());
+            	System.out.println("devTemplate ID:::::::"+devTemplate.getId());
+            	System.out.println("devTemplate Index:::::::"+devTemplate.getIndex());
+            	System.out.println("devTemplate PlayerConstants:::::::"+PlayerConstants.PLAYER_OPEN_MODE);
                 device = myNode.getPlayerClient().requestInterface
                 (
                     devTemplate.getId(),
                     devTemplate.getIndex(),
                     PlayerConstants.PLAYER_OPEN_MODE
                 );
-
+                System.out.println("DEVICE::::" + device);
                 if(device == null)
                 {
                     throw new IllegalStateException("Player device is null at "+toString());

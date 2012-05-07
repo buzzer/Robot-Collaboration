@@ -1,5 +1,6 @@
 package jadex.agent;
 
+import jadex.bdi.testcases.misc.GetExternalAccessPlan;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.ChangeEvent;
@@ -61,21 +62,21 @@ public class NavAgent extends MicroAgent
     static Logger logger = Logger.getLogger (NavAgent.class.getName ());
 
     @Agent
-//    MicroAgent agent;
+    MicroAgent agent;
 	DeviceNode deviceNode = null;
 	NavRobot robot = null;
 	
-	@Override
 	@AgentCreated
 	 public IFuture agentCreated()
+	
 	{
 
-		String host = (String) getArgument("host");
-		Integer port = (Integer) getArgument("port");
-        Integer robotIdx = (Integer) getArgument("robID");
-        Boolean hasLaser = (Boolean) getArgument("laser");
-        Boolean hasSimu = (Boolean) getArgument("simulation");
-        Integer devIdx = (Integer) getArgument("devIndex");
+		String host = (String) agent.getArgument("host");
+		Integer port = (Integer)agent.getArgument("port");
+        Integer robotIdx = (Integer)agent.getArgument("robID");
+        Boolean hasLaser = (Boolean)agent.getArgument("laser");
+        Boolean hasSimu = (Boolean)agent.getArgument("simulation");
+        Integer devIdx = (Integer)agent.getArgument("devIndex");
 
         /** Device list */
         CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -107,9 +108,9 @@ public class NavAgent extends MicroAgent
 		 *  Check if a particular position is set
 		 */
 		Position setPose = new Position(
-                (Double)getArgument("X"),
-                (Double)getArgument("Y"),
-                (Double)getArgument("Angle"));
+                (Double)agent.getArgument("X"),
+                (Double)agent.getArgument("Y"),
+                (Double)agent.getArgument("Angle"));
 		
 		if ( setPose.equals(new Position(0,0,0)) == false )
 		    robot.setPosition(setPose);		    
@@ -120,18 +121,39 @@ public class NavAgent extends MicroAgent
 	
 	void sendHello()
 	{
-		//HelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
-		HelloService.send(""+getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), getExternalAccess());
-		logger.fine(""+ getComponentIdentifier()+" sending hello");
+		// HelloService().send(""+ agent.getComponentIdentifier(),
+		// robot.getRobotId(), robot.getClass().getName());
+
+		scheduleStep(new IComponentStep()
+		{
+			public IFuture execute(IInternalAccess ia)
+			{
+
+				HelloService.send("" + agent.getComponentIdentifier(), ""
+						+ robot.getRobotId(), robot.getClass().getName(), agent
+						.getExternalAccess());
+				logger.fine("" + agent.getComponentIdentifier()
+						+ " sending hello");
+				return IFuture.DONE;
+			}
+		});
+
 	}
 
-	protected void sendPosition(Position newPose)
+	protected void sendPosition(final Position newPose)
 	{
-	    if (newPose != null)
-	    {
-    		getSendPositionService().send(""+ getComponentIdentifier(), robot.getRobotId(), newPose);
-    		logger.finest(""+ getComponentIdentifier()+" sending position "+newPose);
-	    }
+		scheduleStep(new IComponentStep()
+		{
+			public IFuture execute(IInternalAccess ia)
+			{
+			    if (newPose != null)
+			    {
+		    		getSendPositionService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), newPose);
+		    		logger.finest(""+ agent.getComponentIdentifier()+" sending position "+newPose);
+			    }
+				return IFuture.DONE;
+			}
+		});
 	}
 	
 	@AgentBody
@@ -146,7 +168,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register planner callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -156,9 +178,9 @@ public class NavAgent extends MicroAgent
 					{
 						@Override public void callWhenIsDone()
 						{
-							getGoalReachedService().send(""+getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
+							getGoalReachedService().send(""+agent.getComponentIdentifier(), ""+robot,robot.getPlanner().getGoal());
 
-							logger.fine(""+getComponentIdentifier()+" "+robot+" reached goal "+robot.getPlanner().getGoal());
+							logger.fine(""+agent.getComponentIdentifier()+" "+robot+" reached goal "+robot.getPlanner().getGoal());
 						}
 
                         @Override public void callWhenAbort()
@@ -181,7 +203,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register localizer callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -212,11 +234,11 @@ public class NavAgent extends MicroAgent
 			                sendPosition(curPose);
 			                logger.finest("Sending new pose "+curPose+" for "+robot);
 			               
-			                waitFor(1000,this);
+			                agent.waitFor(1000,this);
 			                return IFuture.DONE;
 			            }
 			        };
-			        waitForTick(step);
+			        agent.waitForTick(step);
 				}
 				return IFuture.DONE;
 			}
@@ -225,7 +247,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register new goal event callback
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -237,7 +259,7 @@ public class NavAgent extends MicroAgent
 						
 						String id = (String)content[1];
 						Position goal = (Position)content[2];
-						logger.finer("Receiving "+id+" @ "+goal+" "+ getComponentIdentifier());
+						logger.finer("Receiving "+id+" @ "+goal+" "+ agent.getComponentIdentifier());
 						
 						/** Check if it is this robot's goal */
 						if (
@@ -257,7 +279,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register to HelloService
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -272,7 +294,7 @@ public class NavAgent extends MicroAgent
 						if (type.equalsIgnoreCase("ping"))
 						{
 							sendHello();
-                            logger.finer(""+ getComponentIdentifier()+" receiving "+type);
+                            logger.finer(""+ agent.getComponentIdentifier()+" receiving "+type);
 						}
 					}
 				});
@@ -283,7 +305,7 @@ public class NavAgent extends MicroAgent
 		/**
 		 *  Register to Position update service
 		 */
-		scheduleStep(new IComponentStep()
+		agent.scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -315,18 +337,35 @@ public class NavAgent extends MicroAgent
 		deviceNode.shutdown();
 		
 		//getHelloService().send(""+ agent.getComponentIdentifier(), ""+robot, "Bye");
-		HelloService.send(""+getComponentIdentifier(), ""+robot, "Bye", getExternalAccess());
+		HelloService.send(""+agent.getComponentIdentifier(), ""+robot, "Bye", agent.getExternalAccess());
 		
-		logger.fine("Bye "+ getComponentIdentifier());
+		logger.fine("Bye "+ agent.getComponentIdentifier());
 		return IFuture.DONE;
 		
 	}
 	
-	public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
-	public SendPositionService getSendPositionService() { return (SendPositionService) getRawService(ISendPositionService.class); }
-	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class); }
-	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getRawService(IGoalReachedService.class); }
+	public HelloService getHelloService()
+	{
+		return (HelloService) agent.getRawService(IHelloService.class);
+	}
 
+	public SendPositionService getSendPositionService()
+	{
+		return (SendPositionService) agent
+				.getRawService(ISendPositionService.class);
+	}
+
+	public ReceiveNewGoalService getReceiveNewGoalService()
+	{
+		return (ReceiveNewGoalService) agent
+				.getRawService(IReceiveNewGoalService.class);
+	}
+
+	public GoalReachedService getGoalReachedService()
+	{
+		return (GoalReachedService) agent
+				.getRawService(IGoalReachedService.class);
+	}
 
 	
 	public Logger getLogger() {

@@ -16,7 +16,9 @@ import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.service.IReceiveNewGoalService;
+import jadex.service.ISendPositionService;
 import jadex.service.ReceiveNewGoalService;
+import jadex.service.SendPositionService;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -41,7 +43,7 @@ import device.external.IDevice;
 		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
 		@Argument(name = "blob", description = "color", clazz = String.class, defaultvalue = "green") })
 @ProvidedServices(@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)))
-public class BlobAgent 
+public class BlobAgent extends MicroAgent
 {
 	@Agent
 	MicroAgent agent;
@@ -100,10 +102,11 @@ public class BlobAgent
 	}
 
 	
-	public IReceiveNewGoalService getReceiveNewGoalService()
+	public ReceiveNewGoalService getReceiveNewGoalService()
 	{
 		System.out.println(agent);
-		return (IReceiveNewGoalService) (agent.getServiceContainer()
-				.getProvidedServices(IReceiveNewGoalService.class)[0]);
+		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);
+		
+		
 	}
 }
