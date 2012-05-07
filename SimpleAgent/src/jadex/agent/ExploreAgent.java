@@ -36,6 +36,7 @@ import device.external.IDevice;
 @Agent
 @Arguments(
 {
+//		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"test\""),
 		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
 		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
 		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
@@ -57,7 +58,7 @@ public class ExploreAgent extends WallfollowAgent
 {
 
 	@Agent
-	MicroAgent agent;
+//	MicroAgent agent;
 	/** Data */
 	Board bb;
 
@@ -72,45 +73,24 @@ public class ExploreAgent extends WallfollowAgent
 		Integer devIdx = (Integer) getArgument("devIndex");
 		Boolean hasLaser = (Boolean) getArgument("laser");
 
-		if (host == null)
-		{
-			host = "localhost";
-		}
-		if (port == null)
-		{
-			port = 6665;
-		}
-		if (robotIdx == null)
-		{
-			robotIdx = 2;
-		}
-		if (devIdx == null)
-		{
-			devIdx = 0;
-		}
-		if (hasLaser == null)
-		{
-			hasLaser = true;
-		}
-
 		/** Device list */
 		CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
-		devList.add(new Device(IDevice.DEVICE_POSITION2D_CODE, host, port,
-				devIdx));
-		devList.add(new Device(IDevice.DEVICE_RANGER_CODE, host, port, devIdx));
-		devList.add(new Device(IDevice.DEVICE_SONAR_CODE, host, port, devIdx));
-		devList.add(new Device(IDevice.DEVICE_BLOBFINDER_CODE, host, port,
-				devIdx));
-		devList.add(new Device(IDevice.DEVICE_SIMULATION_CODE, host, port, -1));
-		devList.add(new Device(IDevice.DEVICE_SIMULATION_CODE, host, 6665, -1));
-		devList.add(new Device(IDevice.DEVICE_PLANNER_CODE, host, port + 1,
-				devIdx));
-		devList.add(new Device(IDevice.DEVICE_LOCALIZE_CODE, host, port + 1,
-				devIdx));
+//		devList.add(new Device(IDevice.DEVICE_POSITION2D_CODE, host, port,
+//				devIdx));
+//		devList.add(new Device(IDevice.DEVICE_RANGER_CODE, host, port, devIdx));
+//		devList.add(new Device(IDevice.DEVICE_SONAR_CODE, host, port, devIdx));
+//		devList.add(new Device(IDevice.DEVICE_BLOBFINDER_CODE, host, port,
+//				devIdx));
+//		devList.add(new Device(IDevice.DEVICE_SIMULATION_CODE, host, port, -1));
+//		devList.add(new Device(IDevice.DEVICE_SIMULATION_CODE, host, 6665, -1));
+//		devList.add(new Device(IDevice.DEVICE_PLANNER_CODE, host, port + 1,
+//				devIdx));
+//		devList.add(new Device(IDevice.DEVICE_LOCALIZE_CODE, host, port + 1,
+//				devIdx));
 
-		if (hasLaser == true)
-			devList.add(new Device(IDevice.DEVICE_RANGER_CODE, host, port,
-					devIdx + 1));
+//		if (hasLaser == true)
+//			devList.add(new Device(IDevice.DEVICE_RANGER_CODE, host, port,
+//					devIdx + 1));
 
 		/** Host list */
 		CopyOnWriteArrayList<Host> hostList = new CopyOnWriteArrayList<Host>();
@@ -216,7 +196,7 @@ public class ExploreAgent extends WallfollowAgent
 	 */
 	void sendBlobInfo(BoardObject bo)
 	{
-		getReceiveNewGoalService().send(agent.getExternalAccess(),
+		getReceiveNewGoalService().send(getExternalAccess(),
 				"" + getComponentIdentifier(), "collectGoal", bo.getPosition());
 		logger.info("Sending blob info from " + bo);
 	}

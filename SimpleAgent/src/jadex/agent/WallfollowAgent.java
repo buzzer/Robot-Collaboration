@@ -68,7 +68,6 @@ public class WallfollowAgent extends MicroAgent
     public IFuture agentCreated()
     {
 
-        
         String host = (String)getArgument("host");
         
         Integer port = (Integer)getArgument("port");
@@ -133,6 +132,7 @@ public class WallfollowAgent extends MicroAgent
 
     void sendPosition(Position newPose)
     {
+    	//TODO mit schedule step capseln
         if (newPose != null)
         {
             getSendPositionService().send(""+getComponentIdentifier(), ""+getRobot().getRobotId(), newPose);
@@ -260,8 +260,8 @@ public class WallfollowAgent extends MicroAgent
         return IFuture.DONE;
     }
 
-    public HelloService getHelloService() { return (HelloService) getServiceContainer().getProvidedServices(HelloService.class)[0]; }
-    public SendPositionService getSendPositionService() {return (SendPositionService) getServiceContainer().getProvidedServices(SendPositionService.class)[0]; }
+    public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
+    public SendPositionService getSendPositionService() {return (SendPositionService) getRawService(ISendPositionService.class); }
 
 
 

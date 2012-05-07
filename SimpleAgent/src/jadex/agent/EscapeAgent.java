@@ -86,28 +86,28 @@ public class EscapeAgent extends WallfollowAgent
         /**
          *  Register to HelloService
          */
-        scheduleStep(new IComponentStep()
-        {
-            public IFuture execute(IInternalAccess ia)
-            {
-                getHelloService().addChangeListener(new IChangeListener()
-                {
-                    public void changeOccurred(ChangeEvent event)
-                    {
-                        Object[] content = (Object[])event.getValue();
-                        StringBuffer buf = new StringBuffer();
-                        buf.append("[").append(content[0].toString()).append("]: ").append(content[1].toString()).append(" ").append(content[2].toString());
-                                                
-                        /** Check for reply request */
-                        if (((String)content[2]).equalsIgnoreCase("ping"))
-                        {
-                            sendHello();
-                        }
-                    }
-                });
-                return IFuture.DONE;
-            }
-        });
+//        scheduleStep(new IComponentStep()
+//        {
+//            public IFuture execute(IInternalAccess ia)
+//            {
+//                getHelloService().addChangeListener(new IChangeListener()
+//                {
+//                    public void changeOccurred(ChangeEvent event)
+//                    {
+//                        Object[] content = (Object[])event.getValue();
+//                        StringBuffer buf = new StringBuffer();
+//                        buf.append("[").append(content[0].toString()).append("]: ").append(content[1].toString()).append(" ").append(content[2].toString());
+//                                                
+//                        /** Check for reply request */
+//                        if (((String)content[2]).equalsIgnoreCase("ping"))
+//                        {
+//                            sendHello();
+//                        }
+//                    }
+//                });
+//                return IFuture.DONE;
+//            }
+//        });
     
         /**
          *  Register to Position update service
