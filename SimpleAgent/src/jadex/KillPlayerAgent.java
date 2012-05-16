@@ -9,21 +9,21 @@ import jadex.micro.annotation.Arguments;
 import java.util.logging.Logger;
 
 import core.OSCommand;
-import core.ProjectLogger;
 
 @Arguments({
 	@Argument(name="killall path",clazz=String.class, defaultvalue="\"/usr/bin/killall\""),
 	@Argument(name="process name",clazz=String.class,defaultvalue="\"player\"")})
+
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class KillPlayerAgent extends MicroAgent {
 	
 	// Logging support
-    private static Logger logger = Logger.getLogger (ProjectLogger.class.getName ());
+    private static Logger logger = Logger.getLogger (KillPlayerAgent.class.getName ());
 
 	protected OSCommand stopPlayer = null;
 
 	public IFuture agentCreated()
 	{
-//		ProjectLogger.logActivity(false, "running", this.toString(), -1, Thread.currentThread().getName());
 		logger.info("Running "+getComponentIdentifier().toString());
 
 		// Get the Gui argument, if any

@@ -1,8 +1,6 @@
 package jadex;
 
 
-import jadex.bridge.modelinfo.IArgument;
-import jadex.micro.MicroAgentMetaInfo;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 

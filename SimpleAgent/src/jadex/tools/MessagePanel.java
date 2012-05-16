@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 /**
  * 
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class MessagePanel extends JPanel
 {
 	/** The linefeed separator. */
@@ -192,6 +192,7 @@ public class MessagePanel extends JPanel
 	/**
 	 *  Create a gui frame.
 	 */
+	@SuppressWarnings("unused")
 	public static void createGui(final IMicroExternalAccess agent)
 	{
 		final JFrame f = new JFrame();

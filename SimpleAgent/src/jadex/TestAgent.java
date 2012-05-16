@@ -1,10 +1,8 @@
 package jadex;
 
 
-import jadex.bridge.modelinfo.IArgument;
 import jadex.commons.future.IFuture;
 import jadex.micro.MicroAgent;
-import jadex.micro.MicroAgentMetaInfo;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Implementation;
@@ -19,6 +17,7 @@ import java.lang.management.ManagementFactory;
 @ProvidedServices(
 	@ProvidedService(type=IMessageService.class,implementation=@Implementation(expression="new MessageService(getExternalAccess())"))
 	)
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TestAgent extends MicroAgent {
 
 //-------- attributes --------

@@ -19,6 +19,7 @@ import core.ProjectLogger;
 	@Argument(name="player config", description= "dummy", clazz= String.class, defaultvalue="\"/Users/sebastian/robotcolla/SimpleAgent/player/uhh1.cfg\"")
 })
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class PlayerAgent extends MicroAgent {
 	
 	// Logging support
