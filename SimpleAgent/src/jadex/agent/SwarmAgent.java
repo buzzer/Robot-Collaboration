@@ -48,9 +48,9 @@ public class SwarmAgent extends NavAgent
     @AgentCreated
     public IFuture agentCreated()
     {
-        String host = (String)agent.getArgument("host"); 
-        Integer port = (Integer)agent.getArgument("port");
-        Integer robotIdx = (Integer)agent.getArgument("robID");
+        String host = (String)getArgument("host"); 
+        Integer port = (Integer)getArgument("port");
+        Integer robotIdx = (Integer)getArgument("robID");
         
         /** Get the device node */
         deviceNode = new DeviceNode(
@@ -75,9 +75,9 @@ public class SwarmAgent extends NavAgent
          *  Check if a particular position is set
          */
         Position setPose = new Position(
-                (Double)agent.getArgument("X"),
-                (Double)agent.getArgument("Y"),
-                (Double)agent.getArgument("Angle"));
+                (Double)getArgument("X"),
+                (Double)getArgument("Y"),
+                (Double)getArgument("Angle"));
         
         if ( setPose.equals(new Position(0,0,0)) == false )
             robot.setPosition(setPose);         

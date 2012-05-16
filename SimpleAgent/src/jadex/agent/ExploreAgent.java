@@ -4,7 +4,6 @@ import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;
@@ -13,12 +12,8 @@ import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
-import jadex.service.HelloService;
-import jadex.service.IHelloService;
 import jadex.service.IReceiveNewGoalService;
-import jadex.service.ISendPositionService;
 import jadex.service.ReceiveNewGoalService;
-import jadex.service.SendPositionService;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -37,7 +32,7 @@ import device.external.IDevice;
 @Arguments(
 {
 		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
-		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
+		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6669"),
 		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
 		@Argument(name = "devIndex", description = "Device index", clazz = Integer.class, defaultvalue = "0"),
 		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),

@@ -46,15 +46,16 @@ import device.external.IPlannerListener;
 @Arguments(
 {
 	
-		@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true"),
-		@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
-		@Argument(name = "Angle", description = "Degree", clazz = Double.class, defaultvalue = "0.0"),
-		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
-		@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
-		@Argument(name = "devIndex", description = "Device Index", clazz = Integer.class, defaultvalue = "0"),
-		@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
-		@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
-		@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\"") })
+	@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
+	@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
+	@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
+	@Argument(name = "devIndex", description = "Device Index", clazz = Integer.class, defaultvalue = "0"),
+	@Argument(name = "X", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+	@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
+	@Argument(name = "Angle", description = "Degree", clazz = Double.class, defaultvalue = "0.0"),
+	@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
+	@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true"),
+})
 //@ProvidedServices(
 //{
 //		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
@@ -78,12 +79,12 @@ public class CollectAgent extends NavAgent
 	@AgentCreated
 	public IFuture agentCreated()
 	{
-		String host = (String) agent.getArgument("host");
-		Integer port = (Integer) agent.getArgument("port");
-		Integer robotIdx = (Integer) agent.getArgument("robID");
-		Boolean hasLaser = (Boolean) agent.getArgument("laser");
-		Boolean hasSimu = (Boolean) agent.getArgument("simulation");
-		Integer devIdx = (Integer) agent.getArgument("devIndex");
+		String host = (String) getArgument("host");
+		Integer port = (Integer) getArgument("port");
+		Integer robotIdx = (Integer) getArgument("robID");
+		Boolean hasLaser = (Boolean) getArgument("laser");
+		Boolean hasSimu = (Boolean) getArgument("simulation");
+		Integer devIdx = (Integer) getArgument("devIndex");
 
 		/** Device list */
 		CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -131,8 +132,8 @@ public class CollectAgent extends NavAgent
 		/**
 		 * Check if a particular position is set
 		 */
-		Position setPose = new Position((Double) agent.getArgument("X"),
-				(Double) agent.getArgument("Y"), (Double) agent.getArgument("Angle"));
+		Position setPose = new Position((Double) getArgument("X"),
+				(Double) getArgument("Y"), (Double) getArgument("Angle"));
 
 		if (setPose.equals(new Position(0, 0, 0)) == false)
 			getRobot().setPosition(setPose);
@@ -153,7 +154,7 @@ public class CollectAgent extends NavAgent
 		/**
 		 * Register new goal event callback
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -198,7 +199,7 @@ public class CollectAgent extends NavAgent
 		/**
 		 * Register planner callback
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -574,16 +575,16 @@ public class CollectAgent extends NavAgent
 								});
 					}
 				}
-				agent.waitFor(1000, this);
+				waitFor(1000, this);
 				return IFuture.DONE;
 			}
 		};
-		agent.waitForTick(step);
+		waitForTick(step);
 
 		/**
 		 * Register localizer callback to update carried blob in Simulation
 		 */
-		agent.scheduleStep(new IComponentStep()
+		scheduleStep(new IComponentStep()
 		{
 			public IFuture execute(IInternalAccess ia)
 			{
@@ -611,7 +612,7 @@ public class CollectAgent extends NavAgent
 			}
 		});
 
-		agent.waitFor(2000, new IComponentStep()
+		waitFor(2000, new IComponentStep()
 		{
 			@Override
 			public IFuture execute(IInternalAccess ia)
@@ -659,7 +660,7 @@ public class CollectAgent extends NavAgent
 			public void whenClosedLifted()
 			{
 				getRobot().getGripper().removeIsDoneListener(this);
-				CollectAgent.this.killNow();
+				killNow();
 			}
 
 			@Override
@@ -686,7 +687,7 @@ public class CollectAgent extends NavAgent
 	}
 
 	/**
-	 * Updates the current goal of the agent.
+	 * Updates the current goal of the 
 	 * 
 	 * @param bb
 	 *            The board containing all goals.
@@ -730,7 +731,7 @@ public class CollectAgent extends NavAgent
 					public void whenClosedLifted()
 					{
 						getRobot().getGripper().removeIsDoneListener(this);
-						Position goal = CollectAgent.this.getBb().getObject(curGoalKey)
+						Position goal = getBb().getObject(curGoalKey)
 								.getPosition();
 						getRobot().setGoal(goal);
 						permitGripperOpen = true;
