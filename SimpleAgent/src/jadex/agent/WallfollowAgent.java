@@ -61,7 +61,6 @@ public class WallfollowAgent extends MicroAgent
     /** Logging support */
     Logger logger = Logger.getLogger (WallfollowAgent.class.getName ());
     
-
     DeviceNode deviceNode;
     Pioneer robot;
 

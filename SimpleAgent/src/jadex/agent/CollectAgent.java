@@ -822,18 +822,10 @@ public class CollectAgent extends MicroAgent
 		return bb;
 	}
 
-
 	public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
-
-
 	public SendPositionService getSendPositionService() { return (SendPositionService) getRawService(ISendPositionService.class); }
-
-
 	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class); }
-
-
 	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getRawService(IGoalReachedService.class); }
-
 
 	public Logger getLogger() {
 		return logger;
@@ -871,7 +863,6 @@ public class CollectAgent extends MicroAgent
 
 	void sendHello()
 	{
-		//HelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
 		HelloService.send(""+getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), getExternalAccess());
 		logger.fine(""+ getComponentIdentifier()+" sending hello");
 	}
