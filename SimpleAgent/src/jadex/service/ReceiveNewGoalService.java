@@ -1,18 +1,13 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
-import jadex.bridge.IInternalAccess;
-import jadex.bridge.service.BasicService;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
-import jadex.bridge.service.annotation.ServiceStart;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
 import jadex.commons.future.DefaultResultListener;
-import jadex.commons.future.Future;
-import jadex.commons.future.IFuture;
 import jadex.micro.IMicroExternalAccess;
 
 import java.util.ArrayList;
@@ -28,6 +23,7 @@ import java.util.List;
  *
  */
 @Service
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ReceiveNewGoalService implements IReceiveNewGoalService {
 
 //-------- attributes --------
@@ -39,7 +35,6 @@ public class ReceiveNewGoalService implements IReceiveNewGoalService {
 	IExternalAccess agent;
 	
 	/** The listeners. */
-	@SuppressWarnings("rawtypes")
 	protected List listeners;
 	
 	//-------- constructors --------
@@ -47,7 +42,6 @@ public class ReceiveNewGoalService implements IReceiveNewGoalService {
 	/**
 	 *  Create a new helpline service.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ReceiveNewGoalService()
 	{
 		//super(agent.getServiceProvider().getId(), IReceiveNewGoalService.class, null);
@@ -68,8 +62,6 @@ public class ReceiveNewGoalService implements IReceiveNewGoalService {
 		SServiceProvider.getServices(agent.getServiceProvider(), IReceiveNewGoalService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			@SuppressWarnings("rawtypes")
-			
 			public void resultAvailable(Object result)
 			{
 				if(result!=null)
@@ -90,7 +82,6 @@ public class ReceiveNewGoalService implements IReceiveNewGoalService {
 	 *  @param robotName The robot name.
 	 *  @param obj The new goal.
 	 */
-	@SuppressWarnings("unchecked")
 	public void receive(String name, String robotName, Object obj)
 	{
 		IChangeListener[] lis = (IChangeListener[])listeners.toArray(new IChangeListener[0]);
@@ -103,7 +94,6 @@ public class ReceiveNewGoalService implements IReceiveNewGoalService {
 	/**
 	 *  Add a change listener.
 	 */
-	@SuppressWarnings("unchecked")
 	public void addChangeListener(IChangeListener listener)
 	{
 		listeners.add(listener);

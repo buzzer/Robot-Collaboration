@@ -1,7 +1,6 @@
 package jadex.service;
 
 import jadex.bridge.IExternalAccess;
-import jadex.bridge.service.BasicService;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
@@ -28,6 +27,7 @@ import java.util.List;
  *
  */
 @Service
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class HelloService implements IHelloService {
 
 //-------- attributes --------
@@ -44,7 +44,6 @@ public class HelloService implements IHelloService {
 	/**
 	 *  Create a new helpline service.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HelloService()
 	{
 		//super(agent.getServiceProvider().getId(), IHelloService.class, null);
@@ -65,7 +64,6 @@ public class HelloService implements IHelloService {
 		SServiceProvider.getServices(agent.getServiceProvider(), IHelloService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			@SuppressWarnings("rawtypes")
 			public void resultAvailable(Object result)
 			{
 				if(result!=null)

@@ -1,7 +1,5 @@
 package jadex.service;
 
-import jadex.bridge.IExternalAccess;
-import jadex.bridge.service.BasicService;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
@@ -10,7 +8,6 @@ import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
 import jadex.commons.future.DefaultResultListener;
 import jadex.micro.IMicroExternalAccess;
-import jadex.micro.annotation.RequiredService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +22,7 @@ import java.util.List;
  *
  */
 @Service
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class GoalReachedService implements IGoalReachedService {
 
 //-------- attributes --------
@@ -34,7 +32,6 @@ public class GoalReachedService implements IGoalReachedService {
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
-	@SuppressWarnings("rawtypes")
 	protected List listeners;
 	
 	//-------- constructors --------
@@ -42,7 +39,6 @@ public class GoalReachedService implements IGoalReachedService {
 	/**
 	 *  Create a new helpline service.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public GoalReachedService()
 	{
 		//super(agent.getServiceProvider().getId(), IGoalReachedService.class, null);
@@ -62,7 +58,6 @@ public class GoalReachedService implements IGoalReachedService {
 		SServiceProvider.getServices(agent.getServiceProvider(), IGoalReachedService.class,RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			@SuppressWarnings("rawtypes")
 			public void resultAvailable(Object result)
 			{
 				if(result!=null)
@@ -82,7 +77,6 @@ public class GoalReachedService implements IGoalReachedService {
 	 *  @param name The name.
 	 *  @param obj The text.
 	 */
-	@SuppressWarnings("unchecked")
 	public void receive(String name, String robotName, Object obj)
 	{
 		IChangeListener[] lis = (IChangeListener[])listeners.toArray(new IChangeListener[0]);
@@ -95,7 +89,6 @@ public class GoalReachedService implements IGoalReachedService {
 	/**
 	 *  Add a change listener.
 	 */
-	@SuppressWarnings("unchecked")
 	public void addChangeListener(IChangeListener listener)
 	{
 		listeners.add(listener);

@@ -3,7 +3,6 @@ package jadex.service;
 import jadex.bridge.service.RequiredServiceInfo;
 import jadex.bridge.service.annotation.Service;
 import jadex.bridge.service.annotation.ServiceComponent;
-import jadex.bridge.service.annotation.ServiceStart;
 import jadex.bridge.service.search.SServiceProvider;
 import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
@@ -25,6 +24,7 @@ import java.util.List;
  *
  */
 @Service
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SendPositionService implements ISendPositionService {
 
 //-------- attributes --------
@@ -34,7 +34,6 @@ public class SendPositionService implements ISendPositionService {
 	protected IMicroExternalAccess agent;
 	
 	/** The listeners. */
-	@SuppressWarnings("rawtypes")
 	protected List listeners;
 	
 	//-------- constructors --------
@@ -42,7 +41,6 @@ public class SendPositionService implements ISendPositionService {
 	/**
 	 *  Create a new helpline service.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SendPositionService()
 	{
 		//super(agent.getServiceProvider().getId(), ISendPositionService.class, null);
@@ -62,7 +60,6 @@ public class SendPositionService implements ISendPositionService {
 		SServiceProvider.getServices(agent.getServiceProvider(), ISendPositionService.class,RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new DefaultResultListener()
 		{
-			@SuppressWarnings("rawtypes")	
 			public void resultAvailable(Object result)
 			{
 				if(result!=null)
@@ -83,7 +80,6 @@ public class SendPositionService implements ISendPositionService {
      *  @param robotName The robot name.
      *  @param obj The @see Position.
 	 */
-	@SuppressWarnings("unchecked")
 	public void receive(String name, String robotName, Object obj)
 	{
 		IChangeListener[] lis = (IChangeListener[])listeners.toArray(new IChangeListener[0]);
@@ -96,7 +92,6 @@ public class SendPositionService implements ISendPositionService {
 	/**
 	 *  Add a change listener.
 	 */
-	@SuppressWarnings("unchecked")
 	public void addChangeListener(IChangeListener listener)
 	{
 		listeners.add(listener);
