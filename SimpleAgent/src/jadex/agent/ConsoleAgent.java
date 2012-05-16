@@ -32,8 +32,10 @@ import javax.swing.SwingUtilities;
 	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
 	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class)),
 	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)), 
-	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))})
+	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))
+})
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ConsoleAgent extends MicroAgent
 {
 

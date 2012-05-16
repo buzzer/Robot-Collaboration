@@ -16,9 +16,7 @@ import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
 import jadex.service.IReceiveNewGoalService;
-import jadex.service.ISendPositionService;
 import jadex.service.ReceiveNewGoalService;
-import jadex.service.SendPositionService;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -43,10 +41,11 @@ import device.external.IDevice;
 		@Argument(name = "Y", description = "Meter", clazz = Double.class, defaultvalue = "0.0"),
 		@Argument(name = "blob", description = "color", clazz = String.class, defaultvalue = "green") })
 @ProvidedServices(@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)))
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class BlobAgent extends MicroAgent
 {
 	@Agent
-//	MicroAgent agent;
 	Position blobPose;
 	DeviceNode dn;
 	Simulation simu;
@@ -79,7 +78,6 @@ public class BlobAgent extends MicroAgent
 		return IFuture.DONE;
 	}
 
-
 	@AgentBody
 	public IFuture executeBody()
 	{
@@ -94,19 +92,15 @@ public class BlobAgent extends MicroAgent
 		return new Future();
 	}
 
-
 	@AgentKilled
 	public IFuture<Void> agentKilled()
 	{
+		dn.shutdown();
 		return IFuture.DONE;
 	}
-
 	
 	public ReceiveNewGoalService getReceiveNewGoalService()
 	{
-//		System.out.println(agent);
-		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);
-		
-		
+		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);		
 	}
 }

@@ -9,7 +9,6 @@ import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;
@@ -38,6 +37,8 @@ import device.external.ILocalizeListener;
 	@Argument(name="minDistance", description="Meter", clazz=Double.class, defaultvalue="2.0"),
 	@Argument(name="updateInterval", description="ms", clazz=Integer.class, defaultvalue="5000")
 })
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class FollowAgent extends NavAgent
 {
     Position followPose;
@@ -47,22 +48,19 @@ public class FollowAgent extends NavAgent
     boolean caughtRobot = false;
     long updateInterval;
     double minToGoalDist;
-@Agent
-MicroAgent agent;
     
     /**
      * @see jadex.agent.NavAgent#agentCreated()
      */
-@AgentCreated
+    @AgentCreated
     @Override public IFuture agentCreated()
-    {
-               
+    {           
         isNewFollowPose = false;
         followPose = getRobot().getPosition();
         robotPose = getRobot().getPosition();
-        folRobot = "r"+(Integer)agent.getArgument("robot");
-        updateInterval = (Integer)agent.getArgument("updateInterval");
-        minToGoalDist = (Double)agent.getArgument("minDistance");
+        folRobot = "r"+(Integer) getArgument("robot");
+        updateInterval = (Integer)getArgument("updateInterval");
+        minToGoalDist = (Double)getArgument("minDistance");
         super.agentCreated();
         return IFuture.DONE;
     }
@@ -78,7 +76,7 @@ MicroAgent agent;
         /**
          *  Register to Position update service
          */
-        agent.scheduleStep(new IComponentStep()
+        scheduleStep(new IComponentStep()
         {
             public IFuture execute(IInternalAccess ia)
             {
@@ -108,7 +106,7 @@ MicroAgent agent;
         /**
          *  Register localizer callback
          */
-        agent.scheduleStep(new IComponentStep()
+        scheduleStep(new IComponentStep()
         {
             public IFuture execute(IInternalAccess ia)
             {
@@ -134,11 +132,11 @@ MicroAgent agent;
                             Position curPose = robot.getPosition();
                             robotPose = curPose;
 
-                            agent.waitFor(1000,this);
+                            waitFor(1000,this);
                             return IFuture.DONE;
                         }
                     };
-                    agent.waitForTick(step);
+                    waitForTick(step);
                 }
                 return IFuture.DONE;
             }
@@ -151,11 +149,11 @@ MicroAgent agent;
             public IFuture execute(IInternalAccess ia)
             {
                 updateGoal();
-                agent.waitFor(updateInterval,this);
+                waitFor(updateInterval,this);
                 return IFuture.DONE;
             }
         };
-        agent.waitForTick(step);
+        waitForTick(step);
         return new Future();
     }
    

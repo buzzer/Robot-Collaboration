@@ -34,12 +34,11 @@ import data.Position;
 	,@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class))
 	,@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))	
 })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class MasterAgent extends MicroAgent
 {
 	/** Logging support */
     static Logger logger = Logger.getLogger (MasterAgent.class.getName ());
-	@Agent
-	MicroAgent agent;
 
 	/** Blackboard */
 	Board board;
@@ -220,9 +219,10 @@ public class MasterAgent extends MicroAgent
 	{
 		scheduleStep(new IComponentStep()
 		{
+			@SuppressWarnings("static-access")
 			public IFuture execute(IInternalAccess ia)
 			{
-				getReceiveNewGoalService().send(agent.getExternalAccess(),
+				getReceiveNewGoalService().send(getExternalAccess(),
 						"" + getComponentIdentifier(), robotName,
 						new Position(goalPos));
 

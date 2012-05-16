@@ -7,11 +7,13 @@ import jadex.commons.future.IFuture;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;
+import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
 import jadex.micro.annotation.Implementation;
 import jadex.micro.annotation.ProvidedService;
 import jadex.micro.annotation.ProvidedServices;
+import jadex.service.HelloService;
 import jadex.service.IReceiveNewGoalService;
 import jadex.service.ReceiveNewGoalService;
 
@@ -42,12 +44,12 @@ import device.external.IDevice;
 		@Argument(name = "localize", description = "Localize device", clazz = Boolean.class, defaultvalue = "true") })
 @ProvidedServices(
 {
+	@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class))
+})
 
-@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)) })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ExploreAgent extends WallfollowAgent
 {
-
-
 	/** Data */
 	Board bb;
 
@@ -179,6 +181,17 @@ public class ExploreAgent extends WallfollowAgent
 		return new Future();
 	}
 
+	@AgentKilled
+	public IFuture agentKilled()
+	{
+		super.agentKilled();
+	    bb.clear();
+	    
+		HelloService.send(""+getComponentIdentifier(), ""+robot, "Bye", getExternalAccess());
+		logger.fine("Bye "+ getComponentIdentifier());
+		return IFuture.DONE;
+	}
+
 	/**
 	 * Send a new goal locating a {@link BoardObject}
 	 * 
@@ -189,6 +202,7 @@ public class ExploreAgent extends WallfollowAgent
 	{
 		scheduleStep(new IComponentStep()
 		{
+			@SuppressWarnings("static-access")
 			public IFuture execute(IInternalAccess ia)
 			{
 				getReceiveNewGoalService().send(getExternalAccess(),
@@ -197,13 +211,10 @@ public class ExploreAgent extends WallfollowAgent
 				return IFuture.DONE;
 			}
 		});
-		
-
 	}
 
 	public ReceiveNewGoalService getReceiveNewGoalService()
 	{
 		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);
 	}
-
 }

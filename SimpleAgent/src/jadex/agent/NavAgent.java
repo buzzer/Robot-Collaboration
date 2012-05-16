@@ -55,13 +55,14 @@ import device.external.IPlannerListener;
 	@ProvidedService(type=IReceiveNewGoalService.class,implementation=@Implementation(ReceiveNewGoalService.class)),
 	@ProvidedService(type=IGoalReachedService.class,implementation=@Implementation(GoalReachedService.class))	
 })
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class NavAgent extends MicroAgent
 {
 	/** Logging support */
     static Logger logger = Logger.getLogger (NavAgent.class.getName ());
 
     @Agent
-//    MicroAgent agent;
 	DeviceNode deviceNode = null;
 	NavRobot robot = null;
 	
@@ -314,12 +315,10 @@ public class NavAgent extends MicroAgent
 		robot.shutdown();
 		deviceNode.shutdown();
 		
-		//getHelloService().send(""+ agent.getComponentIdentifier(), ""+robot, "Bye");
 		HelloService.send(""+getComponentIdentifier(), ""+robot, "Bye", getExternalAccess());
 		
 		logger.fine("Bye "+ getComponentIdentifier());
 		return IFuture.DONE;
-		
 	}
 	
 	public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
@@ -327,8 +326,6 @@ public class NavAgent extends MicroAgent
 	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class); }
 	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getRawService(IGoalReachedService.class); }
 
-
-	
 	public Logger getLogger() {
 		return logger;
 	}

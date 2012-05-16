@@ -10,17 +10,6 @@ import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
-import jadex.micro.annotation.Implementation;
-import jadex.micro.annotation.ProvidedService;
-import jadex.micro.annotation.ProvidedServices;
-import jadex.service.GoalReachedService;
-import jadex.service.HelloService;
-import jadex.service.IGoalReachedService;
-import jadex.service.IHelloService;
-import jadex.service.IReceiveNewGoalService;
-import jadex.service.ISendPositionService;
-import jadex.service.ReceiveNewGoalService;
-import jadex.service.SendPositionService;
 import robot.NavRobot;
 import data.Host;
 import data.Position;
@@ -42,6 +31,7 @@ import device.external.IDevice;
 	@Argument(name="Angle", description="Degree", clazz=Double.class, defaultvalue="0.0")
 	})
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SwarmAgent extends NavAgent
 {
     @Override 
@@ -85,6 +75,4 @@ public class SwarmAgent extends NavAgent
         sendHello();
         return new Future();
     }
-   
-
 }

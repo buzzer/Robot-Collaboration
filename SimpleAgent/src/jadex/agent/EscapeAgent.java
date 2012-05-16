@@ -40,6 +40,7 @@ import device.external.ILocalizeListener;
 	@Argument(name="host", description="Player", clazz=String.class, defaultvalue="\"localhost\""),
 	@Argument(name="port", description="Player", clazz=Integer.class, defaultvalue="6665")
 })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class EscapeAgent extends WallfollowAgent
 {
     /** Minimum escape distance */

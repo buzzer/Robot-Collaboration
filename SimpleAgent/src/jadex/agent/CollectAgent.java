@@ -6,16 +6,13 @@ import jadex.commons.ChangeEvent;
 import jadex.commons.IChangeListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;
 import jadex.micro.annotation.AgentKilled;
 import jadex.micro.annotation.Argument;
 import jadex.micro.annotation.Arguments;
-import jadex.micro.annotation.Implementation;
-import jadex.micro.annotation.ProvidedService;
-import jadex.micro.annotation.ProvidedServices;
+import jadex.micro.MicroAgent;
 import jadex.service.GoalReachedService;
 import jadex.service.HelloService;
 import jadex.service.IGoalReachedService;
@@ -24,10 +21,14 @@ import jadex.service.IReceiveNewGoalService;
 import jadex.service.ISendPositionService;
 import jadex.service.ReceiveNewGoalService;
 import jadex.service.SendPositionService;
+import jadex.micro.annotation.ProvidedService;
+import jadex.micro.annotation.ProvidedServices;
+import jadex.micro.annotation.Implementation;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 import robot.NavRobot;
 import data.Board;
@@ -45,7 +46,6 @@ import device.external.IPlannerListener;
 @Agent
 @Arguments(
 {
-	
 	@Argument(name = "host", description = "Player", clazz = String.class, defaultvalue = "\"localhost\""),
 	@Argument(name = "port", description = "Player", clazz = Integer.class, defaultvalue = "6665"),
 	@Argument(name = "robID", description = "Robot identifier", clazz = Integer.class, defaultvalue = "0"),
@@ -56,25 +56,31 @@ import device.external.IPlannerListener;
 	@Argument(name = "laser", description = "Laser ranger", clazz = Boolean.class, defaultvalue = "true"),
 	@Argument(name = "simulation", description = "Simulation device", clazz = Boolean.class, defaultvalue = "true"),
 })
-//@ProvidedServices(
-//{
-//		@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
-//		@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
-//		@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)),
-//		@ProvidedService(type = IGoalReachedService.class, implementation = @Implementation(GoalReachedService.class))})
-public class CollectAgent extends NavAgent
+@ProvidedServices(
 {
-	/** Data */
+	@ProvidedService(type = IHelloService.class, implementation = @Implementation(HelloService.class)),
+	@ProvidedService(type = ISendPositionService.class, implementation = @Implementation(SendPositionService.class)),
+	@ProvidedService(type = IReceiveNewGoalService.class, implementation = @Implementation(ReceiveNewGoalService.class)),
+	@ProvidedService(type = IGoalReachedService.class, implementation = @Implementation(GoalReachedService.class))
+})
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class CollectAgent extends MicroAgent
+{
+	/** Logging support */
+    static Logger logger = Logger.getLogger (CollectAgent.class.getName ());
+
+    /** Data */
 	Board bb;
 	String curGoalKey = null;
+	
 	/** Where to store objects */
 	Position depotPose;
 	boolean permitGripperOpen = false;
 	boolean objectInGripper = false;
 	
+	DeviceNode deviceNode = null;
+	NavRobot robot = null;
 
-	//CollectAgent agent;
-	
 	
 	@AgentCreated
 	public IFuture agentCreated()
@@ -132,8 +138,10 @@ public class CollectAgent extends NavAgent
 		/**
 		 * Check if a particular position is set
 		 */
-		Position setPose = new Position((Double) getArgument("X"),
-				(Double) getArgument("Y"), (Double) getArgument("Angle"));
+		Position setPose = new Position(
+				(Double) getArgument("X"),
+				(Double) getArgument("Y"),
+				(Double) getArgument("Angle"));
 
 		if (setPose.equals(new Position(0, 0, 0)) == false)
 			getRobot().setPosition(setPose);
@@ -216,8 +224,7 @@ public class CollectAgent extends NavAgent
 										if (bb.getObject(curGoalKey).isDone() == false)
 										{
 											/** Arrived at the object's position */
-											logger
-													.fine("Start lift with object");
+											logger.fine("Start lift with object");
 
 											getRobot().getGripper().closeLift(
 													new IGripperListener()
@@ -265,8 +272,7 @@ public class CollectAgent extends NavAgent
 																	.getGripper()
 																	.removeIsDoneListener(
 																			this);
-															logger
-																	.fine("Update goal");
+															logger.fine("Update goal");
 															bb
 																	.getObject(
 																			curGoalKey)
@@ -676,14 +682,19 @@ public class CollectAgent extends NavAgent
 			}
 		});
 		// TODO Wait for agent to be killed
-		// killNow();
+		 killNow();
 		return IFuture.DONE;
 	}
 
 	public void killNow()
 	{
-		super.agentKilled();
+		robot.stop();
+		robot.shutdown();
+		deviceNode.shutdown();
 		bb.clear();
+		
+		HelloService.send(""+getComponentIdentifier(), ""+robot, "Bye", getExternalAccess());		
+		logger.fine("Bye "+ getComponentIdentifier());
 	}
 
 	/**
@@ -809,5 +820,59 @@ public class CollectAgent extends NavAgent
 	protected Board getBb()
 	{
 		return bb;
+	}
+
+
+	public HelloService getHelloService() { return (HelloService) getRawService(IHelloService.class); }
+
+
+	public SendPositionService getSendPositionService() { return (SendPositionService) getRawService(ISendPositionService.class); }
+
+
+	public ReceiveNewGoalService getReceiveNewGoalService() { return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class); }
+
+
+	public GoalReachedService getGoalReachedService() { return (GoalReachedService) getRawService(IGoalReachedService.class); }
+
+
+	public Logger getLogger() {
+		return logger;
+	}
+
+
+	/**
+	 * @return the robot
+	 */
+	protected NavRobot getRobot() {
+	    return robot;
+	}
+
+
+	protected void setRobot(NavRobot newRobot) {
+		robot = newRobot;
+	}
+
+
+	/**
+	 * @return the deviceNode
+	 */
+	protected DeviceNode getDeviceNode() {
+		return deviceNode;
+	}
+
+
+	/**
+	 * @param deviceNode the deviceNode to set
+	 */
+	protected void setDeviceNode(DeviceNode deviceNode) {
+		this.deviceNode = deviceNode;
+	}
+
+
+	void sendHello()
+	{
+		//HelloService().send(""+ agent.getComponentIdentifier(), robot.getRobotId(), robot.getClass().getName());
+		HelloService.send(""+getComponentIdentifier(), ""+robot.getRobotId(), robot.getClass().getName(), getExternalAccess());
+		logger.fine(""+ getComponentIdentifier()+" sending hello");
 	}
 }

@@ -7,8 +7,6 @@ import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.micro.IMicroExternalAccess;
-import jadex.micro.MicroAgent;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;
@@ -32,8 +30,10 @@ import data.Position;
 	@Argument(name="pingInterval", description="Time between pings in ms", clazz=Integer.class, defaultvalue="30000"),
 	@Argument(name="dispersionInterval", description="Time between dispersions in ms", clazz=Integer.class, defaultvalue="60000")
 })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DispersionAgent extends MasterAgent
 {
+	// TODO make flat hierarchie
 
 	Integer dispersionInterval;
 	
@@ -101,6 +101,7 @@ public class DispersionAgent extends MasterAgent
 //		scheduleStep(new IComponentStep()
 		waitFor(1100, new IComponentStep()
 		{
+			@SuppressWarnings("static-access")
 			public IFuture execute(IInternalAccess ia)
 			{
 				ArrayList<Integer> positions = new ArrayList<Integer>();
@@ -172,14 +173,13 @@ public class DispersionAgent extends MasterAgent
 					{
 						getLogger().finer("Nearest goal is "+nearestGoal+" index: "+positions.get(goalIndex));
 						
-						getReceiveNewGoalService().send(agent.getExternalAccess(),""+getComponentIdentifier(), robotKeys.get(i), nearestGoal);
+						getReceiveNewGoalService().send(getExternalAccess(),""+getComponentIdentifier(), robotKeys.get(i), nearestGoal);
 
 						getLogger().finer("Sending goal: "+nearestGoal+" to "+robotKeys.get(i));
 					
 						/** Remove goal from list */
 						positions.remove(goalIndex);
 					}
-
 				}
 
 				if (dispersionInterval != -1)
@@ -207,7 +207,6 @@ public class DispersionAgent extends MasterAgent
 	@AgentKilled
 	@Override public IFuture agentKilled()
 	{
-		super.agentKilled();
 		return IFuture.DONE;
 	}
 

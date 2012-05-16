@@ -54,6 +54,8 @@ import device.external.ILocalizeListener;
 @ProvidedServices({ 
 	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
 	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class))})
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class WallfollowAgent extends MicroAgent
 {
     /** Logging support */

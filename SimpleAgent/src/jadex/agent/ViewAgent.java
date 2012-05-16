@@ -37,12 +37,12 @@ import device.external.IDevice;
 })
 @ProvidedServices({ 
 	@ProvidedService(type=IHelloService.class,implementation=@Implementation(HelloService.class)),
-	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class))})
+	@ProvidedService(type=ISendPositionService.class,implementation=@Implementation(SendPositionService.class))
+})
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ViewAgent extends MicroAgent
 {
-
-	@Agent
-	MicroAgent agent;
 	/** API to the simulator (gui) */
 	protected Simulation simu = null;
 	protected DeviceNode deviceNode = null;
@@ -54,8 +54,6 @@ public class ViewAgent extends MicroAgent
 	@AgentCreated
 	public IFuture agentCreated()
 	{
-
-
 		String host = (String)getArgument("host");
         Integer port = (Integer)getArgument("port");
         int id = (Integer)getArgument("robID");
@@ -74,7 +72,6 @@ public class ViewAgent extends MicroAgent
         deviceNode = new DeviceNode(hostList.toArray(new Host[hostList.size()]), devList.toArray(new Device[devList.size()]));
 		deviceNode.runThreaded();
 		
-		//HelloService().send(""+getComponentIdentifier(), "", "Hello", getExternalAccess());
 		HelloService.send(""+getComponentIdentifier(), "","Hello", getExternalAccess());
 		simu = (Simulation) deviceNode.getDevice(new Device(IDevice.DEVICE_SIMULATION_CODE, null, -1, -1));
 		
@@ -132,13 +129,12 @@ public class ViewAgent extends MicroAgent
 			{
 
 				deviceNode.shutdown();
-				// HelloService().send(getComponentIdentifier().toString(), "",
-				// "Bye", getExternalAccess());
 				HelloService.send("" + getComponentIdentifier().toString(), "",
 						"Bye", getExternalAccess());
 				return IFuture.DONE;
 			}
 		});
+		
 		return IFuture.DONE;
 	}
 
