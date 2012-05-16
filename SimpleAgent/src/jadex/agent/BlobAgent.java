@@ -46,7 +46,7 @@ import device.external.IDevice;
 public class BlobAgent extends MicroAgent
 {
 	@Agent
-	MicroAgent agent;
+//	MicroAgent agent;
 	Position blobPose;
 	DeviceNode dn;
 	Simulation simu;
@@ -54,11 +54,11 @@ public class BlobAgent extends MicroAgent
 	@AgentCreated
 	public IFuture agentCreated()
 	{
-		blobPose = new Position((Double) agent.getArgument("X"),
-				(Double) agent.getArgument("Y"), 0);
+		blobPose = new Position((Double) getArgument("X"),
+				(Double) getArgument("Y"), 0);
 
-		String host = (String) agent.getArgument("host");
-		Integer port = (Integer) agent.getArgument("port");
+		String host = (String) getArgument("host");
+		Integer port = (Integer) getArgument("port");
 
 		/** Device list */
 		CopyOnWriteArrayList<Device> devList = new CopyOnWriteArrayList<Device>();
@@ -83,11 +83,11 @@ public class BlobAgent extends MicroAgent
 	@AgentBody
 	public IFuture executeBody()
 	{
-		ReceiveNewGoalService.send(agent.getExternalAccess(),"" + agent.getComponentIdentifier(),
+		ReceiveNewGoalService.send(getExternalAccess(),"" + getComponentIdentifier(),
 				"collectGoal", blobPose);
 		if (simu != null)
 		{
-			String bName = (String) agent.getArgument("blob");
+			String bName = (String) getArgument("blob");
 			simu.setPositionOf(bName, blobPose);
 			simu.sync();
 		}
@@ -104,7 +104,7 @@ public class BlobAgent extends MicroAgent
 	
 	public ReceiveNewGoalService getReceiveNewGoalService()
 	{
-		System.out.println(agent);
+//		System.out.println(agent);
 		return (ReceiveNewGoalService) getRawService(IReceiveNewGoalService.class);
 		
 		
